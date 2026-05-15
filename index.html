@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ml">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ആരോഗ്യ പവർ | Pro Weight Manager</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Health Power | Pro Weight Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0d1117;
@@ -29,7 +29,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'Outfit', 'Noto Sans Malayalam', sans-serif;
+    font-family: 'Outfit', sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
@@ -540,18 +540,18 @@
 <nav>
   <div class="logo">
     <div class="logo-icon">💪</div>
-    <span>ആരോഗ്യ പവർ</span>
+    <span>Health Power</span>
   </div>
   <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showSection('dashboard')">🏠 ഡാഷ്‌ബോർഡ്</button>
-    <button class="nav-tab" onclick="showSection('calculator')">🔢 കലോറി</button>
+    <button class="nav-tab active" onclick="showSection('dashboard')">🏠 Dashboard</button>
+    <button class="nav-tab" onclick="showSection('calculator')">🔢 Calories</button>
     <button class="nav-tab" onclick="showSection('bmi')">⚖️ BMI</button>
-    <button class="nav-tab" onclick="showSection('macro')">🥗 മാക്രോ</button>
-    <button class="nav-tab" onclick="showSection('foodlog')">🍽️ ഭക്ഷണം</button>
-    <button class="nav-tab" onclick="showSection('water')">💧 വെള്ളം</button>
-    <button class="nav-tab" onclick="showSection('exercise')">🏃 വ്യായാമം</button>
-    <button class="nav-tab" onclick="showSection('progress')">📈 പ്രോഗ്രസ്</button>
-    <button class="nav-tab nav-tab-more" onclick="showSection('profile')">👤 പ്രൊഫൈൽ</button>
+    <button class="nav-tab" onclick="showSection('macro')">🥗 Macros</button>
+    <button class="nav-tab" onclick="showSection('foodlog')">🍽️ Food</button>
+    <button class="nav-tab" onclick="showSection('water')">💧 Water</button>
+    <button class="nav-tab" onclick="showSection('exercise')">🏃 Exercise</button>
+    <button class="nav-tab" onclick="showSection('progress')">📈 Progress</button>
+    <button class="nav-tab nav-tab-more" onclick="showSection('profile')">👤 Profile</button>
   </div>
 </nav>
 
@@ -560,14 +560,14 @@
   <!-- DASHBOARD -->
   <div id="dashboard" class="section active">
     <div class="section-header">
-      <h1 id="dashWelcome">👋 സ്വാഗതം!</h1>
-      <p>പ്രൊഫഷണൽ weight management — ഇന്നത്തെ ലക്ഷ്യങ്ങളും പ്രോഗ്രസും ഒരിടത്ത്</p>
+      <h1 id="dashWelcome">👋 Welcome!</h1>
+      <p>Professional weight management — today's goals and progress in one place</p>
     </div>
 
     <div class="dashboard-grid" id="dashboardStats">
       <div class="stat-card" style="--accent: var(--green)">
         <div class="stat-icon">🔥</div>
-        <div class="stat-label">ദൈനിക കലോറി ലക്ഷ്യം</div>
+        <div class="stat-label">Daily calorie target</div>
         <div class="stat-value" id="dash-cal">—</div>
         <div class="stat-unit">kcal/day</div>
       </div>
@@ -575,85 +575,85 @@
         <div class="stat-icon">⚖️</div>
         <div class="stat-label">BMI</div>
         <div class="stat-value" id="dash-bmi">—</div>
-        <div class="stat-unit" id="dash-bmi-cat">കണക്കാക്കിയിട്ടില്ല</div>
+        <div class="stat-unit" id="dash-bmi-cat">Not calculated yet</div>
       </div>
       <div class="stat-card" style="--accent: var(--teal)">
         <div class="stat-icon">💧</div>
-        <div class="stat-label">ഇന്ന് കുടിച്ചത്</div>
+        <div class="stat-label">Drank today</div>
         <div class="stat-value" id="dash-water">0</div>
-        <div class="stat-unit">ഗ്ലാസ്സ് (8 ൽ)</div>
+        <div class="stat-unit">glasses (of 8)</div>
       </div>
       <div class="stat-card" style="--accent: var(--orange)">
         <div class="stat-icon">🎯</div>
-        <div class="stat-label">ലക്ഷ്യം</div>
+        <div class="stat-label">Goal</div>
         <div class="stat-value" id="dash-goal-icon">—</div>
-        <div class="stat-unit" id="dash-goal">കണക്കാക്കിയിട്ടില്ല</div>
+        <div class="stat-unit" id="dash-goal">Not calculated yet</div>
       </div>
       <div class="stat-card" style="--accent: var(--purple)">
         <div class="stat-icon">🍽️</div>
-        <div class="stat-label">ഇന്ന് കഴിച്ചത്</div>
+        <div class="stat-label">Eaten today</div>
         <div class="stat-value" id="dash-food">0</div>
         <div class="stat-unit">kcal</div>
       </div>
       <div class="stat-card" style="--accent: var(--yellow)">
         <div class="stat-icon">🔥</div>
-        <div class="stat-label">സ്ട്രീക്ക്</div>
+        <div class="stat-label">Streak</div>
         <div class="stat-value" id="dash-streak">0</div>
-        <div class="stat-unit">ദിവസം</div>
+        <div class="stat-unit">days</div>
       </div>
     </div>
 
     <div class="card" id="goalProgressCard" style="display:none">
-      <div class="card-title"><div class="icon">🎯</div> ലക്ഷ്യ പ്രോഗ്രസ്</div>
+      <div class="card-title"><div class="icon">🎯</div> Goal progress</div>
       <div class="goal-progress-wrap">
         <div class="progress-ring">
           <svg width="120" height="120" viewBox="0 0 120 120">
             <circle cx="60" cy="60" r="52" fill="none" stroke="var(--border)" stroke-width="10"/>
             <circle id="goalRing" cx="60" cy="60" r="52" fill="none" stroke="var(--green)" stroke-width="10" stroke-dasharray="326.7" stroke-dashoffset="326.7" stroke-linecap="round"/>
           </svg>
-          <div class="progress-ring-text"><span class="pct" id="goalPct">0%</span><span class="lbl">ലക്ഷ്യം</span></div>
+          <div class="progress-ring-text"><span class="pct" id="goalPct">0%</span><span class="lbl">Goal</span></div>
         </div>
         <div style="flex:1;min-width:200px">
-          <div class="result-row"><span>ആരംഭ ഭാരം</span><span class="val" id="dash-start-w">—</span></div>
-          <div class="result-row"><span>ലക്ഷ്യ ഭാരം</span><span class="val" id="dash-target-w" style="color:var(--green)">—</span></div>
-          <div class="result-row"><span>ഇപ്പോൾ</span><span class="val" id="dash-current-w">—</span></div>
-          <div class="result-row"><span>ബാക്കി</span><span class="val" id="dash-remaining-w">—</span></div>
-          <div class="result-row"><span>കണക്കാക്കിയ സമയം</span><span class="val" id="dash-eta" style="font-size:0.9rem">—</span></div>
+          <div class="result-row"><span>Start weight</span><span class="val" id="dash-start-w">—</span></div>
+          <div class="result-row"><span>Target weight</span><span class="val" id="dash-target-w" style="color:var(--green)">—</span></div>
+          <div class="result-row"><span>Now</span><span class="val" id="dash-current-w">—</span></div>
+          <div class="result-row"><span>Remaining</span><span class="val" id="dash-remaining-w">—</span></div>
+          <div class="result-row"><span>Estimated time</span><span class="val" id="dash-eta" style="font-size:0.9rem">—</span></div>
         </div>
       </div>
       <div class="chip-row" id="achievementChips"></div>
     </div>
 
     <div class="card">
-      <div class="card-title"><div class="icon">📊</div> ഇന്നത്തെ കലോറി ബാലൻസ്</div>
+      <div class="card-title"><div class="icon">📊</div> Today's calorie balance</div>
       <div class="cal-bar-wrap">
-        <div class="cal-bar-label"><span>കഴിച്ചത്: <strong id="dashCalEaten">0</strong> kcal</span><span>ലക്ഷ്യം: <strong id="dashCalTarget">—</strong> kcal</span></div>
+        <div class="cal-bar-label"><span>Eaten: <strong id="dashCalEaten">0</strong> kcal</span><span>Target: <strong id="dashCalTarget">—</strong> kcal</span></div>
         <div class="cal-bar-bg"><div class="cal-bar-fill" id="dashCalBar" style="width:0%;background:linear-gradient(90deg,var(--green),var(--teal))"></div></div>
-        <div style="font-size:0.78rem;color:var(--text-muted);margin-top:6px" id="dashCalRemain">ഭക്ഷണം ലോഗ് ചെയ്താൽ ബാലൻസ് കാണാം</div>
+        <div style="font-size:0.78rem;color:var(--text-muted);margin-top:6px" id="dashCalRemain">Log meals to see your calorie balance</div>
       </div>
     </div>
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
       <div class="card">
-        <div class="card-title"><div class="icon">📋</div> ദ്രുത ടൂളുകൾ</div>
+        <div class="card-title"><div class="icon">📋</div> Quick tools</div>
         <div style="display:grid; gap:10px;">
-          <button class="btn btn-primary" onclick="showSection('calculator')">🔢 കലോറി കണക്കാക്കുക</button>
-          <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('foodlog')">🍽️ ഭക്ഷണം ലോഗ് ചെയ്യുക</button>
-          <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('bmi')">⚖️ BMI ചെക്ക് ചെയ്യുക</button>
-          <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('profile')">👤 പ്രൊഫൈൽ സെറ്റപ്പ്</button>
-          <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('water')">💧 വെള്ളം ട്രാക്ക് ചെയ്യുക</button>
-          <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('progress')">📈 ഭാരം രേഖപ്പെടുത്തുക</button>
+          <button class="btn btn-primary" onclick="showSection('calculator')">🔢 Calculate calories</button>
+          <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('foodlog')">🍽️ Log food</button>
+          <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('bmi')">⚖️ Check BMI</button>
+          <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('profile')">👤 Set up profile</button>
+          <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('water')">💧 Track water</button>
+          <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('progress')">📈 Log weight</button>
         </div>
       </div>
       <div class="card">
-        <div class="card-title"><div class="icon">💡</div> ഇന്നത്തെ ടിപ്</div>
+        <div class="card-title"><div class="icon">💡</div> Tip of the day</div>
         <div id="dailyTip" style="font-size:0.88rem; line-height:1.7; color:var(--text-muted)">
-          ലോഡ് ചെയ്യുന്നു...
+          Loading...
         </div>
       </div>
     </div>
 
     <div class="card" style="margin-top:0">
-      <div class="card-title"><div class="icon">🌿</div> ആരോഗ്യ ടിപ്‌സ്</div>
+      <div class="card-title"><div class="icon">🌿</div> Health tips</div>
       <div class="tips-grid" id="tipsGrid"></div>
     </div>
   </div>
@@ -661,76 +661,76 @@
   <!-- CALORIE CALCULATOR -->
   <div id="calculator" class="section">
     <div class="section-header">
-      <h1>🔢 കലോറി കാൽക്കുലേറ്റർ</h1>
-      <p>ഭാരം കുറയ്ക്കാനും വർദ്ധിപ്പിക്കാനും നിലനിർത്താനും ആവശ്യമായ കലോറി കണ്ടെത്തൂ</p>
+      <h1>🔢 Calorie calculator</h1>
+      <p>Find the calories you need to lose, gain, or maintain weight</p>
     </div>
 
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
       <div class="card">
-        <div class="card-title"><div class="icon">📝</div> വിവരങ്ങൾ നൽകൂ</div>
+        <div class="card-title"><div class="icon">📝</div> Enter your details</div>
 
         <div class="goal-toggle" id="goalToggle">
-          <button class="goal-btn active-loss" onclick="setGoal('loss', this)">📉 ഭാരം കുറയ്ക്കാൻ</button>
-          <button class="goal-btn" onclick="setGoal('maintain', this)">⚖️ നിലനിർത്താൻ</button>
-          <button class="goal-btn" onclick="setGoal('gain', this)">📈 ഭാരം കൂട്ടാൻ</button>
+          <button class="goal-btn active-loss" onclick="setGoal('loss', this)">📉 Lose weight</button>
+          <button class="goal-btn" onclick="setGoal('maintain', this)">⚖️ Maintain</button>
+          <button class="goal-btn" onclick="setGoal('gain', this)">📈 Gain weight</button>
         </div>
 
         <div class="form-grid">
           <div class="form-group">
-            <label>ലിംഗം</label>
+            <label>Gender</label>
             <select id="gender">
-              <option value="male">👨 പുരുഷൻ</option>
-              <option value="female">👩 സ്ത്രീ</option>
+              <option value="male">👨 Male</option>
+              <option value="female">👩 Female</option>
             </select>
           </div>
           <div class="form-group">
-            <label>പ്രായം (വർഷം)</label>
+            <label>Age (years)</label>
             <input type="number" id="age" placeholder="25" min="10" max="100">
           </div>
           <div class="form-group">
-            <label>ഭാരം (kg)</label>
+            <label>Weight (kg)</label>
             <input type="number" id="weight" placeholder="70" min="20" max="300">
           </div>
           <div class="form-group">
-            <label>ഉയരം (cm)</label>
+            <label>Height (cm)</label>
             <input type="number" id="height" placeholder="170" min="100" max="250">
           </div>
         </div>
 
         <div class="form-group">
-          <label>വ്യായാമ നില</label>
+          <label>Activity level</label>
           <select id="activity">
-            <option value="1.2">🛋️ വ്യായാമം ഇല്ലാത്തവർ (Sedentary)</option>
-            <option value="1.375">🚶 ചെറിയ വ്യായാമം (1-3 ദിവസം/ആഴ്ച)</option>
-            <option value="1.55">🏃 മിതമായ വ്യായാമം (3-5 ദിവസം/ആഴ്ച)</option>
-            <option value="1.725">💪 കഠിനമായ വ്യായാമം (6-7 ദിവസം/ആഴ്ച)</option>
-            <option value="1.9">🏋️ വളരെ കഠിനമായ വ്യായാമം</option>
+            <option value="1.2">🛋️ No exercise (Sedentary)</option>
+            <option value="1.375">🚶 Light exercise (1–3 days/week)</option>
+            <option value="1.55">🏃 Moderate exercise (3–5 days/week)</option>
+            <option value="1.725">💪 Hard exercise (6–7 days/week)</option>
+            <option value="1.9">🏋️ Very hard exercise</option>
           </select>
         </div>
 
         <div class="form-group" id="intensityGroup" style="display:none">
-          <label>ലക്ഷ്യ തീവ്രത</label>
+          <label>Goal intensity</label>
           <select id="intensity">
-            <option value="0.5">🐢 മൃദുവായ (0.25 kg/ആഴ്ച)</option>
-            <option value="1" selected>🚶 മിതമായ (0.5 kg/ആഴ്ച)</option>
-            <option value="2">🏃 വേഗത്തിൽ (1 kg/ആഴ്ച)</option>
+            <option value="0.5">🐢 Gentle (0.25 kg/week)</option>
+            <option value="1" selected>🚶 Moderate (0.5 kg/week)</option>
+            <option value="2">🏃 Fast (1 kg/week)</option>
           </select>
         </div>
 
-        <button class="btn btn-primary" onclick="calculateCalories()">⚡ കണക്കാക്കുക</button>
+        <button class="btn btn-primary" onclick="calculateCalories()">⚡ Calculate</button>
       </div>
 
       <div class="card">
-        <div class="card-title"><div class="icon">📊</div> ഫലങ്ങൾ</div>
+        <div class="card-title"><div class="icon">📊</div> Results</div>
         <div id="calcResult" style="color:var(--text-muted); font-size:0.9rem; padding:20px 0; text-align:center;">
           <div style="font-size:40px; margin-bottom:12px">📊</div>
-          <p>ഫലം കാണാൻ കണക്കാക്കുക ക്ലിക്ക് ചെയ്യൂ</p>
+          <p>Click Calculate to see results</p>
         </div>
       </div>
     </div>
 
     <div class="card" id="mealPlanCard" style="display:none">
-      <div class="card-title"><div class="icon">🍽️</div> ഭക്ഷണ പദ്ധതി <span id="mealPlanCalBadge" class="badge badge-green" style="margin-left:auto; font-weight:600"></span></div>
+      <div class="card-title"><div class="icon">🍽️</div> Meal plan <span id="mealPlanCalBadge" class="badge badge-green" style="margin-left:auto; font-weight:600"></span></div>
       <div class="meal-grid" id="mealsContainer"></div>
     </div>
   </div>
@@ -738,44 +738,44 @@
   <!-- BMI -->
   <div id="bmi" class="section">
     <div class="section-header">
-      <h1>⚖️ BMI & ആദർശ ഭാരം</h1>
-      <p>ശരീര ഭാരം സൂചിക (Body Mass Index) കണ്ടെത്തൂ</p>
+      <h1>⚖️ BMI & ideal weight</h1>
+      <p>Calculate your Body Mass Index (BMI)</p>
     </div>
 
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
       <div class="card">
-        <div class="card-title"><div class="icon">📝</div> വിവരങ്ങൾ</div>
+        <div class="card-title"><div class="icon">📝</div> Your details</div>
         <div class="form-grid">
           <div class="form-group">
-            <label>ഭാരം (kg)</label>
+            <label>Weight (kg)</label>
             <input type="number" id="bmi-weight" placeholder="70">
           </div>
           <div class="form-group">
-            <label>ഉയരം (cm)</label>
+            <label>Height (cm)</label>
             <input type="number" id="bmi-height" placeholder="170">
           </div>
         </div>
         <div class="form-group">
-          <label>ലിംഗം</label>
+          <label>Gender</label>
           <select id="bmi-gender">
-            <option value="male">👨 പുരുഷൻ</option>
-            <option value="female">👩 സ്ത്രീ</option>
+            <option value="male">👨 Male</option>
+            <option value="female">👩 Female</option>
           </select>
         </div>
-        <button class="btn btn-primary" onclick="calculateBMI()">⚡ കണക്കാക്കുക</button>
+        <button class="btn btn-primary" onclick="calculateBMI()">⚡ Calculate</button>
       </div>
 
       <div class="card" id="bmiResult">
-        <div class="card-title"><div class="icon">📊</div> BMI ഫലം</div>
+        <div class="card-title"><div class="icon">📊</div> BMI result</div>
         <div style="color:var(--text-muted); font-size:0.9rem; padding:20px 0; text-align:center">
           <div style="font-size:40px; margin-bottom:12px">⚖️</div>
-          <p>ഭാരവും ഉയരവും നൽകി കണക്കാക്കൂ</p>
+          <p>Enter weight and height, then calculate</p>
         </div>
       </div>
     </div>
 
     <div class="card" id="idealWeightCard" style="display:none">
-      <div class="card-title"><div class="icon">🎯</div> ആദർശ ഭാരം (Ideal Weight)</div>
+      <div class="card-title"><div class="icon">🎯</div> Ideal weight</div>
       <div class="ideal-grid" id="idealWeightGrid"></div>
     </div>
   </div>
@@ -783,43 +783,43 @@
   <!-- MACRO -->
   <div id="macro" class="section">
     <div class="section-header">
-      <h1>🥗 മാക്രോ നൂട്രിയൻ്റ് കാൽക്കുലേറ്റർ</h1>
-      <p>പ്രോട്ടീൻ, കാർബ്, ഫാറ്റ് ആവശ്യം കണ്ടെത്തൂ</p>
+      <h1>🥗 Macro Nutrient Calculator</h1>
+      <p>Calculate your protein, carb, and fat needs</p>
     </div>
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
       <div class="card">
-        <div class="card-title"><div class="icon">📝</div> വിവരങ്ങൾ</div>
+        <div class="card-title"><div class="icon">📝</div> Your details</div>
         <div class="form-grid">
           <div class="form-group">
-            <label>ഭാരം (kg)</label>
+            <label>Weight (kg)</label>
             <input type="number" id="macro-weight" placeholder="70">
           </div>
           <div class="form-group">
-            <label>ഉയരം (cm)</label>
+            <label>Height (cm)</label>
             <input type="number" id="macro-height" placeholder="170">
           </div>
           <div class="form-group">
-            <label>പ്രായം</label>
+            <label>Age</label>
             <input type="number" id="macro-age" placeholder="25">
           </div>
           <div class="form-group">
-            <label>ലിംഗം</label>
+            <label>Gender</label>
             <select id="macro-gender">
-              <option value="male">👨 പുരുഷൻ</option>
-              <option value="female">👩 സ്ത്രീ</option>
+              <option value="male">👨 Male</option>
+              <option value="female">👩 Female</option>
             </select>
           </div>
         </div>
         <div class="form-group">
-          <label>ലക്ഷ്യം</label>
+          <label>Goal</label>
           <select id="macro-goal">
-            <option value="loss">📉 ഭാരം കുറയ്ക്കുക (High Protein)</option>
-            <option value="maintain">⚖️ നിലനിർത്തുക (Balanced)</option>
-            <option value="gain">📈 ഭാരം / മസിൽ കൂട്ടുക (High Carb)</option>
+            <option value="loss">📉 Lose weight (high protein)</option>
+            <option value="maintain">⚖️ Maintain (balanced)</option>
+            <option value="gain">📈 Gain weight / muscle (high carb)</option>
           </select>
         </div>
         <div class="form-group">
-          <label>വ്യായാമ നില</label>
+          <label>Activity level</label>
           <select id="macro-activity">
             <option value="1.2">🛋️ Sedentary</option>
             <option value="1.375">🚶 Light</option>
@@ -827,14 +827,14 @@
             <option value="1.725">💪 Active</option>
           </select>
         </div>
-        <button class="btn btn-primary" onclick="calculateMacros()">⚡ കണക്കാക്കുക</button>
+        <button class="btn btn-primary" onclick="calculateMacros()">⚡ Calculate</button>
       </div>
 
       <div class="card">
-        <div class="card-title"><div class="icon">📊</div> മാക്രോ ബ്രേക്ക്‌ഡൗൺ</div>
+        <div class="card-title"><div class="icon">📊</div> Macro breakdown</div>
         <div id="macroResult" style="color:var(--text-muted); font-size:0.9rem; padding:20px 0; text-align:center">
           <div style="font-size:40px; margin-bottom:12px">🥗</div>
-          <p>വിവരങ്ങൾ നൽകി കണക്കാക്കൂ</p>
+          <p>Enter your details and calculate</p>
         </div>
       </div>
     </div>
@@ -843,19 +843,19 @@
   <!-- WATER -->
   <div id="water" class="section">
     <div class="section-header">
-      <h1>💧 വെള്ളം ട്രാക്കർ</h1>
-      <p>ദിവസേന ആവശ്യമായ ജലം കുടിക്കൂ</p>
+      <h1>💧 Water tracker</h1>
+      <p>Stay hydrated with the right daily water intake</p>
     </div>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
       <div class="card">
-        <div class="card-title"><div class="icon">🎯</div> ലക്ഷ്യം കണ്ടെത്തുക</div>
+        <div class="card-title"><div class="icon">🎯</div> Find your goal</div>
         <div class="form-grid">
           <div class="form-group">
-            <label>ഭാരം (kg)</label>
+            <label>Weight (kg)</label>
             <input type="number" id="water-weight" placeholder="70" oninput="calcWaterGoal()">
           </div>
           <div class="form-group">
-            <label>വ്യായാമ നില</label>
+            <label>Activity level</label>
             <select id="water-activity" onchange="calcWaterGoal()">
               <option value="0">🛋️ Sedentary</option>
               <option value="0.5">🚶 Light</option>
@@ -865,20 +865,20 @@
           </div>
         </div>
         <div class="result-box show" id="waterGoalBox" style="text-align:center">
-          <div class="result-label">ദൈനിക ജലലക്ഷ്യം</div>
+          <div class="result-label">Daily water goal</div>
           <div class="result-main" id="waterGoalVal">—</div>
-          <div style="font-size:0.85rem; color:var(--text-muted); margin-top:4px">ലിറ്റർ / ദിവസം</div>
+          <div style="font-size:0.85rem; color:var(--text-muted); margin-top:4px">liters / day</div>
         </div>
       </div>
       <div class="card">
-        <div class="card-title"><div class="icon">💧</div> ഇന്ന് കുടിച്ചത് <span id="waterCountBadge" class="badge badge-blue" style="margin-left:auto">0 / 8 ഗ്ലാസ്</span></div>
+        <div class="card-title"><div class="icon">💧</div> Drank today <span id="waterCountBadge" class="badge badge-blue" style="margin-left:auto">0 / 8 glasses</span></div>
         <div class="water-grid" id="waterCups"></div>
         <div style="display:flex; gap:10px; margin-top:12px">
-          <button class="btn btn-primary btn-sm" onclick="addWater()">+ ഒരു ഗ്ലാസ്</button>
+          <button class="btn btn-primary btn-sm" onclick="addWater()">+ One glass</button>
           <button class="btn btn-outline btn-sm" onclick="resetWater()">🔄 Reset</button>
         </div>
         <div style="margin-top:16px; padding:12px; background:var(--bg); border-radius:var(--radius-sm); border:1px solid var(--border)">
-          <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:6px">ദൈനിക പ്രോഗ്രസ്</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:6px">Daily progress</div>
           <div style="background:var(--border); height:10px; border-radius:5px; overflow:hidden">
             <div id="waterProgress" style="height:100%; background:linear-gradient(90deg,var(--teal),var(--blue)); border-radius:5px; width:0%; transition:width 0.4s ease"></div>
           </div>
@@ -890,14 +890,14 @@
     </div>
 
     <div class="card">
-      <div class="card-title"><div class="icon">💡</div> ജലം കുടിക്കേണ്ട സമയം</div>
+      <div class="card-title"><div class="icon">💡</div> When to drink water</div>
       <div class="meal-grid">
-        <div class="meal-item"><div class="meal-time">7:00 AM</div><div><div class="meal-name">ഉണർന്നതിനു ശേഷം</div><div class="meal-desc">ശരീരം ഹൈഡ്രേറ്റ് ചെയ്യാൻ — 300 ml</div></div><div class="meal-cal">🌅</div></div>
-        <div class="meal-item"><div class="meal-time">8:30 AM</div><div><div class="meal-name">ബ്രേക്ക്ഫാസ്റ്റിനു ശേഷം</div><div class="meal-desc">ദഹനം സഹായിക്കാൻ — 200 ml</div></div><div class="meal-cal">☕</div></div>
-        <div class="meal-item"><div class="meal-time">11:00 AM</div><div><div class="meal-name">മിഡ്-മോർണിംഗ്</div><div class="meal-desc">ഊർജ്ജം നിലനിർത്താൻ — 300 ml</div></div><div class="meal-cal">⚡</div></div>
-        <div class="meal-item"><div class="meal-time">1:30 PM</div><div><div class="meal-name">ഉച്ചഭക്ഷണത്തിനു മുമ്പ്</div><div class="meal-desc">വിശപ്പ് നിയന്ത്രിക്കാൻ — 300 ml</div></div><div class="meal-cal">🍽️</div></div>
-        <div class="meal-item"><div class="meal-time">4:00 PM</div><div><div class="meal-name">ഉച്ചതിരിഞ്ഞ്</div><div class="meal-desc">തലവേദന ഒഴിവാക്കാൻ — 250 ml</div></div><div class="meal-cal">🌤️</div></div>
-        <div class="meal-item"><div class="meal-time">9:00 PM</div><div><div class="meal-name">ഉറക്കത്തിനു മുമ്പ്</div><div class="meal-desc">രാത്രി ദഹനം — 200 ml (കൂടുതൽ കഴിക്കരുത്)</div></div><div class="meal-cal">🌙</div></div>
+        <div class="meal-item"><div class="meal-time">7:00 AM</div><div><div class="meal-name">After waking up</div><div class="meal-desc">Rehydrate your body — 300 ml</div></div><div class="meal-cal">🌅</div></div>
+        <div class="meal-item"><div class="meal-time">8:30 AM</div><div><div class="meal-name">After breakfast</div><div class="meal-desc">Aid digestion — 200 ml</div></div><div class="meal-cal">☕</div></div>
+        <div class="meal-item"><div class="meal-time">11:00 AM</div><div><div class="meal-name">Mid-morning</div><div class="meal-desc">Maintain energy — 300 ml</div></div><div class="meal-cal">⚡</div></div>
+        <div class="meal-item"><div class="meal-time">1:30 PM</div><div><div class="meal-name">Before lunch</div><div class="meal-desc">Help control appetite — 300 ml</div></div><div class="meal-cal">🍽️</div></div>
+        <div class="meal-item"><div class="meal-time">4:00 PM</div><div><div class="meal-name">Afternoon</div><div class="meal-desc">Avoid headaches — 250 ml</div></div><div class="meal-cal">🌤️</div></div>
+        <div class="meal-item"><div class="meal-time">9:00 PM</div><div><div class="meal-name">Before bed</div><div class="meal-desc">Night digestion — 200 ml (avoid more)</div></div><div class="meal-cal">🌙</div></div>
       </div>
     </div>
   </div>
@@ -905,38 +905,38 @@
   <!-- EXERCISE -->
   <div id="exercise" class="section">
     <div class="section-header">
-      <h1>🏃 വ്യായാമ കലോറി കാൽക്കുലേറ്റർ</h1>
-      <p>വ്യായാമത്തിൽ കത്തുന്ന കലോറി കണ്ടെത്തൂ</p>
+      <h1>🏃 Exercise calorie calculator</h1>
+      <p>Estimate calories burned during exercise</p>
     </div>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
       <div class="card">
-        <div class="card-title"><div class="icon">📝</div> വിവരങ്ങൾ</div>
+        <div class="card-title"><div class="icon">📝</div> Your details</div>
         <div class="form-grid">
           <div class="form-group">
-            <label>ഭാരം (kg)</label>
+            <label>Weight (kg)</label>
             <input type="number" id="ex-weight" placeholder="70" oninput="updateExerciseCals()">
           </div>
           <div class="form-group">
-            <label>ദൈർഘ്യം (മിനിറ്റ്)</label>
+            <label>Duration (minutes)</label>
             <input type="number" id="ex-duration" placeholder="30" value="30" oninput="updateExerciseCals()">
           </div>
         </div>
         <div class="form-group">
-          <label>ദൈർഘ്യം: <span id="durationLabel">30 min</span></label>
+          <label>Duration: <span id="durationLabel">30 min</span></label>
           <input type="range" id="ex-duration-range" min="5" max="180" value="30" oninput="syncDuration(this.value)">
         </div>
-        <div class="alert alert-info">ഒരു വ്യായാമം തിരഞ്ഞെടുക്കൂ 👇</div>
+        <div class="alert alert-info">Select an exercise 👇</div>
       </div>
       <div class="card">
-        <div class="card-title"><div class="icon">🔥</div> കത്തുന്ന കലോറി</div>
+        <div class="card-title"><div class="icon">🔥</div> Calories burned</div>
         <div id="exResult" style="text-align:center; padding:20px 0; color:var(--text-muted); font-size:0.9rem">
           <div style="font-size:40px; margin-bottom:12px">🏃</div>
-          <p>ഭാരവും വ്യായാമവും തിരഞ്ഞെടുക്കൂ</p>
+          <p>Enter weight and select an exercise</p>
         </div>
       </div>
     </div>
     <div class="card">
-      <div class="card-title"><div class="icon">🏋️</div> വ്യായാമങ്ങൾ തിരഞ്ഞെടുക്കൂ</div>
+      <div class="card-title"><div class="icon">🏋️</div> Choose an exercise</div>
       <div class="exercise-list" id="exerciseList"></div>
     </div>
   </div>
@@ -944,58 +944,58 @@
   <!-- PROGRESS -->
   <div id="progress" class="section">
     <div class="section-header">
-      <h1>📈 ഭാരം ട്രാക്കർ</h1>
-      <p>ഭാരം രേഖപ്പെടുത്തി പ്രോഗ്രസ് ട്രാക്ക് ചെയ്യൂ</p>
+      <h1>📈 Weight tracker</h1>
+      <p>Log your weight and track progress over time</p>
     </div>
     <div class="card">
-      <div class="card-title"><div class="icon">➕</div> ഇന്നത്തെ ഭാരം ചേർക്കൂ</div>
+      <div class="card-title"><div class="icon">➕</div> Add today's weight</div>
       <div class="weight-log-form">
-        <input type="number" id="prog-weight" placeholder="കിലോഗ്രാം (ഉദാ: 72.5)" step="0.1">
+        <input type="number" id="prog-weight" placeholder="Kilograms (e.g. 72.5)" step="0.1">
         <input type="date" id="prog-date" style="flex:1">
-        <button class="btn btn-primary btn-sm" onclick="addWeightLog()" style="white-space:nowrap">✅ ചേർക്കൂ</button>
+        <button class="btn btn-primary btn-sm" onclick="addWeightLog()" style="white-space:nowrap">✅ Add</button>
       </div>
     </div>
 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
       <div class="card">
-        <div class="card-title"><div class="icon">📊</div> ഭാരം ഗ്രാഫ്</div>
+        <div class="card-title"><div class="icon">📊</div> Weight chart</div>
         <div class="chart-wrap">
           <canvas id="weightChart"></canvas>
         </div>
       </div>
       <div class="card">
-        <div class="card-title"><div class="icon">📋</div> ഭാരം ചരിത്രം</div>
+        <div class="card-title"><div class="icon">📋</div> Weight history</div>
         <div id="weightLogList" style="max-height:250px; overflow-y:auto">
           <div style="color:var(--text-muted); font-size:0.85rem; padding:20px 0; text-align:center">
             <div style="font-size:32px; margin-bottom:8px">📋</div>
-            <p>ഇതുവരെ ഒന്നും ചേർത്തിട്ടില്ല</p>
+            <p>Nothing added yet</p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-title"><div class="icon">🏆</div> സ്ഥിതിവിവരക്കണക്ക്</div>
+      <div class="card-title"><div class="icon">🏆</div> Statistics</div>
       <div class="dashboard-grid">
         <div class="stat-card" style="--accent:var(--green)">
-          <div class="stat-label">ആദ്യ ഭാരം</div>
+          <div class="stat-label">Starting weight</div>
           <div class="stat-value" id="stat-first">—</div>
           <div class="stat-unit">kg</div>
         </div>
         <div class="stat-card" style="--accent:var(--blue)">
-          <div class="stat-label">ഇപ്പോഴത്തെ ഭാരം</div>
+          <div class="stat-label">Current weight</div>
           <div class="stat-value" id="stat-current">—</div>
           <div class="stat-unit">kg</div>
         </div>
         <div class="stat-card" style="--accent:var(--orange)">
-          <div class="stat-label">മൊത്തം മാറ്റം</div>
+          <div class="stat-label">Total change</div>
           <div class="stat-value" id="stat-change">—</div>
           <div class="stat-unit">kg</div>
         </div>
         <div class="stat-card" style="--accent:var(--purple)">
-          <div class="stat-label">ദിവസങ്ങൾ ട്രാക്ക് ചെയ്തത്</div>
+          <div class="stat-label">Days tracked</div>
           <div class="stat-value" id="stat-days">0</div>
-          <div class="stat-unit">ദിവസം</div>
+          <div class="stat-unit">days</div>
         </div>
       </div>
     </div>
@@ -1004,92 +1004,92 @@
   <!-- FOOD LOG -->
   <div id="foodlog" class="section">
     <div class="section-header">
-      <h1>🍽️ ഭക്ഷണ ഡയറി</h1>
-      <p>ഇന്ന് കഴിച്ച കലോറി ലോഗ് ചെയ്ത് ദൈനിക ലക്ഷ്യവുമായി താരതമ്യം ചെയ്യൂ</p>
+      <h1>🍽️ Food diary</h1>
+      <p>Log today's calories and compare them with your daily target</p>
     </div>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
       <div class="card">
-        <div class="card-title"><div class="icon">➕</div> ഭക്ഷണം ചേർക്കൂ</div>
+        <div class="card-title"><div class="icon">➕</div> Add food</div>
         <div class="food-log-form">
-          <input type="text" id="food-name" placeholder="ഭക്ഷണം">
-          <input type="number" id="food-cal" placeholder="കലോറി" min="1">
+          <input type="text" id="food-name" placeholder="Food">
+          <input type="number" id="food-cal" placeholder="Calories" min="1">
           <select id="food-meal">
-            <option value="breakfast">🌅 പ്രഭാതം</option>
-            <option value="lunch">☀️ ഉച്ച</option>
-            <option value="snack">🍎 സ്നാക്ക്</option>
-            <option value="dinner">🌙 രാത്രി</option>
+            <option value="breakfast">🌅 Breakfast</option>
+            <option value="lunch">☀️ Lunch</option>
+            <option value="snack">🍎 Snack</option>
+            <option value="dinner">🌙 Dinner</option>
           </select>
         </div>
-        <button class="btn btn-primary" onclick="addFoodEntry()">✅ ചേർക്കൂ</button>
-        <div class="alert alert-info" style="margin-top:14px">ദ്രുത ചേർക്കൽ:</div>
+        <button class="btn btn-primary" onclick="addFoodEntry()">✅ Add</button>
+        <div class="alert alert-info" style="margin-top:14px">Quick add:</div>
         <div class="chip-row" id="quickFoodChips"></div>
       </div>
       <div class="card">
-        <div class="card-title"><div class="icon">📊</div> ഇന്നത്തെ സംഗ്രഹം <span class="badge badge-green" id="foodDateBadge" style="margin-left:auto"></span></div>
+        <div class="card-title"><div class="icon">📊</div> Today's summary <span class="badge badge-green" id="foodDateBadge" style="margin-left:auto"></span></div>
         <div class="cal-bar-wrap">
-          <div class="cal-bar-label"><span>കഴിച്ചത്: <strong id="foodTotal">0</strong> kcal</span><span>ലക്ഷ്യം: <strong id="foodTarget">—</strong></span></div>
+          <div class="cal-bar-label"><span>Eaten: <strong id="foodTotal">0</strong> kcal</span><span>Target: <strong id="foodTarget">—</strong></span></div>
           <div class="cal-bar-bg"><div class="cal-bar-fill" id="foodBar" style="width:0%"></div></div>
         </div>
-        <div class="result-row" style="margin-top:12px"><span>ബാക്കി</span><span class="val" id="foodRemaining">—</span></div>
-        <button class="btn btn-outline btn-sm" style="margin-top:12px;width:100%" onclick="clearTodayFood()">🔄 മായ്ക്കുക</button>
+        <div class="result-row" style="margin-top:12px"><span>Remaining</span><span class="val" id="foodRemaining">—</span></div>
+        <button class="btn btn-outline btn-sm" style="margin-top:12px;width:100%" onclick="clearTodayFood()">🔄 Clear</button>
       </div>
     </div>
     <div class="card">
-      <div class="card-title"><div class="icon">📋</div> ഇന്നത്തെ ഭക്ഷണം</div>
-      <div id="foodList"><p style="color:var(--text-muted);text-align:center;padding:20px">ഇതുവരെ ഒന്നും ചേർത്തിട്ടില്ല</p></div>
+      <div class="card-title"><div class="icon">📋</div> Today's meals</div>
+      <div id="foodList"><p style="color:var(--text-muted);text-align:center;padding:20px">Nothing added yet</p></div>
     </div>
   </div>
 
   <!-- PROFILE -->
   <div id="profile" class="section">
     <div class="section-header">
-      <h1>👤 പ്രൊഫൈൽ &amp; ഡാറ്റ</h1>
-      <p>വിവരങ്ങൾ സേവ് ചെയ്ത് എല്ലാ ടൂളുകളിലും ഉപയോഗിക്കൂ</p>
+      <h1>👤 Profile & data</h1>
+      <p>Save your details and use them across all tools</p>
     </div>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
       <div class="card">
-        <div class="card-title"><div class="icon">👤</div> വ്യക്തിഗത വിവരങ്ങൾ</div>
+        <div class="card-title"><div class="icon">👤</div> Personal details</div>
         <div class="profile-header">
           <div class="profile-avatar" id="profileAvatar">💪</div>
           <div class="form-group" style="margin-bottom:0;flex:1">
-            <label>പേര്</label>
-            <input type="text" id="profile-name" placeholder="നിങ്ങളുടെ പേര്">
+            <label>Name</label>
+            <input type="text" id="profile-name" placeholder="Your name">
           </div>
         </div>
         <div class="form-grid">
-          <div class="form-group"><label>ലിംഗം</label><select id="profile-gender"><option value="male">പുരുഷൻ</option><option value="female">സ്ത്രീ</option></select></div>
-          <div class="form-group"><label>പ്രായം</label><input type="number" id="profile-age"></div>
-          <div class="form-group"><label>ഭാരം kg</label><input type="number" id="profile-weight" step="0.1"></div>
-          <div class="form-group"><label>ഉയരം cm</label><input type="number" id="profile-height"></div>
+          <div class="form-group"><label>Gender</label><select id="profile-gender"><option value="male">Male</option><option value="female">Female</option></select></div>
+          <div class="form-group"><label>Age</label><input type="number" id="profile-age"></div>
+          <div class="form-group"><label>Weight (kg)</label><input type="number" id="profile-weight" step="0.1"></div>
+          <div class="form-group"><label>Height (cm)</label><input type="number" id="profile-height"></div>
         </div>
-        <div class="form-group"><label>വ്യായാമം</label><select id="profile-activity"><option value="1.2">Sedentary</option><option value="1.375">Light</option><option value="1.55">Moderate</option><option value="1.725">Active</option><option value="1.9">Very Active</option></select></div>
-        <div class="form-group"><label>ലക്ഷ്യം</label><select id="profile-goal"><option value="loss">കുറയ്ക്കൽ</option><option value="maintain">നിലനിർത്തൽ</option><option value="gain">കൂട്ടൽ</option></select></div>
-        <button class="btn btn-primary" onclick="saveProfile()">💾 സേവ്</button>
-        <button class="btn btn-outline btn-sm" style="margin-top:10px;width:100%;padding:11px" onclick="syncProfileToForms()">🔄 സിങ്ക്</button>
+        <div class="form-group"><label>Exercise</label><select id="profile-activity"><option value="1.2">Sedentary</option><option value="1.375">Light</option><option value="1.55">Moderate</option><option value="1.725">Active</option><option value="1.9">Very Active</option></select></div>
+        <div class="form-group"><label>Goal</label><select id="profile-goal"><option value="loss">Lose</option><option value="maintain">Maintenance</option><option value="gain">Gain</option></select></div>
+        <button class="btn btn-primary" onclick="saveProfile()">💾 Save</button>
+        <button class="btn btn-outline btn-sm" style="margin-top:10px;width:100%;padding:11px" onclick="syncProfileToForms()">🔄 Sync</button>
       </div>
       <div class="card">
-        <div class="card-title"><div class="icon">🎯</div> ഭാര ലക്ഷ്യം</div>
+        <div class="card-title"><div class="icon">🎯</div> Weight goal</div>
         <div class="form-grid">
-          <div class="form-group"><label>ആരംഭ ഭാരം</label><input type="number" id="profile-start-weight" step="0.1"></div>
-          <div class="form-group"><label>ലക്ഷ്യ ഭാരം</label><input type="number" id="profile-target-weight" step="0.1"></div>
-          <div class="form-group"><label>ആഴ്ചയിൽ kg</label><select id="profile-weekly-rate"><option value="0.25">0.25</option><option value="0.5" selected>0.5</option><option value="1">1.0</option></select></div>
-          <div class="form-group"><label>ലക്ഷ്യ തീയതി</label><input type="date" id="profile-target-date"></div>
+          <div class="form-group"><label>Start weight</label><input type="number" id="profile-start-weight" step="0.1"></div>
+          <div class="form-group"><label>Target weight</label><input type="number" id="profile-target-weight" step="0.1"></div>
+          <div class="form-group"><label>Per week (kg)</label><select id="profile-weekly-rate"><option value="0.25">0.25</option><option value="0.5" selected>0.5</option><option value="1">1.0</option></select></div>
+          <div class="form-group"><label>Target date</label><input type="date" id="profile-target-date"></div>
         </div>
-        <div class="form-group"><label>കുറിപ്പുകൾ</label><textarea id="profile-notes"></textarea></div>
+        <div class="form-group"><label>Notes</label><textarea id="profile-notes"></textarea></div>
       </div>
     </div>
     <div class="card">
-      <div class="card-title"><div class="icon">📏</div> ശരീര അളവുകൾ</div>
+      <div class="card-title"><div class="icon">📏</div> Body measurements</div>
       <div class="weight-log-form">
-        <input type="number" id="meas-waist" placeholder="ഇടപ്പ്" step="0.1">
-        <input type="number" id="meas-chest" placeholder="നെഞ്ച്" step="0.1">
-        <input type="number" id="meas-hips" placeholder="ഇടுப்ப്" step="0.1">
+        <input type="number" id="meas-waist" placeholder="Waist" step="0.1">
+        <input type="number" id="meas-chest" placeholder="Chest" step="0.1">
+        <input type="number" id="meas-hips" placeholder="Hips" step="0.1">
         <button class="btn btn-primary btn-sm" onclick="addMeasurement()">✅</button>
       </div>
       <div id="measList" style="max-height:180px;overflow-y:auto;margin-top:12px"></div>
     </div>
     <div class="card">
-      <div class="card-title"><div class="icon">💾</div> ബാക്കപ്പ്</div>
+      <div class="card-title"><div class="icon">💾</div> Backup</div>
       <div style="display:flex;flex-wrap:wrap;gap:10px">
         <button class="btn btn-outline btn-sm" onclick="exportData()">📤 Export</button>
         <button class="btn btn-outline btn-sm" onclick="document.getElementById('importFile').click()">📥 Import</button>
@@ -1098,9 +1098,9 @@
       </div>
     </div>
     <div class="card">
-      <div class="card-title"><div class="icon">📑</div> ആഴ്ചത്തെ റിപ്പോർട്ട്</div>
+      <div class="card-title"><div class="icon">📑</div> Weekly report</div>
       <div class="report-grid" id="weeklyReport"></div>
-      <button class="btn btn-outline btn-sm" style="margin-top:14px;width:100%" onclick="generateWeeklyReport()">🔄 പുതുക്കുക</button>
+      <button class="btn btn-outline btn-sm" style="margin-top:14px;width:100%" onclick="generateWeeklyReport()">🔄 Refresh</button>
     </div>
   </div>
 
@@ -1108,18 +1108,18 @@
 
 <!-- MOBILE NAV -->
 <div class="mobile-nav">
-  <button class="nav-tab active" onclick="showSection('dashboard')">🏠<br>ഹോം</button>
-  <button class="nav-tab" onclick="showSection('calculator')">🔢<br>കലോറി</button>
-  <button class="nav-tab" onclick="showSection('foodlog')">🍽️<br>ഭക്ഷണം</button>
+  <button class="nav-tab active" onclick="showSection('dashboard')">🏠<br>Home</button>
+  <button class="nav-tab" onclick="showSection('calculator')">🔢<br>Calories</button>
+  <button class="nav-tab" onclick="showSection('foodlog')">🍽️<br>Food</button>
   <button class="nav-tab" onclick="showSection('bmi')">⚖️<br>BMI</button>
-  <button class="nav-tab" onclick="showSection('water')">💧<br>വെള്ളം</button>
-  <button class="nav-tab" onclick="showSection('exercise')">🏃<br>വ്യായാമം</button>
-  <button class="nav-tab" onclick="showSection('progress')">📈<br>പ്രോഗ്രസ്</button>
-  <button class="nav-tab" onclick="showSection('profile')">👤<br>പ്രൊഫൈൽ</button>
+  <button class="nav-tab" onclick="showSection('water')">💧<br>Water</button>
+  <button class="nav-tab" onclick="showSection('exercise')">🏃<br>Exercise</button>
+  <button class="nav-tab" onclick="showSection('progress')">📈<br>Progress</button>
+  <button class="nav-tab" onclick="showSection('profile')">👤<br>Profile</button>
 </div>
 
 <div class="toast-container" id="toastContainer"></div>
-<footer class="disclaimer">ഈ ടൂൾ വൈദ്യോപദേശത്തിന് പകരമല്ല. ഗുരുതരമായ ആരോഗ്യ പ്രശ്നങ്ങൾക്ക് വിദഗ്ധരുടെ മാർഗ്ഗനിർദ്ദേശം പാലിക്കുക. നിങ്ങളുടെ ഡാറ്റ ഈ ഉപകരണത്തിൽ മാത്രം (localStorage) സൂക്ഷിക്കുന്നു.</footer>
+<footer class="disclaimer">This tool is not a substitute for medical advice. For serious health concerns, follow guidance from a qualified professional. Your data is stored only on this device (localStorage).</footer>
 
 <script>
 // ===== STATE =====
@@ -1159,7 +1159,7 @@ function calculateCalories() {
   const activity = parseFloat(document.getElementById('activity').value);
   const intensity = parseFloat(document.getElementById('intensity')?.value || 1);
 
-  if(!age||!weight||!height) { alert("ദയവായി എല്ലാ കോളങ്ങളും പൂരിപ്പിക്കുക!"); return; }
+  if(!age||!weight||!height) { alert("Please fill in all fields!"); return; }
 
   let bmr = gender === 'male'
     ? (10*weight)+(6.25*height)-(5*age)+5
@@ -1182,7 +1182,7 @@ function calculateCalories() {
   savedCalGoal = goalCal;
   document.getElementById('dash-cal').textContent = goalCal;
   document.getElementById('dash-goal-icon').textContent = currentGoal === 'loss' ? '📉' : currentGoal === 'gain' ? '📈' : '⚖️';
-  document.getElementById('dash-goal').textContent = currentGoal === 'loss' ? 'ഭാരം കുറയ്ക്കൽ' : currentGoal === 'gain' ? 'ഭാരം കൂട്ടൽ' : 'നിലനിർത്തൽ';
+  document.getElementById('dash-goal').textContent = currentGoal === 'loss' ? 'Weight loss' : currentGoal === 'gain' ? 'Weight gain' : 'Maintenance';
 
   const weeklyChange = currentGoal === 'maintain' ? 0 : (intensity * (currentGoal === 'loss' ? -0.5 : 0.5));
   const color = currentGoal === 'loss' ? 'var(--red)' : currentGoal === 'gain' ? 'var(--green)' : 'var(--blue)';
@@ -1190,23 +1190,23 @@ function calculateCalories() {
 
   document.getElementById('calcResult').innerHTML = `
     <div style="margin-bottom:16px">
-      <div class="result-label">BMR (അടിസ്ഥാന ഉപാപചയ നിരക്ക്)</div>
+      <div class="result-label">BMR (basal metabolic rate)</div>
       <div style="font-size:1.6rem; font-weight:800; color:var(--blue)">${Math.round(bmr)} <span style="font-size:0.85rem; color:var(--text-muted)">kcal</span></div>
     </div>
     <div class="result-row">
-      <span>⚡ TDEE (ആകെ ഊർജ്ജ ആവശ്യം)</span>
+      <span>⚡ TDEE (total daily energy)</span>
       <span class="val" style="color:var(--yellow)">${tdee} kcal</span>
     </div>
     ${currentGoal !== 'maintain' ? `<div class="result-row">
-      <span>${currentGoal === 'loss' ? '📉 കലോറി കമ്മി' : '📈 കലോറി അധികം'}</span>
+      <span>${currentGoal === 'loss' ? '📉 Calorie deficit' : '📈 Calorie surplus'}</span>
       <span class="val" style="color:${color}">${deficit > 0 ? (currentGoal === 'loss' ? '-' : '+') : ''}${deficit} kcal</span>
     </div>` : ''}
     <div class="result-row" style="border:1.5px solid ${color}; border-radius:8px; padding:12px; margin-top:8px; background:${color}22">
-      <span style="font-weight:700">${emoji} ലക്ഷ്യ കലോറി / ദിവസം</span>
+      <span style="font-weight:700">${emoji} Target calories / day</span>
       <span class="val" style="color:${color}; font-size:1.4rem">${goalCal} kcal</span>
     </div>
     ${weeklyChange !== 0 ? `<div style="text-align:center; margin-top:12px; font-size:0.82rem; color:var(--text-muted)">
-      ≈ ആഴ്ചയിൽ <strong style="color:${color}">${Math.abs(weeklyChange).toFixed(2)} kg</strong> ${currentGoal === 'loss' ? 'കുറയും' : 'കൂടും'}
+      ≈ per week <strong style="color:${color}">${Math.abs(weeklyChange).toFixed(2)} kg</strong> ${currentGoal === 'loss' ? 'loss' : 'gain'}
     </div>` : ''}
   `;
 
@@ -1217,18 +1217,18 @@ function calculateCalories() {
 
 function generateMealPlan(cal) {
   const lossPlans = [
-    { time: "7:30 AM", label: "ബ്രേക്ക്ഫാസ്റ്റ്", percent: 0.25, items: "ഓട്‌സ്, വേവിച്ച മുട്ട, പഴം" },
-    { time: "10:30 AM", label: "മോർണിംഗ് സ്നാക്ക്", percent: 0.10, items: "ഒരു ആപ്പിൾ, ഒരു മുഷ്ടി നട്‌സ്" },
-    { time: "1:30 PM", label: "ഉച്ചഭക്ഷണം", percent: 0.35, items: "ചോറ്, ദാൽ, പച്ചക്കറി, ചിക്കൻ" },
-    { time: "4:30 PM", label: "ഈവനിംഗ് സ്നാക്ക്", percent: 0.10, items: "ഗ്രീൻ ടീ, ഒരു ഫ്രൂട്ട്" },
-    { time: "8:00 PM", label: "ഡിന്നർ", percent: 0.20, items: "ചപ്പാത്തി, സബ്ജി, സൂപ്പ്" }
+    { time: "7:30 AM", label: "Breakfast", percent: 0.25, items: "Oats, boiled egg, fruit" },
+    { time: "10:30 AM", label: "Morning snack", percent: 0.10, items: "One apple, a handful of nuts" },
+    { time: "1:30 PM", label: "Lunch", percent: 0.35, items: "Rice, dal, vegetables, chicken" },
+    { time: "4:30 PM", label: "Evening snack", percent: 0.10, items: "Green tea, one fruit" },
+    { time: "8:00 PM", label: "Dinner", percent: 0.20, items: "Chapati, vegetables, soup" }
   ];
   const gainPlans = [
-    { time: "7:30 AM", label: "ബ്രേക്ക്ഫാസ്റ്റ്", percent: 0.25, items: "4 മുട്ട ഓംലെറ്റ്, 2 ടോസ്റ്റ്, ബനാന ഷേക്ക്" },
-    { time: "10:30 AM", label: "മോർണിംഗ് സ്നാക്ക്", percent: 0.15, items: "പ്രോട്ടീൻ ഷേക്ക്, ഓട്‌സ്, നട്‌സ്" },
-    { time: "1:30 PM", label: "ഉച്ചഭക്ഷണം", percent: 0.30, items: "2 കപ്പ് ചോറ്, ചിക്കൻ/മീൻ, ദാൽ" },
-    { time: "5:00 PM", label: "പ്രീ-വർക്കൗട്ട്", percent: 0.10, items: "ബനാന, ഗ്രൗണ്ട്നട്ട് ബട്ടർ, ഓട്‌സ്" },
-    { time: "8:30 PM", label: "ഡിന്നർ & പോസ്റ്റ്-വർക്കൗട്ട്", percent: 0.20, items: "ചിക്കൻ, ബ്രൗൺ റൈസ്, മിൽക്ക്" }
+    { time: "7:30 AM", label: "Breakfast", percent: 0.25, items: "4-egg omelet, 2 toast, banana shake" },
+    { time: "10:30 AM", label: "Morning snack", percent: 0.15, items: "Protein shake, oats, nuts" },
+    { time: "1:30 PM", label: "Lunch", percent: 0.30, items: "2 cups rice, chicken/fish, dal" },
+    { time: "5:00 PM", label: "Pre-workout", percent: 0.10, items: "Banana, peanut butter, oats" },
+    { time: "8:30 PM", label: "Dinner & post-workout", percent: 0.20, items: "Chicken, brown rice, milk" }
   ];
 
   const plan = currentGoal === 'gain' ? gainPlans : lossPlans;
@@ -1250,28 +1250,28 @@ function calculateBMI() {
   const w = parseFloat(document.getElementById('bmi-weight').value);
   const h = parseFloat(document.getElementById('bmi-height').value) / 100;
   const gender = document.getElementById('bmi-gender').value;
-  if(!w||!h){ alert("ഭാരവും ഉയരവും നൽകൂ!"); return; }
+  if(!w||!h){ alert("Enter weight and height!"); return; }
 
   const bmi = (w / (h * h)).toFixed(1);
   document.getElementById('dash-bmi').textContent = bmi;
 
   let cat, color, emoji, range;
-  if(bmi < 18.5) { cat = 'ഭാരക്കുറവ്'; color = '#58a6ff'; emoji = '📉'; range='< 18.5'; }
-  else if(bmi < 25) { cat = 'ആദർശ ഭാരം'; color = '#3fb950'; emoji = '✅'; range='18.5 – 24.9'; }
-  else if(bmi < 30) { cat = 'അധിക ഭാരം'; color = '#e3b341'; emoji = '⚠️'; range='25 – 29.9'; }
-  else { cat = 'പൊണ്ണത്തടി'; color = '#f85149'; emoji = '🚨'; range='≥ 30'; }
+  if(bmi < 18.5) { cat = 'Underweight'; color = '#58a6ff'; emoji = '📉'; range='< 18.5'; }
+  else if(bmi < 25) { cat = 'Healthy weight'; color = '#3fb950'; emoji = '✅'; range='18.5 – 24.9'; }
+  else if(bmi < 30) { cat = 'Overweight'; color = '#e3b341'; emoji = '⚠️'; range='25 – 29.9'; }
+  else { cat = 'Obese'; color = '#f85149'; emoji = '🚨'; range='≥ 30'; }
 
   document.getElementById('dash-bmi-cat').textContent = cat;
 
   const needlePos = Math.min(95, Math.max(5, ((bmi - 10) / 30) * 100));
 
   document.getElementById('bmiResult').innerHTML = `
-    <div class="card-title"><div class="icon">📊</div> BMI ഫലം</div>
+    <div class="card-title"><div class="icon">📊</div> BMI result</div>
     <div class="bmi-gauge-wrap">
-      <div class="result-label">നിങ്ങളുടെ BMI</div>
+      <div class="result-label">Your BMI</div>
       <div class="bmi-value" style="color:${color}">${bmi}</div>
       <div class="bmi-category" style="background:${color}22; color:${color}; border:1px solid ${color}44">${emoji} ${cat}</div>
-      <div style="font-size:0.78rem; color:var(--text-muted); margin-top:8px">ശ്രേണി: ${range}</div>
+      <div style="font-size:0.78rem; color:var(--text-muted); margin-top:8px">Range: ${range}</div>
       <div class="bmi-scale" style="margin-top:20px">
         <div class="bmi-seg" style="background:#58a6ff"></div>
         <div class="bmi-seg" style="background:#3fb950; flex:2"></div>
@@ -1298,7 +1298,7 @@ function calculateBMI() {
     <div class="ideal-card"><div class="ideal-formula">Robinson (1983)</div><div class="ideal-val" style="color:var(--green)">${robinson} kg</div></div>
     <div class="ideal-card"><div class="ideal-formula">Miller (1983)</div><div class="ideal-val" style="color:var(--blue)">${miller} kg</div></div>
     <div class="ideal-card"><div class="ideal-formula">Devine (1974)</div><div class="ideal-val" style="color:var(--purple)">${devine} kg</div></div>
-    <div class="ideal-card"><div class="ideal-formula">BMI-24 (ആദർശ)</div><div class="ideal-val" style="color:var(--orange)">${bmiIdeal} kg</div></div>
+    <div class="ideal-card"><div class="ideal-formula">BMI-24 (Ideal)</div><div class="ideal-val" style="color:var(--orange)">${bmiIdeal} kg</div></div>
   `;
   document.getElementById('idealWeightCard').style.display = 'block';
 }
@@ -1311,7 +1311,7 @@ function calculateMacros() {
   const gender = document.getElementById('macro-gender').value;
   const goal = document.getElementById('macro-goal').value;
   const activity = parseFloat(document.getElementById('macro-activity').value);
-  if(!w||!h||!age){ alert("എല്ലാ കോളങ്ങളും പൂരിപ്പിക്കൂ!"); return; }
+  if(!w||!h||!age){ alert("Fill in all fields!"); return; }
 
   let bmr = gender === 'male' ? (10*w)+(6.25*h)-(5*age)+5 : (10*w)+(6.25*h)-(5*age)-161;
   let tdee = Math.round(bmr * activity);
@@ -1329,27 +1329,27 @@ function calculateMacros() {
 
   document.getElementById('macroResult').innerHTML = `
     <div style="text-align:center; margin-bottom:20px">
-      <div class="result-label">ദൈനിക കലോറി</div>
+      <div class="result-label">Daily calories</div>
       <div class="result-main">${cal} <span style="font-size:1rem; color:var(--text-muted)">kcal</span></div>
     </div>
     <div class="macro-bars">
       <div class="macro-row">
         <div class="macro-label">
-          <span>🥩 പ്രോട്ടീൻ</span>
+          <span>🥩 Protein</span>
           <span style="color:var(--red); font-weight:700">${protein}g <span style="font-weight:400; color:var(--text-muted)">(${Math.round(proteinPct*100)}%)</span></span>
         </div>
         <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:${proteinPct*100}%; background:var(--red)"></div></div>
       </div>
       <div class="macro-row">
         <div class="macro-label">
-          <span>🍚 കാർബ്</span>
+          <span>🍚 Carbs</span>
           <span style="color:var(--yellow); font-weight:700">${carbs}g <span style="font-weight:400; color:var(--text-muted)">(${Math.round(carbPct*100)}%)</span></span>
         </div>
         <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:${carbPct*100}%; background:var(--yellow)"></div></div>
       </div>
       <div class="macro-row">
         <div class="macro-label">
-          <span>🥑 ഫാറ്റ്</span>
+          <span>🥑 Fat</span>
           <span style="color:var(--blue); font-weight:700">${fat}g <span style="font-weight:400; color:var(--text-muted)">(${Math.round(fatPct*100)}%)</span></span>
         </div>
         <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:${fatPct*100}%; background:var(--blue)"></div></div>
@@ -1391,7 +1391,7 @@ function renderWaterCups() {
     div.onclick = () => { waterCount = i+1; renderWaterCups(); updateWaterDash(); };
     c.appendChild(div);
   }
-  document.getElementById('waterCountBadge').textContent = `${waterCount} / 8 ഗ്ലാസ്`;
+  document.getElementById('waterCountBadge').textContent = `${waterCount} / 8 glasses`;
   const pct = Math.min(100, Math.round((waterCount/8)*100));
   document.getElementById('waterProgress').style.width = pct + '%';
   document.getElementById('waterPct').textContent = pct + '%';
@@ -1402,18 +1402,18 @@ function updateWaterDash() { document.getElementById('dash-water').textContent =
 
 // ===== EXERCISE =====
 const exercises = [
-  { name: "🚶 ഇടത്തരം നടത്തം", met: 3.5, desc: "3.5 mph" },
-  { name: "🏃 ജോഗിംഗ്", met: 7.0, desc: "5 mph" },
-  { name: "🏃‍♂️ ഓട്ടം (വേഗം)", met: 11.5, desc: "8 mph" },
-  { name: "🚴 സൈക്ക്ളിംഗ് (ഇടത്തരം)", met: 8.0, desc: "Moderate" },
-  { name: "🏊 നീന്തൽ", met: 8.3, desc: "Freestyle" },
-  { name: "💃 ഡാൻസ്", met: 4.5, desc: "General" },
-  { name: "🧘 യോഗ", met: 3.0, desc: "Hatha" },
-  { name: "🏋️ ഭാരോദ്വഹനം", met: 6.0, desc: "Moderate" },
-  { name: "⚽ ഫുട്ബോൾ", met: 7.0, desc: "General" },
-  { name: "🏸 ബാഡ്മിന്റൺ", met: 5.5, desc: "General" },
-  { name: "🧗 സ്കിപ്പിംഗ്", met: 12.3, desc: "Jump Rope" },
-  { name: "🏠 ഗൃഹജോലി", met: 3.0, desc: "General housework" },
+  { name: "🚶 Brisk walking", met: 3.5, desc: "3.5 mph" },
+  { name: "🏃 Jogging", met: 7.0, desc: "5 mph" },
+  { name: "🏃‍♂️ Running (fast)", met: 11.5, desc: "8 mph" },
+  { name: "🚴 Cycling (moderate)", met: 8.0, desc: "Moderate" },
+  { name: "🏊 Swimming", met: 8.3, desc: "Freestyle" },
+  { name: "💃 Dance", met: 4.5, desc: "General" },
+  { name: "🧘 Yoga", met: 3.0, desc: "Hatha" },
+  { name: "🏋️ Weight lifting", met: 6.0, desc: "Moderate" },
+  { name: "⚽ Football", met: 7.0, desc: "General" },
+  { name: "🏸 Badminton", met: 5.5, desc: "General" },
+  { name: "🧗 Jump rope", met: 12.3, desc: "Jump Rope" },
+  { name: "🏠 Housework", met: 3.0, desc: "General housework" },
 ];
 
 function renderExercises() {
@@ -1451,10 +1451,10 @@ function updateExerciseCals() {
       <div style="font-size:3rem; font-weight:800; color:var(--orange); line-height:1">${cal}</div>
       <div style="font-size:0.9rem; color:var(--text-muted); margin-top:4px">Calories Burned</div>
       <div class="divider"></div>
-      <div class="result-row"><span>⏱️ ദൈർഘ്യം</span><span class="val">${dur} മിനിറ്റ്</span></div>
-      <div class="result-row"><span>⚖️ ഭാരം</span><span class="val">${w} kg</span></div>
+      <div class="result-row"><span>⏱️ Duration</span><span class="val">${dur} min</span></div>
+      <div class="result-row"><span>⚖️ Weight</span><span class="val">${w} kg</span></div>
       <div class="result-row"><span>💪 MET</span><span class="val">${e.met}</span></div>
-      <div class="result-row"><span>⏳ 1 കൊഴുപ്പ് കത്തിക്കാൻ</span><span class="val" style="color:var(--orange)">${Math.round(7700/((e.met*w*3.5/200)*60))} മണിക്കൂർ</span></div>
+      <div class="result-row"><span>⏳ To burn 1 kg fat</span><span class="val" style="color:var(--orange)">${Math.round(7700/((e.met*w*3.5/200)*60))} hours</span></div>
     `;
   }
 }
@@ -1469,7 +1469,7 @@ function syncDuration(val) {
 function addWeightLog() {
   const w = parseFloat(document.getElementById('prog-weight').value);
   const d = document.getElementById('prog-date').value;
-  if(!w || !d) { alert("ഭാരവും തീയതിയും നൽകൂ!"); return; }
+  if(!w || !d) { alert("Enter weight and date!"); return; }
   weightLogs.push({ weight: w, date: d });
   weightLogs.sort((a,b) => new Date(a.date) - new Date(b.date));
   localStorage.setItem('weightLogs', JSON.stringify(weightLogs));
@@ -1486,7 +1486,7 @@ function deleteLog(i) {
 function renderWeightLog() {
   const list = document.getElementById('weightLogList');
   if(weightLogs.length === 0) {
-    list.innerHTML = `<div style="color:var(--text-muted); font-size:0.85rem; padding:20px 0; text-align:center"><div style="font-size:32px; margin-bottom:8px">📋</div><p>ഇതുവരെ ഒന്നും ചേർത്തിട്ടില്ല</p></div>`;
+    list.innerHTML = `<div style="color:var(--text-muted); font-size:0.85rem; padding:20px 0; text-align:center"><div style="font-size:32px; margin-bottom:8px">📋</div><p>Nothing added yet</p></div>`;
     document.getElementById('stat-first').textContent = '—';
     document.getElementById('stat-current').textContent = '—';
     document.getElementById('stat-change').textContent = '—';
@@ -1518,7 +1518,7 @@ function renderWeightLog() {
 
 function formatDate(d) {
   const date = new Date(d);
-  return date.toLocaleDateString('ml-IN', { day:'numeric', month:'short', year:'numeric' });
+  return date.toLocaleDateString('en-US', { day:'numeric', month:'short', year:'numeric' });
 }
 
 function renderChart(logs) {
@@ -1532,7 +1532,7 @@ function renderChart(logs) {
   if(logs.length < 2) {
     ctx.fillStyle = '#8b949e'; ctx.font = '14px Outfit';
     ctx.textAlign = 'center';
-    ctx.fillText('ഡാറ്റ ചേർക്കൂ', W/2, H/2);
+    ctx.fillText('Add data', W/2, H/2);
     return;
   }
 
@@ -1583,22 +1583,22 @@ function renderChart(logs) {
 
 // ===== TIPS =====
 const allTips = [
-  { icon:'🥗', title:'പ്രോട്ടീൻ കൂടുതൽ കഴിക്കൂ', text:'ഓരോ ഭക്ഷണത്തിലും പ്രോട്ടീൻ ഉൾപ്പെടുത്തൂ — ഇത് വിശപ്പ് കുറയ്ക്കുകയും മസിൽ നിലനിർത്തുകയും ചെയ്യും.', color:'var(--green)' },
-  { icon:'💧', title:'ആവശ്യത്തിന് വെള്ളം കുടിക്കൂ', text:'ദിനേന 2-3 ലിറ്റർ വെള്ളം കുടിക്കൂ. ഭക്ഷണത്തിനു 30 മിനിറ്റ് മുൻപ് ഒരു ഗ്ലാസ് വെള്ളം കുടിക്കൂ.', color:'var(--teal)' },
-  { icon:'😴', title:'6-8 മണിക്കൂർ ഉറക്കം', text:'ഉറക്കക്കുറവ് ഭക്ഷണ ആഗ്രഹം വർദ്ധിപ്പിക്കും. ഗുണമേന്മയുള്ള ഉറക്കം ഭാരം നിയന്ത്രണത്തിന് അത്യാവശ്യം.', color:'var(--purple)' },
-  { icon:'🏃', title:'ദിനേന 30 മിനിറ്റ് നടത്തം', text:'ഓരോ ദിവസവും കുറഞ്ഞത് 30 മിനിറ്റ് നടക്കൂ. 10,000 ചുവടുകൾ ആദർശം.', color:'var(--orange)' },
-  { icon:'🍽️', title:'ചെറിയ ഭാഗങ്ങൾ ഇടക്കിടക്ക്', text:'3 വലിയ ഭക്ഷണത്തേക്കാൾ 5-6 ചെറിയ ഭക്ഷണം ഉപാപചയം (Metabolism) ത്വരിതപ്പെടുത്തും.', color:'var(--yellow)' },
-  { icon:'🧘', title:'സ്ട്രെസ് നിയന്ത്രിക്കൂ', text:'ഉയർന്ന Cortisol ഭാരം കൂടാൻ ഇടയാക്കും. ദിനേന 10 മിനിറ്റ് മെഡിറ്റേഷൻ ശ്രമിക്കൂ.', color:'var(--red)' },
+  { icon:'🥗', title:'Eat more protein', text:'Include protein in every meal — it reduces hunger and helps preserve muscle.', color:'var(--green)' },
+  { icon:'💧', title:'Drink enough water', text:'Drink 2–3 liters daily. Have a glass of water 30 minutes before meals.', color:'var(--teal)' },
+  { icon:'😴', title:'6–8 hours of sleep', text:'Poor sleep increases appetite. Quality sleep is essential for weight control.', color:'var(--purple)' },
+  { icon:'🏃', title:'Walk 30 minutes daily', text:'Walk at least 30 minutes every day. 10,000 steps is a good target.', color:'var(--orange)' },
+  { icon:'🍽️', title:'Smaller meals often', text:'5–6 smaller meals can boost metabolism more than 3 large ones.', color:'var(--yellow)' },
+  { icon:'🧘', title:'Manage stress', text:'High cortisol can lead to weight gain. Try 10 minutes of meditation daily.', color:'var(--red)' },
 ];
 
 const dailyTips = [
-  "ഭക്ഷണം പതുക്കെ ചവക്കൂ — ഇത് ദഹനം മെച്ചപ്പെടുത്തുകയും കൂടുതൽ കഴിക്കുന്നത് തടയുകയും ചെയ്യും.",
-  "ഭക്ഷണ പദ്ധതി മുൻകൂട്ടി തയ്യാറാക്കൂ — ഇത് ആരോഗ്യകരമല്ലാത്ത ഭക്ഷണം ഒഴിവാക്കാൻ സഹായിക്കും.",
-  "ടി.വി കണ്ടുകൊണ്ട് ഭക്ഷണം കഴിക്കരുത് — ശ്രദ്ധ കൂടി കഴിക്കൂ.",
-  "ഉണ്ണും മുൻപ് ഒരു ഗ്ലാസ് വെള്ളം — വിശപ്പ് 20% കുറയ്ക്കും.",
-  "ഉണ്ണുന്നത് ഒരു ചെറിയ പ്ലേറ്റിൽ — കുറഞ്ഞ ഭക്ഷണം ധാരാളമെന്ന് തോന്നും.",
-  "നടക്കൂ, ഓടൂ, ആനന്ദിക്കൂ — ശരീരം നൽകുന്ന ഉഷ്ണം ഹൃദ്യം!",
-  "ഇന്ന് ഒരു ഭക്ഷണം ഗ്രീൻ ലീഫ് ഉൾപ്പെടുത്തൂ — ഇരുമ്പ് ലഭ്യം."
+  "Chew slowly — it improves digestion and helps you eat less.",
+  "Plan meals ahead — it helps you avoid unhealthy choices.",
+  "Don't eat while watching TV — eat mindfully.",
+  "A glass of water before meals can reduce appetite by about 20%.",
+  "Use a smaller plate — you'll feel satisfied with less food.",
+  "Walk, run, enjoy — your body will thank you!",
+  "Add leafy greens to one meal today — great for iron."
 ];
 
 // ===== INIT =====
@@ -1640,20 +1640,20 @@ window.addEventListener('resize', () => { if(weightLogs.length >= 2) renderWeigh
 init();
 </script>
 <script>
-/* ആരോഗ്യ പവർ — Pro Weight Manager extensions */
+/* Health Power — Pro Weight Manager extensions */
 (function () {
   const QUICK_FOODS = [
-    { name: 'വേവിച്ച മുട്ട', cal: 78 },
-    { name: 'ചോറ് (1 കപ്പ്)', cal: 200 },
-    { name: 'ചപ്പാത്തി', cal: 120 },
-    { name: 'ബനാന', cal: 105 },
-    { name: 'പാല് (1 ഗ്ലാസ്)', cal: 150 },
-    { name: 'ചിക്കൻ ഗ്രിൽ', cal: 180 },
-    { name: 'ഓട്സ് ബൗൽ', cal: 250 },
-    { name: 'ഗ്രീൻ ടീ', cal: 2 }
+    { name: 'Boiled egg', cal: 78 },
+    { name: 'Rice (1 cup)', cal: 200 },
+    { name: 'Chapati', cal: 120 },
+    { name: 'Banana', cal: 105 },
+    { name: 'Milk (1 glass)', cal: 150 },
+    { name: 'Grilled chicken', cal: 180 },
+    { name: 'Oatmeal bowl', cal: 250 },
+    { name: 'Green tea', cal: 2 }
   ];
 
-  const MEAL_LABELS = { breakfast: '🌅 പ്രഭാതം', lunch: '☀️ ഉച്ച', snack: '🍎 സ്നാക്ക്', dinner: '🌙 രാത്രി' };
+  const MEAL_LABELS = { breakfast: '🌅 Breakfast', lunch: '☀️ Lunch', snack: '🍎 Snack', dinner: '🌙 Dinner' };
 
   let healthProfile = JSON.parse(localStorage.getItem('healthProfile') || '{}');
   let foodLogs = JSON.parse(localStorage.getItem('foodLogs') || '{}');
@@ -1743,7 +1743,7 @@ init();
     logActivity();
     syncProfileToForms();
     updateDashboard();
-    showToast('പ്രൊഫൈൽ സേവ് ചെയ്തു!');
+    showToast('Profile saved!');
   }
 
   function loadProfileForm() {
@@ -1784,7 +1784,7 @@ init();
     }
     if (typeof calcWaterGoal === 'function') calcWaterGoal();
     if (typeof updateExerciseCals === 'function') updateExerciseCals();
-    showToast('ഫോമുകളിലേക്ക് സിങ്ക് ചെയ്തു');
+    showToast('Synced to all forms');
   }
 
   function renderQuickFoodChips() {
@@ -1806,7 +1806,7 @@ init();
     const cal = parseInt($('food-cal')?.value, 10);
     const meal = $('food-meal')?.value || 'snack';
     if (!name || !cal) {
-      showToast('ഭക്ഷണത്തിന്റെ പേരും കലോറിയും നൽകൂ');
+      showToast('Enter food name and calories');
       return;
     }
     getTodayFood().push({ name, cal, meal, time: Date.now() });
@@ -1816,16 +1816,16 @@ init();
     logActivity();
     renderFoodLog();
     updateDashboard();
-    showToast('ഭക്ഷണം ചേർത്തു');
+    showToast('Food added');
   };
 
   window.clearTodayFood = function () {
-    if (!confirm('ഇന്നത്തെ ഭക്ഷണ ലോഗ് മായ്ക്കണോ?')) return;
+    if (!confirm('Clear today's food log?')) return;
     foodLogs[todayKey()] = [];
     localStorage.setItem('foodLogs', JSON.stringify(foodLogs));
     renderFoodLog();
     updateDashboard();
-    showToast('ലോഗ് മായ്ച്ചു');
+    showToast('Log cleared');
   };
 
   function renderFoodLog() {
@@ -1851,7 +1851,7 @@ init();
 
     if (!list) return;
     if (!items.length) {
-      list.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px">ഇതുവരെ ഒന്നും ചേർത്തിട്ടില്ല</p>';
+      list.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px">Nothing added yet</p>';
       return;
     }
     list.innerHTML = items.map((e, i) => `
@@ -1876,7 +1876,7 @@ init();
     const chest = parseFloat($('meas-chest')?.value);
     const hips = parseFloat($('meas-hips')?.value);
     if (!waist && !chest && !hips) {
-      showToast('കുറഞ്ഞത് ഒരു അളവ് നൽകൂ');
+      showToast('Enter at least one measurement');
       return;
     }
     measurements.push({ date: todayKey(), waist, chest, hips });
@@ -1886,20 +1886,20 @@ init();
     if ($('meas-hips')) $('meas-hips').value = '';
     logActivity();
     renderMeasurements();
-    showToast('അളവ് ചേർത്തു');
+    showToast('Measurement added');
   };
 
   function renderMeasurements() {
     const el = $('measList');
     if (!el) return;
     if (!measurements.length) {
-      el.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem;padding:12px">അളവുകൾ ഇല്ല</p>';
+      el.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem;padding:12px">No measurements yet</p>';
       return;
     }
     el.innerHTML = measurements.slice().reverse().map((m, i) => `
       <div class="log-item">
         <span class="log-date">${formatDate(m.date)}</span>
-        <span class="log-weight">${[m.waist && 'ഇടപ്പ് '+m.waist, m.chest && 'നെഞ്ച് '+m.chest, m.hips && 'ഇടுப்ப് '+m.hips].filter(Boolean).join(' · ')}</span>
+        <span class="log-weight">${[m.waist && 'Waist '+m.waist, m.chest && 'Chest '+m.chest, m.hips && 'Hips '+m.hips].filter(Boolean).join(' · ')}</span>
         <button class="del-btn" onclick="removeMeasurement(${measurements.length - 1 - i})">🗑️</button>
       </div>
     `).join('');
@@ -1924,12 +1924,12 @@ init();
       bar.classList.toggle('over', total > target);
     }
     if ($('dashCalRemain')) {
-      if (!target) $('dashCalRemain').textContent = 'കലോറി കണക്കാക്കുക അല്ലെങ്കിൽ പ്രൊഫൈൽ സേവ് ചെയ്യുക';
+      if (!target) $('dashCalRemain').textContent = 'Calculate calories or save your profile';
       else {
         const rem = target - total;
         $('dashCalRemain').textContent = rem >= 0
-          ? `ഇന്ന് ഇനിയും ${rem} kcal കഴിക്കാം`
-          : `${Math.abs(rem)} kcal ലക്ഷ്യത്തിന് മീതെ`;
+          ? `You can still eat ${rem} kcal today`
+          : `${Math.abs(rem)} kcal over target`;
         $('dashCalRemain').style.color = rem >= 0 ? 'var(--text-muted)' : 'var(--red)';
       }
     }
@@ -1967,7 +1967,7 @@ init();
     const weeks = rate > 0 ? Math.ceil(parseFloat(remaining) / rate) : '—';
     if ($('dash-eta')) {
       $('dash-eta').textContent = typeof weeks === 'number'
-        ? `≈ ${weeks} ആഴ്ച (${rate} kg/ആഴ്ച)`
+        ? `≈ ${weeks} weeks (${rate} kg/weeks)`
         : '—';
     }
 
@@ -1978,15 +1978,15 @@ init();
     const el = $('achievementChips');
     if (!el) return;
     const chips = [];
-    if (weightLogs.length >= 1) chips.push({ t: '📝 ആദ്യ ലോഗ്', on: true });
-    if (weightLogs.length >= 5) chips.push({ t: '📊 5 ലോഗുകൾ', on: true });
-    if (calcStreak() >= 3) chips.push({ t: '🔥 3 ദിവസ സ്ട്രീക്ക്', on: true });
-    if (calcStreak() >= 7) chips.push({ t: '🏆 7 ദിവസ സ്ട്രീക്ക്', on: true });
-    if (pct >= 50) chips.push({ t: '🎯 50% ലക്ഷ്യം', on: true });
-    if (pct >= 100) chips.push({ t: '✨ ലക്ഷ്യം നേടി!', on: true });
-    if (getFoodTotal() > 0) chips.push({ t: '🍽️ ഭക്ഷണ ട്രാക്ക്', on: true });
+    if (weightLogs.length >= 1) chips.push({ t: '📝 First log', on: true });
+    if (weightLogs.length >= 5) chips.push({ t: '📊 5 logs', on: true });
+    if (calcStreak() >= 3) chips.push({ t: '🔥 3-day streak', on: true });
+    if (calcStreak() >= 7) chips.push({ t: '🏆 7-day streak', on: true });
+    if (pct >= 50) chips.push({ t: '🎯 50% to goal', on: true });
+    if (pct >= 100) chips.push({ t: '✨ Goal reached!', on: true });
+    if (getFoodTotal() > 0) chips.push({ t: '🍽️ Food tracked', on: true });
     el.innerHTML = chips.map(c => `<span class="chip active">${c.t}</span>`).join('') ||
-      '<span class="chip">ലോഗ് ചെയ്താൽ ബാഡ്ജുകൾ കാണാം</span>';
+      '<span class="chip">Log activity to unlock badges</span>';
   }
 
   function updateDashboard() {
@@ -2028,12 +2028,12 @@ init();
     })();
 
     el.innerHTML = `
-      <div class="report-item"><div class="val">${weekLogs.length}</div><div class="lbl">ഭാരം ലോഗുകൾ</div></div>
-      <div class="report-item"><div class="val">${weightChange}</div><div class="lbl">kg മാറ്റം</div></div>
-      <div class="report-item"><div class="val">${weekFoodDays}</div><div class="lbl">ഭക്ഷണ ദിവസങ്ങൾ</div></div>
-      <div class="report-item"><div class="val">${avgCal}</div><div class="lbl">ശരാശരി kcal</div></div>
-      <div class="report-item"><div class="val">${calcStreak()}</div><div class="lbl">സ്ട്രീക്ക്</div></div>
-      <div class="report-item"><div class="val">${waterCount}/8</div><div class="lbl">വെള്ളം ഇന്ന്</div></div>
+      <div class="report-item"><div class="val">${weekLogs.length}</div><div class="lbl">Weight logs</div></div>
+      <div class="report-item"><div class="val">${weightChange}</div><div class="lbl">kg change</div></div>
+      <div class="report-item"><div class="val">${weekFoodDays}</div><div class="lbl">Food log days</div></div>
+      <div class="report-item"><div class="val">${avgCal}</div><div class="lbl">Avg kcal</div></div>
+      <div class="report-item"><div class="val">${calcStreak()}</div><div class="lbl">Streak</div></div>
+      <div class="report-item"><div class="val">${waterCount}/8</div><div class="lbl">Water today</div></div>
     `;
   };
 
@@ -2046,7 +2046,7 @@ init();
     a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
     a.download = 'aarogya-power-backup.json';
     a.click();
-    showToast('ഡാറ്റ എക്സ്പോർട്ട് ചെയ്തു');
+    showToast('Data exported');
   };
 
   window.importData = function (ev) {
@@ -2067,9 +2067,9 @@ init();
         renderMeasurements();
         updateDashboard();
         generateWeeklyReport();
-        showToast('ഇംപോർട്ട് വിജയം');
+        showToast('Import successful');
       } catch (e) {
-        showToast('ഫയൽ വായിക്കാൻ കഴിഞ്ഞില്ല');
+        showToast('Could not read file');
       }
       ev.target.value = '';
     };
@@ -2077,7 +2077,7 @@ init();
   };
 
   window.resetAllData = function () {
-    if (!confirm('എല്ലാ ഡാറ്റയും ശാശ്വതമായി മായ്ക്കണോ?')) return;
+    if (!confirm('Permanently delete all data?')) return;
     ['healthProfile', 'foodLogs', 'measurements', 'activityDates', 'weightLogs'].forEach(k => localStorage.removeItem(k));
     Object.keys(localStorage).filter(k => k.startsWith('water_')).forEach(k => localStorage.removeItem(k));
     healthProfile = {}; foodLogs = {}; measurements = []; activityDates = []; weightLogs = [];
@@ -2089,7 +2089,7 @@ init();
     renderMeasurements();
     loadWaterToday();
     updateDashboard();
-    showToast('ഡാറ്റ മായ്ച്ചു');
+    showToast('Data cleared');
   };
 
   function loadWaterToday() {
@@ -2130,8 +2130,8 @@ init();
         const g = ($('bmi-gender')?.value || healthProfile.gender) === 'male' ? 1 : 0;
         const bf = (1.2 * bmi + 0.23 * age - 10.8 * g - 5.4).toFixed(1);
         const box = $('bmiResult');
-        if (box && !box.innerHTML.includes('ശരീര കൊഴുപ്പ്')) {
-          box.innerHTML += `<div class="result-row" style="margin-top:12px"><span>📐 ശരീര കൊഴുപ്പ് (ഏകദേശം)</span><span class="val" style="color:var(--purple)">${bf}%</span></div>`;
+        if (box && !box.innerHTML.includes('Body fat')) {
+          box.innerHTML += `<div class="result-row" style="margin-top:12px"><span>📐 Body fat (approx.)</span><span class="val" style="color:var(--purple)">${bf}%</span></div>`;
         }
       }
       logActivity();
@@ -2147,7 +2147,7 @@ init();
         localStorage.setItem('healthProfile', JSON.stringify(healthProfile));
       }
       updateDashboard();
-      showToast('ഭാരം രേഖപ്പെടുത്തി');
+      showToast('Weight logged');
     };
 
     const origAddWater = window.addWater;
