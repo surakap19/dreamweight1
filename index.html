@@ -3,28 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Health & Fitness Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+Malayalam:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>ആരോഗ്യ ഡാഷ്‌ബോർഡ് | Health Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0d1117;
     --surface: #161b22;
-    --surface2: #1c2333;
-    --border: #30363d;
-    --loss: #ef4444;
-    --loss-soft: rgba(239,68,68,0.12);
-    --gain: #22c55e;
-    --gain-soft: rgba(34,197,94,0.12);
-    --maintain: #f59e0b;
-    --maintain-soft: rgba(245,158,11,0.12);
-    --accent: #58a6ff;
-    --accent-soft: rgba(88,166,255,0.12);
+    --surface2: #1e2631;
+    --border: #2a3441;
     --text: #e6edf3;
     --text-muted: #8b949e;
-    --protein: #a78bfa;
-    --carbs: #fb923c;
-    --fat: #facc15;
-    --water: #38bdf8;
+    --green: #3fb950;
+    --green-dark: #238636;
+    --green-glow: rgba(63,185,80,0.15);
+    --orange: #f0883e;
+    --blue: #58a6ff;
+    --red: #f85149;
+    --purple: #bc8cff;
+    --yellow: #e3b341;
+    --teal: #39d0d8;
+    --radius: 14px;
+    --radius-sm: 8px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -34,826 +33,1365 @@
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    padding: 0 0 60px;
+    overflow-x: hidden;
   }
 
-  /* ─── HEADER ─── */
-  header {
-    background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+  /* BG Glow */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px; left: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(63,185,80,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -200px; right: -200px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(88,166,255,0.05) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13,17,23,0.92);
+    backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
-    padding: 20px 24px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(12px);
+    padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
   }
-  .header-icon {
-    width: 42px; height: 42px;
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    border-radius: 12px;
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 1.2rem; font-weight: 700;
+    color: var(--green);
+  }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: var(--green-glow);
+    border: 1.5px solid var(--green);
+    border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    box-shadow: 0 0 20px rgba(34,197,94,0.3);
+    font-size: 18px;
   }
-  header h1 { font-size: 1.35rem; font-weight: 700; color: var(--text); }
-  header p { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
-
-  /* ─── MAIN LAYOUT ─── */
-  .page { max-width: 1000px; margin: 0 auto; padding: 28px 20px; }
-
-  /* ─── GOAL TABS ─── */
-  .goal-tabs {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 10px;
-    margin-bottom: 28px;
-  }
-  .goal-tab {
-    padding: 16px 10px;
-    border-radius: 14px;
-    border: 2px solid var(--border);
+  .nav-tabs {
+    display: flex; gap: 4px;
     background: var(--surface);
-    cursor: pointer;
-    text-align: center;
-    transition: all .2s;
-  }
-  .goal-tab .emoji { font-size: 1.8rem; display: block; margin-bottom: 6px; }
-  .goal-tab .label { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); }
-  .goal-tab .sublabel { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
-
-  .goal-tab.loss.active  { border-color: var(--loss); background: var(--loss-soft); }
-  .goal-tab.gain.active  { border-color: var(--gain); background: var(--gain-soft); }
-  .goal-tab.maintain.active { border-color: var(--maintain); background: var(--maintain-soft); }
-  .goal-tab.loss.active .label  { color: var(--loss); }
-  .goal-tab.gain.active .label  { color: var(--gain); }
-  .goal-tab.maintain.active .label { color: var(--maintain); }
-  .goal-tab:hover:not(.active) { border-color: #444; background: var(--surface2); }
-
-  /* ─── FORM CARD ─── */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 22px;
-    margin-bottom: 18px;
-  }
-  .card-title {
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .card-title span { font-size: 1rem; }
-
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-group.full { grid-column: 1/-1; }
-  label { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); }
-
-  input, select {
-    background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: 10px;
-    color: var(--text);
-    padding: 11px 14px;
-    font-size: 0.9rem;
-    font-family: inherit;
-    outline: none;
-    transition: border-color .2s;
+    padding: 4px;
   }
-  input:focus, select:focus { border-color: var(--accent); }
-  input::placeholder { color: #555; }
-  select option { background: #1c2333; }
-
-  /* ─── BUTTON ─── */
-  .calc-btn {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 700;
-    font-family: inherit;
+  .nav-tab {
+    padding: 7px 16px;
+    border-radius: 7px;
     cursor: pointer;
-    margin-top: 4px;
-    transition: all .2s;
-    letter-spacing: .02em;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    white-space: nowrap;
+    border: none; background: transparent;
   }
-  .calc-btn.loss     { background: linear-gradient(135deg,#ef4444,#dc2626); color:#fff; box-shadow: 0 4px 20px rgba(239,68,68,.3); }
-  .calc-btn.gain     { background: linear-gradient(135deg,#22c55e,#16a34a); color:#fff; box-shadow: 0 4px 20px rgba(34,197,94,.3); }
-  .calc-btn.maintain { background: linear-gradient(135deg,#f59e0b,#d97706); color:#fff; box-shadow: 0 4px 20px rgba(245,158,11,.3); }
-  .calc-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
-  .calc-btn:active { transform: translateY(0); }
+  .nav-tab:hover { color: var(--text); background: var(--surface2); }
+  .nav-tab.active { background: var(--green); color: #000; font-weight: 600; }
 
-  /* ─── DASHBOARD ─── */
-  #dashboard { display: none; }
-  #dashboard.visible { display: block; animation: fadeUp .4s ease; }
-  @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  /* MAIN */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 20px;
+    position: relative; z-index: 1;
+  }
 
-  /* ─── STAT CARDS ─── */
-  .stats-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 18px; }
-  @media(min-width:600px) { .stats-grid { grid-template-columns: repeat(4,1fr); } }
+  /* SECTIONS */
+  .section { display: none; animation: fadeIn 0.35s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
+  /* DASHBOARD GRID */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
   .stat-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
+    border-radius: var(--radius);
+    padding: 20px;
     position: relative;
     overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
   }
+  .stat-card:hover { border-color: var(--green); transform: translateY(-2px); }
   .stat-card::before {
-    content:'';
-    position:absolute;
-    top:-20px; right:-20px;
-    width:70px; height:70px;
-    border-radius:50%;
-    opacity:.15;
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--accent, var(--green));
   }
-  .stat-card.s-tdee::before    { background: var(--accent); }
-  .stat-card.s-target::before  { background: var(--loss); }
-  .stat-card.s-bmi::before     { background: var(--protein); }
-  .stat-card.s-water::before   { background: var(--water); }
-  .stat-card.s-target.gain::before { background: var(--gain); }
+  .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .stat-value { font-size: 2rem; font-weight: 800; line-height: 1; color: var(--accent, var(--green)); }
+  .stat-unit { font-size: 0.9rem; color: var(--text-muted); margin-top: 4px; }
+  .stat-icon { position: absolute; top: 16px; right: 16px; font-size: 28px; opacity: 0.3; }
 
-  .stat-icon { font-size: 1.4rem; margin-bottom: 8px; }
-  .stat-value { font-size: 1.6rem; font-weight: 800; line-height: 1; }
-  .stat-unit { font-size: 0.72rem; font-weight: 500; color: var(--text-muted); }
-  .stat-label { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; }
-  .s-tdee .stat-value    { color: var(--accent); }
-  .s-target .stat-value  { color: var(--loss); }
-  .s-target.gain .stat-value { color: var(--gain); }
-  .s-bmi .stat-value     { color: var(--protein); }
-  .s-water .stat-value   { color: var(--water); }
-
-  /* ─── BMI BAR ─── */
-  .bmi-bar-track {
-    position: relative;
-    height: 10px;
-    border-radius: 99px;
-    background: linear-gradient(to right,#38bdf8 0%,#22c55e 25%,#f59e0b 55%,#ef4444 80%,#7c3aed 100%);
-    margin: 14px 0 6px;
-    overflow: visible;
-  }
-  .bmi-pointer {
-    position: absolute;
-    top: 50%; transform: translate(-50%,-50%);
-    width: 16px; height: 16px;
-    background: white;
-    border: 3px solid var(--bg);
-    border-radius: 50%;
-    box-shadow: 0 0 0 2px white;
-    transition: left .6s cubic-bezier(.34,1.56,.64,1);
-  }
-  .bmi-labels { display: flex; justify-content: space-between; font-size: 0.62rem; color: var(--text-muted); }
-
-  /* ─── MACRO RING ─── */
-  .macro-section { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
-  @media(min-width:600px) { .macro-section { grid-template-columns: 1fr 1fr 1fr; } }
-
-  .macro-card {
+  /* CARDS */
+  .card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    text-align: center;
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 20px;
   }
-  .macro-circle {
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    margin: 0 auto 10px;
+  .card-title {
+    font-size: 1rem; font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-title .icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.3rem; font-weight: 800;
-    position: relative;
+    font-size: 16px;
+    background: var(--green-glow);
   }
-  .macro-protein { background: rgba(167,139,250,.15); color: var(--protein); border: 3px solid var(--protein); }
-  .macro-carbs   { background: rgba(251,146,60,.15);  color: var(--carbs);   border: 3px solid var(--carbs); }
-  .macro-fat     { background: rgba(250,204,21,.15);  color: var(--fat);     border: 3px solid var(--fat); }
-  .macro-label   { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); }
-  .macro-sub     { font-size: 0.68rem; color: #555; margin-top: 2px; }
 
-  /* ─── MEAL PLAN ─── */
-  .meal-timeline { position: relative; padding-left: 30px; }
-  .meal-timeline::before {
-    content:'';
-    position: absolute; left: 10px; top: 8px; bottom: 8px;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--gain), var(--accent), var(--loss));
-    border-radius: 2px;
+  /* FORM */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label {
+    display: block;
+    font-size: 0.8rem; font-weight: 600; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.05em;
+    margin-bottom: 8px;
   }
-  .meal-row {
-    position: relative;
-    background: var(--surface2);
+  input, select {
+    width: 100%;
+    background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 13px 15px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: border-color .2s;
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    padding: 11px 14px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .meal-row:hover { border-color: #444; }
-  .meal-row::before {
-    content:'';
-    position: absolute;
-    left: -23px; top: 50%; transform: translateY(-50%);
-    width: 10px; height: 10px;
-    background: var(--accent);
-    border-radius: 50%;
-    border: 2px solid var(--bg);
+  input:focus, select:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px var(--green-glow);
   }
-  .meal-time { font-size: 0.72rem; color: var(--maintain); font-weight: 700; }
-  .meal-name { font-size: 0.88rem; font-weight: 600; margin-top: 2px; }
-  .meal-cal  { font-size: 1rem; font-weight: 800; color: var(--accent); }
-  .meal-cal span { font-size: 0.65rem; font-weight: 400; color: var(--text-muted); }
+  select option { background: var(--surface); }
 
-  /* ─── TIPS ─── */
-  .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .tip-item {
-    background: var(--surface2);
+  /* GOAL TOGGLE */
+  .goal-toggle {
+    display: flex; gap: 0;
+    background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 14px;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    font-size: 0.8rem;
-    line-height: 1.5;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    margin-bottom: 20px;
   }
-  .tip-item .tip-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
-
-  /* ─── PROGRESS ─── */
-  .progress-bar-wrap { margin-bottom: 12px; }
-  .progress-label { display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 5px; }
-  .progress-bar { height: 8px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 99px; transition: width .8s ease; }
-
-  /* ─── EXERCISE CARD ─── */
-  .exercise-list { display: flex; flex-wrap: wrap; gap: 8px; }
-  .exercise-tag {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 99px;
-    padding: 6px 14px;
-    font-size: 0.78rem;
+  .goal-btn {
+    flex: 1; padding: 12px;
+    border: none; background: transparent;
     color: var(--text-muted);
-    display: flex; align-items: center; gap: 6px;
+    font-size: 0.88rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    font-family: inherit;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .goal-btn.active-loss { background: rgba(248,81,73,0.15); color: var(--red); }
+  .goal-btn.active-gain { background: rgba(63,185,80,0.15); color: var(--green); }
+  .goal-btn.active-maintain { background: rgba(88,166,255,0.15); color: var(--blue); }
+
+  /* BTN */
+  .btn {
+    width: 100%; padding: 13px;
+    border: none; border-radius: var(--radius-sm);
+    font-size: 0.95rem; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+    font-family: inherit;
+    letter-spacing: 0.03em;
+  }
+  .btn-primary { background: var(--green); color: #000; }
+  .btn-primary:hover { background: #52d467; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(63,185,80,0.3); }
+  .btn-sm {
+    width: auto; padding: 8px 18px;
+    font-size: 0.82rem;
+    border-radius: 6px;
+  }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  .btn-outline:hover { border-color: var(--green); color: var(--green); }
+
+  /* RESULT BOX */
+  .result-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    margin-top: 20px;
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  .result-box.show { display: block; }
+  .result-main { font-size: 2.5rem; font-weight: 800; color: var(--green); line-height: 1; }
+  .result-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .result-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .result-row:last-child { border-bottom: none; }
+  .result-row .val { font-weight: 700; font-size: 1.05rem; }
+
+  /* MEAL PLAN */
+  .meal-grid { display: grid; gap: 12px; margin-top: 16px; }
+  .meal-item {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    transition: border-color 0.2s;
+  }
+  .meal-item:hover { border-color: var(--green); }
+  .meal-time {
+    background: var(--green-glow);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.75rem; font-weight: 700; color: var(--green);
+    white-space: nowrap; min-width: 80px; text-align: center;
+  }
+  .meal-name { font-weight: 600; font-size: 0.92rem; }
+  .meal-cal { margin-left: auto; font-weight: 800; font-size: 1rem; color: var(--orange); white-space: nowrap; }
+  .meal-desc { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+
+  /* MACRO BAR */
+  .macro-bars { display: grid; gap: 12px; margin-top: 16px; }
+  .macro-row { }
+  .macro-label { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 6px; }
+  .macro-bar-bg { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .macro-bar-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
+
+  /* BMI GAUGE */
+  .bmi-gauge-wrap { text-align: center; padding: 20px 0; }
+  .bmi-value { font-size: 3.5rem; font-weight: 800; }
+  .bmi-category { font-size: 1rem; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-top: 8px; }
+  .bmi-scale {
+    display: flex; margin-top: 20px;
+    border-radius: 8px; overflow: hidden; height: 12px;
+    position: relative;
+  }
+  .bmi-seg { flex: 1; }
+  .bmi-needle {
+    position: absolute; top: -4px;
+    width: 4px; height: 20px;
+    background: white; border-radius: 2px;
+    transform: translateX(-50%);
+    transition: left 0.8s ease;
+    box-shadow: 0 0 8px rgba(255,255,255,0.5);
   }
 
-  /* ─── SECTION HEADER ─── */
-  .section-sep {
+  /* WATER TRACKER */
+  .water-grid {
+    display: grid; grid-template-columns: repeat(8, 1fr);
+    gap: 8px; margin: 16px 0;
+  }
+  .water-cup {
+    aspect-ratio: 1;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    transition: all 0.2s;
+    background: var(--bg);
+  }
+  .water-cup.filled { background: rgba(57,208,216,0.15); border-color: var(--teal); }
+  .water-cup:hover { transform: scale(1.1); }
+
+  /* PROGRESS */
+  .progress-section { }
+  .weight-log-form { display: flex; gap: 12px; margin-bottom: 20px; }
+  .weight-log-form input { flex: 1; }
+  .log-list { display: grid; gap: 8px; }
+  .log-item {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 12px 16px;
+  }
+  .log-date { font-size: 0.8rem; color: var(--text-muted); }
+  .log-weight { font-weight: 700; font-size: 1.1rem; }
+  .log-change { font-size: 0.85rem; font-weight: 600; }
+  .del-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 16px; padding: 4px 8px; border-radius: 4px; }
+  .del-btn:hover { color: var(--red); background: rgba(248,81,73,0.1); }
+
+  /* CHART */
+  .chart-wrap { height: 160px; position: relative; margin-top: 16px; }
+  canvas { width: 100% !important; }
+
+  /* EXERCISE */
+  .exercise-list { display: grid; gap: 10px; margin-top: 16px; }
+  .ex-item {
     display: flex; align-items: center; gap: 12px;
-    font-size: 0.72rem; font-weight: 700; letter-spacing: .1em;
-    text-transform: uppercase; color: var(--text-muted);
-    margin: 22px 0 14px;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 12px 16px;
+    cursor: pointer; transition: all 0.2s;
   }
-  .section-sep::after {
-    content:''; flex:1; height:1px; background: var(--border);
-  }
+  .ex-item:hover { border-color: var(--orange); }
+  .ex-item.selected { border-color: var(--orange); background: rgba(240,136,62,0.07); }
+  .ex-icon { font-size: 24px; width: 40px; text-align: center; }
+  .ex-name { font-weight: 600; }
+  .ex-rate { font-size: 0.78rem; color: var(--text-muted); }
+  .ex-cal { margin-left: auto; font-weight: 700; color: var(--orange); }
 
-  /* ─── WEIGHT GOAL BADGE ─── */
-  .goal-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 4px 12px;
-    border-radius: 99px;
-    font-size: 0.75rem;
-    font-weight: 700;
+  /* IDEAL WEIGHT */
+  .ideal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  .ideal-card {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 16px; text-align: center;
   }
-  .goal-badge.loss     { background: var(--loss-soft); color: var(--loss); }
-  .goal-badge.gain     { background: var(--gain-soft); color: var(--gain); }
-  .goal-badge.maintain { background: var(--maintain-soft); color: var(--maintain); }
+  .ideal-formula { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .ideal-val { font-size: 1.6rem; font-weight: 800; }
 
-  /* ─── SCROLLBAR ─── */
+  /* TIPS */
+  .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .tip-card {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 16px;
+    border-left: 3px solid var(--accent, var(--green));
+    transition: transform 0.2s;
+  }
+  .tip-card:hover { transform: translateX(3px); }
+  .tip-icon { font-size: 24px; margin-bottom: 8px; }
+  .tip-title { font-weight: 700; font-size: 0.88rem; margin-bottom: 4px; color: var(--accent, var(--green)); }
+  .tip-text { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+
+  /* SECTION HEADER */
+  .section-header { margin-bottom: 24px; }
+  .section-header h1 { font-size: 1.5rem; font-weight: 800; }
+  .section-header p { color: var(--text-muted); font-size: 0.88rem; margin-top: 4px; }
+
+  /* BADGES */
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+  }
+  .badge-green { background: rgba(63,185,80,0.15); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
+  .badge-red { background: rgba(248,81,73,0.15); color: var(--red); border: 1px solid rgba(248,81,73,0.3); }
+  .badge-blue { background: rgba(88,166,255,0.15); color: var(--blue); border: 1px solid rgba(88,166,255,0.3); }
+  .badge-orange { background: rgba(240,136,62,0.15); color: var(--orange); border: 1px solid rgba(240,136,62,0.3); }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+  /* ALERT */
+  .alert {
+    padding: 12px 16px; border-radius: var(--radius-sm);
+    font-size: 0.85rem; margin-bottom: 16px;
+    border-left: 3px solid;
+  }
+  .alert-warn { background: rgba(227,179,65,0.1); border-color: var(--yellow); color: var(--yellow); }
+  .alert-info { background: rgba(88,166,255,0.1); border-color: var(--blue); color: var(--blue); }
+
+  /* RESPONSIVE */
+  @media (max-width: 680px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .nav-tabs { display: none; }
+    .mobile-nav {
+      display: flex; gap: 0;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      background: var(--surface); border-top: 1px solid var(--border);
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+      padding: 0;
+    }
+    .mobile-nav .nav-tab { flex: 1; padding: 12px 6px; font-size: 0.7rem; flex-direction: column; gap: 3px; border-radius: 0; min-width: 60px; }
+    .mobile-nav .nav-tab.active { background: none; color: var(--green); border-top: 2px solid var(--green); }
+    main { padding-bottom: 80px; }
+    .tips-grid { grid-template-columns: 1fr; }
+    .ideal-grid { grid-template-columns: 1fr 1fr; }
+    .water-grid { grid-template-columns: repeat(4, 1fr); }
+    .dashboard-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 681px) { .mobile-nav { display: none; } }
+
+  /* SCROLLBAR */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-  @media(max-width:480px) {
-    .form-grid { grid-template-columns: 1fr; }
-    .tips-grid { grid-template-columns: 1fr; }
-    .macro-section { grid-template-columns: repeat(3,1fr); gap:10px; }
-    .macro-circle { width:64px; height:64px; font-size:1rem; }
+  /* RANGE INPUT */
+  input[type=range] {
+    -webkit-appearance: none; appearance: none;
+    height: 6px; border-radius: 3px;
+    background: var(--border); cursor: pointer; padding: 0;
+    border: none; box-shadow: none;
   }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 18px; height: 18px;
+    border-radius: 50%; background: var(--green); cursor: pointer;
+    border: 2px solid var(--bg); box-shadow: 0 0 6px rgba(63,185,80,0.4);
+  }
+  input[type=range]:focus { box-shadow: none; border-color: transparent; }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="header-icon">🏋️</div>
-  <div>
-    <h1>Health & Fitness Dashboard</h1>
-    <p>നിങ്ങളുടെ ആരോഗ്യ ലക്ഷ്യം കണ്ടെത്തൂ</p>
+<nav>
+  <div class="logo">
+    <div class="logo-icon">💪</div>
+    <span>ആരോഗ്യം</span>
   </div>
-</header>
-
-<div class="page">
-
-  <!-- GOAL SELECTION -->
-  <div class="goal-tabs">
-    <div class="goal-tab loss active" onclick="selectGoal('loss',this)">
-      <span class="emoji">🔥</span>
-      <div class="label">Weight Loss</div>
-      <div class="sublabel">ഭാരം കുറയ്ക്കാം</div>
-    </div>
-    <div class="goal-tab gain" onclick="selectGoal('gain',this)">
-      <span class="emoji">💪</span>
-      <div class="label">Weight Gain</div>
-      <div class="sublabel">ഭാരം കൂട്ടാം</div>
-    </div>
-    <div class="goal-tab maintain" onclick="selectGoal('maintain',this)">
-      <span class="emoji">⚖️</span>
-      <div class="label">Maintain</div>
-      <div class="sublabel">ഭാരം നിലനിർത്താം</div>
-    </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('dashboard')">🏠 ഡാഷ്‌ബോർഡ്</button>
+    <button class="nav-tab" onclick="showSection('calculator')">🔢 കലോറി</button>
+    <button class="nav-tab" onclick="showSection('bmi')">⚖️ BMI</button>
+    <button class="nav-tab" onclick="showSection('macro')">🥗 മാക്രോ</button>
+    <button class="nav-tab" onclick="showSection('water')">💧 വെള്ളം</button>
+    <button class="nav-tab" onclick="showSection('exercise')">🏃 വ്യായാമം</button>
+    <button class="nav-tab" onclick="showSection('progress')">📈 പ്രോഗ്രസ്</button>
   </div>
+</nav>
 
-  <!-- INPUT FORM -->
-  <div class="card">
-    <div class="card-title"><span>📋</span> നിങ്ങളുടെ വിവരങ്ങൾ നൽകൂ</div>
-    <div class="form-grid">
-      <div class="form-group">
-        <label>ലിംഗം (Gender)</label>
-        <select id="gender">
-          <option value="male">👨 പുരുഷൻ</option>
-          <option value="female">👩 സ്ത്രീ</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>പ്രായം (Age)</label>
-        <input type="number" id="age" placeholder="25" min="10" max="100">
-      </div>
-      <div class="form-group">
-        <label>ഭാരം (Weight in kg)</label>
-        <input type="number" id="weight" placeholder="70" min="20" max="300">
-      </div>
-      <div class="form-group">
-        <label>ഉയരം (Height in cm)</label>
-        <input type="number" id="height" placeholder="170" min="100" max="250">
-      </div>
-      <div class="form-group full">
-        <label>വ്യായാമ നിലവാരം (Activity Level)</label>
-        <select id="activity">
-          <option value="1.2">🛋️ Sedentary — വ്യായാമം ഇല്ല</option>
-          <option value="1.375">🚶 Light — ആഴ്ചയിൽ 1–3 ദിവസം</option>
-          <option value="1.55" selected>🏃 Moderate — ആഴ്ചയിൽ 3–5 ദിവസം</option>
-          <option value="1.725">🏋️ Active — ആഴ്ചയിൽ 6–7 ദിവസം</option>
-          <option value="1.9">⚡ Very Active — ഭാരമേറിയ ജോലി + വ്യായാമം</option>
-        </select>
-      </div>
-      <div class="form-group" id="targetWeightGroup">
-        <label id="targetLabel">ടാർഗറ്റ് ഭാരം (Target kg)</label>
-        <input type="number" id="targetWeight" placeholder="65" min="20" max="300">
-      </div>
-      <div class="form-group">
-        <label>ആഴ്ചയിൽ ലക്ഷ്യം (kg/week)</label>
-        <select id="weeklyGoal">
-          <option value="0.25">0.25 kg/week (സൌമ്യം)</option>
-          <option value="0.5" selected>0.5 kg/week (ഇടത്തരം)</option>
-          <option value="0.75">0.75 kg/week (വേഗത്തിൽ)</option>
-          <option value="1">1 kg/week (ഏറ്റവും വേഗം)</option>
-        </select>
-      </div>
-    </div>
-    <button class="calc-btn loss" id="calcBtn" onclick="calculate()">🔥 കണക്കാക്കൂ</button>
-  </div>
+<main>
 
-  <!-- DASHBOARD OUTPUT -->
-  <div id="dashboard">
-
-    <!-- SUMMARY STATS -->
-    <div class="section-sep">📊 നിങ്ങളുടെ ഫലങ്ങൾ</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-      <span id="goalBadge" class="goal-badge loss">🔥 Weight Loss Goal</span>
-      <span style="font-size:0.78rem;color:var(--text-muted)" id="summaryName"></span>
+  <!-- DASHBOARD -->
+  <div id="dashboard" class="section active">
+    <div class="section-header">
+      <h1>👋 സ്വാഗതം!</h1>
+      <p>നിങ്ങളുടെ ആരോഗ്യ ഡാഷ്‌ബോർഡ് — ഇന്നത്തെ ലക്ഷ്യങ്ങൾ ട്രാക്ക് ചെയ്യൂ</p>
     </div>
 
-    <div class="stats-grid">
-      <div class="stat-card s-tdee">
-        <div class="stat-icon">⚡</div>
-        <div class="stat-value" id="statTDEE">—</div>
-        <div class="stat-unit">kcal / day</div>
-        <div class="stat-label">നിങ്ങളുടെ TDEE</div>
+    <div class="dashboard-grid" id="dashboardStats">
+      <div class="stat-card" style="--accent: var(--green)">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-label">ദൈനിക കലോറി ലക്ഷ്യം</div>
+        <div class="stat-value" id="dash-cal">—</div>
+        <div class="stat-unit">kcal/day</div>
       </div>
-      <div class="stat-card s-target" id="targetCard">
-        <div class="stat-icon" id="targetIcon">🎯</div>
-        <div class="stat-value" id="statTarget">—</div>
-        <div class="stat-unit">kcal / day</div>
-        <div class="stat-label" id="targetCardLabel">ദൈനംദിന ലക്ഷ്യം</div>
+      <div class="stat-card" style="--accent: var(--blue)">
+        <div class="stat-icon">⚖️</div>
+        <div class="stat-label">BMI</div>
+        <div class="stat-value" id="dash-bmi">—</div>
+        <div class="stat-unit" id="dash-bmi-cat">കണക്കാക്കിയിട്ടില്ല</div>
       </div>
-      <div class="stat-card s-bmi">
-        <div class="stat-icon">📏</div>
-        <div class="stat-value" id="statBMI">—</div>
-        <div class="stat-unit">BMI</div>
-        <div class="stat-label" id="bmiCategory">—</div>
-      </div>
-      <div class="stat-card s-water">
+      <div class="stat-card" style="--accent: var(--teal)">
         <div class="stat-icon">💧</div>
-        <div class="stat-value" id="statWater">—</div>
-        <div class="stat-unit">L / day</div>
-        <div class="stat-label">വെള്ളം കുടിക്കണം</div>
+        <div class="stat-label">ഇന്ന് കുടിച്ചത്</div>
+        <div class="stat-value" id="dash-water">0</div>
+        <div class="stat-unit">ഗ്ലാസ്സ് (8 ൽ)</div>
+      </div>
+      <div class="stat-card" style="--accent: var(--orange)">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-label">ലക്ഷ്യം</div>
+        <div class="stat-value" id="dash-goal-icon">—</div>
+        <div class="stat-unit" id="dash-goal">കണക്കാക്കിയിട്ടില്ല</div>
       </div>
     </div>
 
-    <!-- BMI CHART -->
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+      <div class="card">
+        <div class="card-title"><div class="icon">📋</div> ദ്രുത ടൂളുകൾ</div>
+        <div style="display:grid; gap:10px;">
+          <button class="btn btn-primary" onclick="showSection('calculator')">🔢 കലോറി കണക്കാക്കുക</button>
+          <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('bmi')">⚖️ BMI ചെക്ക് ചെയ്യുക</button>
+          <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('water')">💧 വെള്ളം ട്രാക്ക് ചെയ്യുക</button>
+          <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('progress')">📈 ഭാരം രേഖപ്പെടുത്തുക</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="icon">💡</div> ഇന്നത്തെ ടിപ്</div>
+        <div id="dailyTip" style="font-size:0.88rem; line-height:1.7; color:var(--text-muted)">
+          ലോഡ് ചെയ്യുന്നു...
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:0">
+      <div class="card-title"><div class="icon">🌿</div> ആരോഗ്യ ടിപ്‌സ്</div>
+      <div class="tips-grid" id="tipsGrid"></div>
+    </div>
+  </div>
+
+  <!-- CALORIE CALCULATOR -->
+  <div id="calculator" class="section">
+    <div class="section-header">
+      <h1>🔢 കലോറി കാൽക്കുലേറ്റർ</h1>
+      <p>ഭാരം കുറയ്ക്കാനും വർദ്ധിപ്പിക്കാനും നിലനിർത്താനും ആവശ്യമായ കലോറി കണ്ടെത്തൂ</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+      <div class="card">
+        <div class="card-title"><div class="icon">📝</div> വിവരങ്ങൾ നൽകൂ</div>
+
+        <div class="goal-toggle" id="goalToggle">
+          <button class="goal-btn active-loss" onclick="setGoal('loss', this)">📉 ഭാരം കുറയ്ക്കാൻ</button>
+          <button class="goal-btn" onclick="setGoal('maintain', this)">⚖️ നിലനിർത്താൻ</button>
+          <button class="goal-btn" onclick="setGoal('gain', this)">📈 ഭാരം കൂട്ടാൻ</button>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>ലിംഗം</label>
+            <select id="gender">
+              <option value="male">👨 പുരുഷൻ</option>
+              <option value="female">👩 സ്ത്രീ</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>പ്രായം (വർഷം)</label>
+            <input type="number" id="age" placeholder="25" min="10" max="100">
+          </div>
+          <div class="form-group">
+            <label>ഭാരം (kg)</label>
+            <input type="number" id="weight" placeholder="70" min="20" max="300">
+          </div>
+          <div class="form-group">
+            <label>ഉയരം (cm)</label>
+            <input type="number" id="height" placeholder="170" min="100" max="250">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>വ്യായാമ നില</label>
+          <select id="activity">
+            <option value="1.2">🛋️ വ്യായാമം ഇല്ലാത്തവർ (Sedentary)</option>
+            <option value="1.375">🚶 ചെറിയ വ്യായാമം (1-3 ദിവസം/ആഴ്ച)</option>
+            <option value="1.55">🏃 മിതമായ വ്യായാമം (3-5 ദിവസം/ആഴ്ച)</option>
+            <option value="1.725">💪 കഠിനമായ വ്യായാമം (6-7 ദിവസം/ആഴ്ച)</option>
+            <option value="1.9">🏋️ വളരെ കഠിനമായ വ്യായാമം</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="intensityGroup" style="display:none">
+          <label>ലക്ഷ്യ തീവ്രത</label>
+          <select id="intensity">
+            <option value="0.5">🐢 മൃദുവായ (0.25 kg/ആഴ്ച)</option>
+            <option value="1" selected>🚶 മിതമായ (0.5 kg/ആഴ്ച)</option>
+            <option value="2">🏃 വേഗത്തിൽ (1 kg/ആഴ്ച)</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary" onclick="calculateCalories()">⚡ കണക്കാക്കുക</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="icon">📊</div> ഫലങ്ങൾ</div>
+        <div id="calcResult" style="color:var(--text-muted); font-size:0.9rem; padding:20px 0; text-align:center;">
+          <div style="font-size:40px; margin-bottom:12px">📊</div>
+          <p>ഫലം കാണാൻ കണക്കാക്കുക ക്ലിക്ക് ചെയ്യൂ</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="mealPlanCard" style="display:none">
+      <div class="card-title"><div class="icon">🍽️</div> ഭക്ഷണ പദ്ധതി <span id="mealPlanCalBadge" class="badge badge-green" style="margin-left:auto; font-weight:600"></span></div>
+      <div class="meal-grid" id="mealsContainer"></div>
+    </div>
+  </div>
+
+  <!-- BMI -->
+  <div id="bmi" class="section">
+    <div class="section-header">
+      <h1>⚖️ BMI & ആദർശ ഭാരം</h1>
+      <p>ശരീര ഭാരം സൂചിക (Body Mass Index) കണ്ടെത്തൂ</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+      <div class="card">
+        <div class="card-title"><div class="icon">📝</div> വിവരങ്ങൾ</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>ഭാരം (kg)</label>
+            <input type="number" id="bmi-weight" placeholder="70">
+          </div>
+          <div class="form-group">
+            <label>ഉയരം (cm)</label>
+            <input type="number" id="bmi-height" placeholder="170">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>ലിംഗം</label>
+          <select id="bmi-gender">
+            <option value="male">👨 പുരുഷൻ</option>
+            <option value="female">👩 സ്ത്രീ</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="calculateBMI()">⚡ കണക്കാക്കുക</button>
+      </div>
+
+      <div class="card" id="bmiResult">
+        <div class="card-title"><div class="icon">📊</div> BMI ഫലം</div>
+        <div style="color:var(--text-muted); font-size:0.9rem; padding:20px 0; text-align:center">
+          <div style="font-size:40px; margin-bottom:12px">⚖️</div>
+          <p>ഭാരവും ഉയരവും നൽകി കണക്കാക്കൂ</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="idealWeightCard" style="display:none">
+      <div class="card-title"><div class="icon">🎯</div> ആദർശ ഭാരം (Ideal Weight)</div>
+      <div class="ideal-grid" id="idealWeightGrid"></div>
+    </div>
+  </div>
+
+  <!-- MACRO -->
+  <div id="macro" class="section">
+    <div class="section-header">
+      <h1>🥗 മാക്രോ നൂട്രിയൻ്റ് കാൽക്കുലേറ്റർ</h1>
+      <p>പ്രോട്ടീൻ, കാർബ്, ഫാറ്റ് ആവശ്യം കണ്ടെത്തൂ</p>
+    </div>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+      <div class="card">
+        <div class="card-title"><div class="icon">📝</div> വിവരങ്ങൾ</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>ഭാരം (kg)</label>
+            <input type="number" id="macro-weight" placeholder="70">
+          </div>
+          <div class="form-group">
+            <label>ഉയരം (cm)</label>
+            <input type="number" id="macro-height" placeholder="170">
+          </div>
+          <div class="form-group">
+            <label>പ്രായം</label>
+            <input type="number" id="macro-age" placeholder="25">
+          </div>
+          <div class="form-group">
+            <label>ലിംഗം</label>
+            <select id="macro-gender">
+              <option value="male">👨 പുരുഷൻ</option>
+              <option value="female">👩 സ്ത്രീ</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>ലക്ഷ്യം</label>
+          <select id="macro-goal">
+            <option value="loss">📉 ഭാരം കുറയ്ക്കുക (High Protein)</option>
+            <option value="maintain">⚖️ നിലനിർത്തുക (Balanced)</option>
+            <option value="gain">📈 ഭാരം / മസിൽ കൂട്ടുക (High Carb)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>വ്യായാമ നില</label>
+          <select id="macro-activity">
+            <option value="1.2">🛋️ Sedentary</option>
+            <option value="1.375">🚶 Light</option>
+            <option value="1.55">🏃 Moderate</option>
+            <option value="1.725">💪 Active</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="calculateMacros()">⚡ കണക്കാക്കുക</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="icon">📊</div> മാക്രോ ബ്രേക്ക്‌ഡൗൺ</div>
+        <div id="macroResult" style="color:var(--text-muted); font-size:0.9rem; padding:20px 0; text-align:center">
+          <div style="font-size:40px; margin-bottom:12px">🥗</div>
+          <p>വിവരങ്ങൾ നൽകി കണക്കാക്കൂ</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WATER -->
+  <div id="water" class="section">
+    <div class="section-header">
+      <h1>💧 വെള്ളം ട്രാക്കർ</h1>
+      <p>ദിവസേന ആവശ്യമായ ജലം കുടിക്കൂ</p>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
+      <div class="card">
+        <div class="card-title"><div class="icon">🎯</div> ലക്ഷ്യം കണ്ടെത്തുക</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>ഭാരം (kg)</label>
+            <input type="number" id="water-weight" placeholder="70" oninput="calcWaterGoal()">
+          </div>
+          <div class="form-group">
+            <label>വ്യായാമ നില</label>
+            <select id="water-activity" onchange="calcWaterGoal()">
+              <option value="0">🛋️ Sedentary</option>
+              <option value="0.5">🚶 Light</option>
+              <option value="1">🏃 Moderate</option>
+              <option value="1.5">💪 Active</option>
+            </select>
+          </div>
+        </div>
+        <div class="result-box show" id="waterGoalBox" style="text-align:center">
+          <div class="result-label">ദൈനിക ജലലക്ഷ്യം</div>
+          <div class="result-main" id="waterGoalVal">—</div>
+          <div style="font-size:0.85rem; color:var(--text-muted); margin-top:4px">ലിറ്റർ / ദിവസം</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="icon">💧</div> ഇന്ന് കുടിച്ചത് <span id="waterCountBadge" class="badge badge-blue" style="margin-left:auto">0 / 8 ഗ്ലാസ്</span></div>
+        <div class="water-grid" id="waterCups"></div>
+        <div style="display:flex; gap:10px; margin-top:12px">
+          <button class="btn btn-primary btn-sm" onclick="addWater()">+ ഒരു ഗ്ലാസ്</button>
+          <button class="btn btn-outline btn-sm" onclick="resetWater()">🔄 Reset</button>
+        </div>
+        <div style="margin-top:16px; padding:12px; background:var(--bg); border-radius:var(--radius-sm); border:1px solid var(--border)">
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:6px">ദൈനിക പ്രോഗ്രസ്</div>
+          <div style="background:var(--border); height:10px; border-radius:5px; overflow:hidden">
+            <div id="waterProgress" style="height:100%; background:linear-gradient(90deg,var(--teal),var(--blue)); border-radius:5px; width:0%; transition:width 0.4s ease"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted); margin-top:4px">
+            <span>0%</span><span id="waterPct">0%</span><span>100%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="card">
-      <div class="card-title"><span>📏</span> BMI ചാർട്ട്</div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-        <span style="font-size:1.8rem;font-weight:800;" id="bmiDisplay">—</span>
-        <span id="bmiStatusBadge" style="padding:4px 14px;border-radius:99px;font-size:0.8rem;font-weight:700;"></span>
-      </div>
-      <div class="bmi-bar-track">
-        <div class="bmi-pointer" id="bmiPointer" style="left:0%"></div>
-      </div>
-      <div class="bmi-labels">
-        <span>Underweight<br>&lt;18.5</span>
-        <span style="text-align:center;">Normal<br>18.5–24.9</span>
-        <span style="text-align:center;">Overweight<br>25–29.9</span>
-        <span style="text-align:right;">Obese<br>30+</span>
-      </div>
-      <div id="bmiAdvice" style="margin-top:14px;padding:12px;background:var(--surface2);border-radius:10px;font-size:0.82rem;line-height:1.6;"></div>
-    </div>
-
-    <!-- MACROS -->
-    <div class="section-sep">🥗 Macro Breakdown</div>
-    <div class="macro-section">
-      <div class="macro-card">
-        <div class="macro-circle macro-protein" id="proteinCircle">—</div>
-        <div class="macro-label">🥩 Protein</div>
-        <div class="macro-sub" id="proteinSub">— g/day</div>
-      </div>
-      <div class="macro-card">
-        <div class="macro-circle macro-carbs" id="carbsCircle">—</div>
-        <div class="macro-label">🍚 Carbs</div>
-        <div class="macro-sub" id="carbsSub">— g/day</div>
-      </div>
-      <div class="macro-card">
-        <div class="macro-circle macro-fat" id="fatCircle">—</div>
-        <div class="macro-label">🥑 Fat</div>
-        <div class="macro-sub" id="fatSub">— g/day</div>
+      <div class="card-title"><div class="icon">💡</div> ജലം കുടിക്കേണ്ട സമയം</div>
+      <div class="meal-grid">
+        <div class="meal-item"><div class="meal-time">7:00 AM</div><div><div class="meal-name">ഉണർന്നതിനു ശേഷം</div><div class="meal-desc">ശരീരം ഹൈഡ്രേറ്റ് ചെയ്യാൻ — 300 ml</div></div><div class="meal-cal">🌅</div></div>
+        <div class="meal-item"><div class="meal-time">8:30 AM</div><div><div class="meal-name">ബ്രേക്ക്ഫാസ്റ്റിനു ശേഷം</div><div class="meal-desc">ദഹനം സഹായിക്കാൻ — 200 ml</div></div><div class="meal-cal">☕</div></div>
+        <div class="meal-item"><div class="meal-time">11:00 AM</div><div><div class="meal-name">മിഡ്-മോർണിംഗ്</div><div class="meal-desc">ഊർജ്ജം നിലനിർത്താൻ — 300 ml</div></div><div class="meal-cal">⚡</div></div>
+        <div class="meal-item"><div class="meal-time">1:30 PM</div><div><div class="meal-name">ഉച്ചഭക്ഷണത്തിനു മുമ്പ്</div><div class="meal-desc">വിശപ്പ് നിയന്ത്രിക്കാൻ — 300 ml</div></div><div class="meal-cal">🍽️</div></div>
+        <div class="meal-item"><div class="meal-time">4:00 PM</div><div><div class="meal-name">ഉച്ചതിരിഞ്ഞ്</div><div class="meal-desc">തലവേദന ഒഴിവാക്കാൻ — 250 ml</div></div><div class="meal-cal">🌤️</div></div>
+        <div class="meal-item"><div class="meal-time">9:00 PM</div><div><div class="meal-name">ഉറക്കത്തിനു മുമ്പ്</div><div class="meal-desc">രാത്രി ദഹനം — 200 ml (കൂടുതൽ കഴിക്കരുത്)</div></div><div class="meal-cal">🌙</div></div>
       </div>
     </div>
+  </div>
 
-    <!-- CALORIE SPLIT BARS -->
+  <!-- EXERCISE -->
+  <div id="exercise" class="section">
+    <div class="section-header">
+      <h1>🏃 വ്യായാമ കലോറി കാൽക്കുലേറ്റർ</h1>
+      <p>വ്യായാമത്തിൽ കത്തുന്ന കലോറി കണ്ടെത്തൂ</p>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
+      <div class="card">
+        <div class="card-title"><div class="icon">📝</div> വിവരങ്ങൾ</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>ഭാരം (kg)</label>
+            <input type="number" id="ex-weight" placeholder="70" oninput="updateExerciseCals()">
+          </div>
+          <div class="form-group">
+            <label>ദൈർഘ്യം (മിനിറ്റ്)</label>
+            <input type="number" id="ex-duration" placeholder="30" value="30" oninput="updateExerciseCals()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>ദൈർഘ്യം: <span id="durationLabel">30 min</span></label>
+          <input type="range" id="ex-duration-range" min="5" max="180" value="30" oninput="syncDuration(this.value)">
+        </div>
+        <div class="alert alert-info">ഒരു വ്യായാമം തിരഞ്ഞെടുക്കൂ 👇</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="icon">🔥</div> കത്തുന്ന കലോറി</div>
+        <div id="exResult" style="text-align:center; padding:20px 0; color:var(--text-muted); font-size:0.9rem">
+          <div style="font-size:40px; margin-bottom:12px">🏃</div>
+          <p>ഭാരവും വ്യായാമവും തിരഞ്ഞെടുക്കൂ</p>
+        </div>
+      </div>
+    </div>
     <div class="card">
-      <div class="card-title"><span>📊</span> Calorie Distribution</div>
-      <div id="macroBars"></div>
-    </div>
-
-    <!-- MEAL PLAN -->
-    <div class="section-sep">🍽️ ഭക്ഷണ പ്ലാൻ</div>
-    <div class="card" style="padding-bottom:18px;">
-      <div class="card-title"><span>⏰</span> Sample Meal Plan</div>
-      <div class="meal-timeline" id="mealTimeline"></div>
-    </div>
-
-    <!-- TIMELINE TO GOAL -->
-    <div class="card" id="timelineCard">
-      <div class="card-title"><span>📅</span> ലക്ഷ്യം നേടാൻ എത്ര സമയം?</div>
-      <div id="timelineContent"></div>
-    </div>
-
-    <!-- EXERCISE -->
-    <div class="section-sep">🏃 Exercise Recommendations</div>
-    <div class="card">
-      <div class="card-title"><span>💪</span> ശുപാർശ ചെയ്യുന്ന വ്യായാമങ്ങൾ</div>
+      <div class="card-title"><div class="icon">🏋️</div> വ്യായാമങ്ങൾ തിരഞ്ഞെടുക്കൂ</div>
       <div class="exercise-list" id="exerciseList"></div>
     </div>
+  </div>
 
-    <!-- TIPS -->
-    <div class="section-sep" id="tipsHeader">💡 Tips</div>
-    <div class="tips-grid" id="tipsGrid"></div>
-
-    <!-- NUTRITION NOTES -->
-    <div class="card" style="margin-top:18px;">
-      <div class="card-title"><span>🌿</span> ഇന്ത്യൻ ഭക്ഷണ നിർദ്ദേശങ്ങൾ</div>
-      <div id="indianFoodNotes" style="font-size:0.82rem;line-height:1.8;color:var(--text-muted);"></div>
+  <!-- PROGRESS -->
+  <div id="progress" class="section">
+    <div class="section-header">
+      <h1>📈 ഭാരം ട്രാക്കർ</h1>
+      <p>ഭാരം രേഖപ്പെടുത്തി പ്രോഗ്രസ് ട്രാക്ക് ചെയ്യൂ</p>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="icon">➕</div> ഇന്നത്തെ ഭാരം ചേർക്കൂ</div>
+      <div class="weight-log-form">
+        <input type="number" id="prog-weight" placeholder="കിലോഗ്രാം (ഉദാ: 72.5)" step="0.1">
+        <input type="date" id="prog-date" style="flex:1">
+        <button class="btn btn-primary btn-sm" onclick="addWeightLog()" style="white-space:nowrap">✅ ചേർക്കൂ</button>
+      </div>
     </div>
 
-  </div><!-- /dashboard -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
+      <div class="card">
+        <div class="card-title"><div class="icon">📊</div> ഭാരം ഗ്രാഫ്</div>
+        <div class="chart-wrap">
+          <canvas id="weightChart"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="icon">📋</div> ഭാരം ചരിത്രം</div>
+        <div id="weightLogList" style="max-height:250px; overflow-y:auto">
+          <div style="color:var(--text-muted); font-size:0.85rem; padding:20px 0; text-align:center">
+            <div style="font-size:32px; margin-bottom:8px">📋</div>
+            <p>ഇതുവരെ ഒന്നും ചേർത്തിട്ടില്ല</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-</div><!-- /page -->
+    <div class="card">
+      <div class="card-title"><div class="icon">🏆</div> സ്ഥിതിവിവരക്കണക്ക്</div>
+      <div class="dashboard-grid">
+        <div class="stat-card" style="--accent:var(--green)">
+          <div class="stat-label">ആദ്യ ഭാരം</div>
+          <div class="stat-value" id="stat-first">—</div>
+          <div class="stat-unit">kg</div>
+        </div>
+        <div class="stat-card" style="--accent:var(--blue)">
+          <div class="stat-label">ഇപ്പോഴത്തെ ഭാരം</div>
+          <div class="stat-value" id="stat-current">—</div>
+          <div class="stat-unit">kg</div>
+        </div>
+        <div class="stat-card" style="--accent:var(--orange)">
+          <div class="stat-label">മൊത്തം മാറ്റം</div>
+          <div class="stat-value" id="stat-change">—</div>
+          <div class="stat-unit">kg</div>
+        </div>
+        <div class="stat-card" style="--accent:var(--purple)">
+          <div class="stat-label">ദിവസങ്ങൾ ട്രാക്ക് ചെയ്തത്</div>
+          <div class="stat-value" id="stat-days">0</div>
+          <div class="stat-unit">ദിവസം</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav">
+  <button class="nav-tab active" onclick="showSection('dashboard')">🏠<br>ഹോം</button>
+  <button class="nav-tab" onclick="showSection('calculator')">🔢<br>കലോറി</button>
+  <button class="nav-tab" onclick="showSection('bmi')">⚖️<br>BMI</button>
+  <button class="nav-tab" onclick="showSection('water')">💧<br>വെള്ളം</button>
+  <button class="nav-tab" onclick="showSection('exercise')">🏃<br>വ്യായാമം</button>
+  <button class="nav-tab" onclick="showSection('progress')">📈<br>പ്രോഗ്രസ്</button>
+</div>
 
 <script>
+// ===== STATE =====
 let currentGoal = 'loss';
+let waterCount = 0;
+let weightLogs = JSON.parse(localStorage.getItem('weightLogs') || '[]');
+let selectedExercise = null;
+let savedCalGoal = null;
 
-function selectGoal(goal, el) {
-  currentGoal = goal;
-  document.querySelectorAll('.goal-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  const btn = document.getElementById('calcBtn');
-  const tl = document.getElementById('targetLabel');
-  btn.className = 'calc-btn ' + goal;
-  if (goal === 'loss') {
-    btn.textContent = '🔥 കണക്കാക്കൂ';
-    tl.textContent = 'ടാർഗറ്റ് ഭാരം (Target kg)';
-  } else if (goal === 'gain') {
-    btn.textContent = '💪 കണക്കാക്കൂ';
-    tl.textContent = 'ടാർഗറ്റ് ഭാരം (Target kg)';
-  } else {
-    btn.textContent = '⚖️ കണക്കാക്കൂ';
-    tl.textContent = 'ടാർഗറ്റ് ഭാരം (Target kg)';
-  }
+// ===== NAV =====
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    if(t.getAttribute('onclick') === `showSection('${id}')`) t.classList.add('active');
+  });
+  if(id === 'progress') renderWeightLog();
 }
 
-function calculate() {
-  const gender   = document.getElementById('gender').value;
-  const age      = parseFloat(document.getElementById('age').value);
-  const weight   = parseFloat(document.getElementById('weight').value);
-  const height   = parseFloat(document.getElementById('height').value);
+// ===== GOAL TOGGLE =====
+function setGoal(g, btn) {
+  currentGoal = g;
+  document.querySelectorAll('#goalToggle .goal-btn').forEach(b => b.classList.remove('active-loss','active-gain','active-maintain'));
+  btn.classList.add(`active-${g}`);
+  document.getElementById('intensityGroup').style.display = (g !== 'maintain') ? 'block' : 'none';
+}
+
+// ===== CALORIE CALCULATOR =====
+function calculateCalories() {
+  const gender = document.getElementById('gender').value;
+  const age = parseFloat(document.getElementById('age').value);
+  const weight = parseFloat(document.getElementById('weight').value);
+  const height = parseFloat(document.getElementById('height').value);
   const activity = parseFloat(document.getElementById('activity').value);
-  const twVal    = document.getElementById('targetWeight').value;
-  const weekly   = parseFloat(document.getElementById('weeklyGoal').value);
-  const targetW  = twVal ? parseFloat(twVal) : null;
+  const intensity = parseFloat(document.getElementById('intensity')?.value || 1);
 
-  if (!age || !weight || !height) {
-    alert('⚠️ ദയവായി എല്ലാ കോളങ്ങളും പൂരിപ്പിക്കുക!'); return;
-  }
+  if(!age||!weight||!height) { alert("ദയവായി എല്ലാ കോളങ്ങളും പൂരിപ്പിക്കുക!"); return; }
 
-  // BMR (Mifflin-St Jeor)
   let bmr = gender === 'male'
-    ? 10*weight + 6.25*height - 5*age + 5
-    : 10*weight + 6.25*height - 5*age - 161;
+    ? (10*weight)+(6.25*height)-(5*age)+5
+    : (10*weight)+(6.25*height)-(5*age)-161;
 
   const tdee = Math.round(bmr * activity);
+  let goalCal, deficit;
 
-  // Calorie target
-  let targetCal, deficit, direction;
-  const weeklyCalChange = weekly * 7700; // 1kg ≈ 7700kcal
-  const dailyChange = Math.round(weeklyCalChange / 7);
-
-  if (currentGoal === 'loss')     { targetCal = tdee - dailyChange; direction = -dailyChange; }
-  else if (currentGoal === 'gain') { targetCal = tdee + dailyChange; direction = +dailyChange; }
-  else                             { targetCal = tdee; direction = 0; }
-
-  targetCal = Math.max(targetCal, 1200);
-
-  // BMI
-  const bmi = weight / ((height/100) ** 2);
-  let bmiCat, bmiColor, bmiAdvice;
-  if      (bmi < 18.5) { bmiCat='Underweight'; bmiColor='#38bdf8'; bmiAdvice='നിങ്ങളുടെ BMI വളരെ കുറവാണ്. ആരോഗ്യകരമായ ഭക്ഷണക്രമവും പ്രോടീൻ അടങ്ങിയ ഭക്ഷണവും ശ്രദ്ധിക്കണം. ഒരു ഡോക്ടറോ dietitian നേ കാണൂ.'; }
-  else if (bmi < 25)   { bmiCat='Normal Weight'; bmiColor='#22c55e'; bmiAdvice='നിങ്ങളുടെ BMI ആരോഗ്യകരമായ ശ്രേണിയിലാണ്! ❤️ ഇത് നിലനിർത്തുന്നതിന് balanced diet ഉം regular exercise ഉം തുടരൂ.'; }
-  else if (bmi < 30)   { bmiCat='Overweight'; bmiColor='#f59e0b'; bmiAdvice='BMI overweight ശ്രേണിയിലാണ്. ⚠️ ദൈനംദിന 30–45 മിനിറ്റ് നടത്തം, processed food കുറയ്ക്കൽ, water intake വർദ്ധിപ്പിക്കൽ എന്നിവ ഉടൻ ആരംഭിക്കൂ.'; }
-  else                  { bmiCat='Obese'; bmiColor='#ef4444'; bmiAdvice='BMI obese ശ്രേണിയിലാണ്. 🚨 ഒരു ഡോക്ടറുടെ നിർദ്ദേശം വളരെ പ്രധാനമാണ്. ഭക്ഷണ നിയന്ത്രണവും supervised exercise ഉം ആരംഭിക്കൂ.'; }
-
-  // Water (ml)
-  const water = (weight * 0.035).toFixed(1);
-
-  // Macros
-  let pPct, cPct, fPct;
-  if (currentGoal === 'loss')     { pPct=0.35; cPct=0.40; fPct=0.25; }
-  else if (currentGoal === 'gain') { pPct=0.30; cPct=0.45; fPct=0.25; }
-  else                             { pPct=0.25; cPct=0.50; fPct=0.25; }
-
-  const proteinCal = Math.round(targetCal * pPct);
-  const carbsCal   = Math.round(targetCal * cPct);
-  const fatCal     = Math.round(targetCal * fPct);
-  const proteinG   = Math.round(proteinCal / 4);
-  const carbsG     = Math.round(carbsCal / 4);
-  const fatG       = Math.round(fatCal / 9);
-
-  // Weeks to goal
-  let weeksToGoal = null;
-  if (targetW !== null && currentGoal !== 'maintain') {
-    const diff = Math.abs(weight - targetW);
-    weeksToGoal = Math.round(diff / weekly);
-  }
-
-  // ─── RENDER ───
-
-  // Stats
-  document.getElementById('statTDEE').textContent   = tdee.toLocaleString();
-  document.getElementById('statTarget').textContent  = targetCal.toLocaleString();
-  document.getElementById('statBMI').textContent     = bmi.toFixed(1);
-  document.getElementById('bmiCategory').textContent = bmiCat;
-  document.getElementById('statWater').textContent   = water;
-
-  // Target card color
-  const tc = document.getElementById('targetCard');
-  tc.className = 's-target stat-card ' + (currentGoal==='gain'?'gain':'');
-
-  // Goal badge
-  const gb = document.getElementById('goalBadge');
-  gb.className = 'goal-badge ' + currentGoal;
-  gb.textContent = currentGoal==='loss'?'🔥 Weight Loss Goal':currentGoal==='gain'?'💪 Weight Gain Goal':'⚖️ Maintenance Goal';
-
-  // BMI bar (0-40 scale mapped to 0-100%)
-  const bmiPct = Math.min(Math.max((bmi-10)/30*100, 0), 100);
-  document.getElementById('bmiPointer').style.left = bmiPct + '%';
-  document.getElementById('bmiDisplay').textContent = bmi.toFixed(1);
-  const bsb = document.getElementById('bmiStatusBadge');
-  bsb.textContent = bmiCat;
-  bsb.style.background = bmiColor + '22';
-  bsb.style.color = bmiColor;
-  document.getElementById('bmiAdvice').textContent = bmiAdvice;
-
-  // Macros
-  document.getElementById('proteinCircle').textContent = proteinG + 'g';
-  document.getElementById('carbsCircle').textContent   = carbsG + 'g';
-  document.getElementById('fatCircle').textContent     = fatG + 'g';
-  document.getElementById('proteinSub').textContent    = proteinG + ' g/day (' + Math.round(pPct*100) + '%)';
-  document.getElementById('carbsSub').textContent      = carbsG + ' g/day (' + Math.round(cPct*100) + '%)';
-  document.getElementById('fatSub').textContent        = fatG + ' g/day (' + Math.round(fPct*100) + '%)';
-
-  // Macro bars
-  const mb = document.getElementById('macroBars');
-  mb.innerHTML = [
-    { label:'🥩 Protein', g:proteinG, cal:proteinCal, color:'var(--protein)', pct:Math.round(pPct*100) },
-    { label:'🍚 Carbs',   g:carbsG,   cal:carbsCal,   color:'var(--carbs)',   pct:Math.round(cPct*100) },
-    { label:'🥑 Fat',     g:fatG,     cal:fatCal,     color:'var(--fat)',     pct:Math.round(fPct*100) }
-  ].map(m => `
-    <div class="progress-bar-wrap">
-      <div class="progress-label">
-        <span>${m.label} — ${m.g}g</span>
-        <span style="color:var(--text-muted)">${m.cal} kcal (${m.pct}%)</span>
-      </div>
-      <div class="progress-bar">
-        <div class="progress-fill" style="width:${m.pct*2}%;background:${m.color}"></div>
-      </div>
-    </div>`).join('');
-
-  // Meal plan
-  const meals = getMealPlan(targetCal, currentGoal);
-  const mt = document.getElementById('mealTimeline');
-  mt.innerHTML = meals.map(m => `
-    <div class="meal-row">
-      <div>
-        <div class="meal-time">${m.time}</div>
-        <div class="meal-name">${m.name}</div>
-        <div style="font-size:0.7rem;color:var(--text-muted);margin-top:3px">${m.desc}</div>
-      </div>
-      <div style="text-align:right">
-        <div class="meal-cal">${m.cal}<span> kcal</span></div>
-        <div style="font-size:0.68rem;color:var(--text-muted)">${m.pct}%</div>
-      </div>
-    </div>`).join('');
-
-  // Timeline to goal
-  const tlc = document.getElementById('timelineContent');
-  if (weeksToGoal !== null && weeksToGoal > 0) {
-    const months = (weeksToGoal / 4.33).toFixed(1);
-    const endDate = new Date();
-    endDate.setDate(endDate.getDate() + weeksToGoal * 7);
-    const dateStr = endDate.toLocaleDateString('ml-IN', {year:'numeric',month:'long',day:'numeric'});
-    tlc.innerHTML = `
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center;">
-        <div style="background:var(--surface2);border-radius:12px;padding:14px;">
-          <div style="font-size:1.8rem;font-weight:800;color:var(--accent)">${weeksToGoal}</div>
-          <div style="font-size:0.72rem;color:var(--text-muted)">ആഴ്ചകൾ</div>
-        </div>
-        <div style="background:var(--surface2);border-radius:12px;padding:14px;">
-          <div style="font-size:1.8rem;font-weight:800;color:var(--maintain)">${months}</div>
-          <div style="font-size:0.72rem;color:var(--text-muted)">മാസങ്ങൾ</div>
-        </div>
-        <div style="background:var(--surface2);border-radius:12px;padding:14px;grid-column:1/-1;">
-          <div style="font-size:0.82rem;color:var(--gain);font-weight:600">🎯 ലക്ഷ്യം നേടുന്ന തീയതി</div>
-          <div style="font-size:0.9rem;margin-top:4px;">${dateStr}</div>
-        </div>
-      </div>
-      <div style="margin-top:12px;font-size:0.78rem;color:var(--text-muted);text-align:center;">* ഇത് ഒരു ഏകദേശ കണക്കാണ്. ഒരു doctor / nutritionist-നെ കാണൂ.</div>`;
-  } else if (currentGoal === 'maintain') {
-    tlc.innerHTML = `<p style="color:var(--maintain);font-size:0.9rem;">⚖️ നിങ്ങൾ ഇപ്പോഴത്തെ ഭാരം നിലനിർത്തുന്നതാണ് ലക്ഷ്യം. ${tdee} kcal/day കഴിക്കൂ!</p>`;
+  if(currentGoal === 'loss') {
+    deficit = Math.round(intensity * 500);
+    goalCal = tdee - deficit;
+  } else if(currentGoal === 'gain') {
+    deficit = Math.round(intensity * 500);
+    goalCal = tdee + deficit;
   } else {
-    tlc.innerHTML = `<p style="font-size:0.82rem;color:var(--text-muted)">ടാർഗറ്റ് ഭാരം നൽകിയാൽ timeline കാണിക്കും.</p>`;
+    goalCal = tdee; deficit = 0;
   }
 
-  // Exercise
-  const exercises = getExercises(currentGoal, bmi);
-  document.getElementById('exerciseList').innerHTML = exercises.map(e =>
-    `<div class="exercise-tag">${e}</div>`).join('');
+  goalCal = Math.max(goalCal, 1200);
+  savedCalGoal = goalCal;
+  document.getElementById('dash-cal').textContent = goalCal;
+  document.getElementById('dash-goal-icon').textContent = currentGoal === 'loss' ? '📉' : currentGoal === 'gain' ? '📈' : '⚖️';
+  document.getElementById('dash-goal').textContent = currentGoal === 'loss' ? 'ഭാരം കുറയ്ക്കൽ' : currentGoal === 'gain' ? 'ഭാരം കൂട്ടൽ' : 'നിലനിർത്തൽ';
 
-  // Tips
-  const tips = getTips(currentGoal);
-  document.getElementById('tipsGrid').innerHTML = tips.map(t =>
-    `<div class="tip-item"><span class="tip-icon">${t.icon}</span><span>${t.text}</span></div>`).join('');
+  const weeklyChange = currentGoal === 'maintain' ? 0 : (intensity * (currentGoal === 'loss' ? -0.5 : 0.5));
+  const color = currentGoal === 'loss' ? 'var(--red)' : currentGoal === 'gain' ? 'var(--green)' : 'var(--blue)';
+  const emoji = currentGoal === 'loss' ? '📉' : currentGoal === 'gain' ? '📈' : '⚖️';
 
-  // Indian food notes
-  document.getElementById('indianFoodNotes').innerHTML = getIndianFoodNotes(currentGoal);
-
-  // Show
-  const dash = document.getElementById('dashboard');
-  dash.classList.add('visible');
-  setTimeout(() => dash.scrollIntoView({behavior:'smooth', block:'start'}), 100);
-}
-
-// ─── MEAL PLAN GENERATOR ───
-function getMealPlan(totalCal, goal) {
-  const plans = {
-    loss: [
-      { time:'07:00 AM', name:'🌅 ബ്രേക്ക്ഫാസ്റ്റ്', desc:'Oats/Idli + Egg white + Green tea', pct:25 },
-      { time:'10:30 AM', name:'🍎 Morning Snack',   desc:'Banana / Apple / Nuts (10g)', pct:10 },
-      { time:'01:00 PM', name:'🍱 ഉച്ചഭക്ഷണം',     desc:'2 Chapathi + Dal + Salad + Curd', pct:30 },
-      { time:'04:30 PM', name:'☕ Evening Snack',   desc:'Black coffee / Green tea + Fruit', pct:10 },
-      { time:'08:00 PM', name:'🌙 ഡിന്നർ',          desc:'Vegetable soup + Grilled chicken/fish + Vegetables', pct:25 }
-    ],
-    gain: [
-      { time:'07:00 AM', name:'🌅 ബ്രേക്ക്ഫാസ്റ്റ്', desc:'Egg omelette (3) + Milk + Banana + Oats', pct:25 },
-      { time:'10:30 AM', name:'🥜 Morning Snack',   desc:'Peanut butter toast + Nuts + Fruit juice', pct:15 },
-      { time:'01:00 PM', name:'🍱 ഉച്ചഭക്ഷണം',     desc:'Rice (2 cups) + Dal + Chicken curry + Curd', pct:30 },
-      { time:'04:30 PM', name:'🥤 Evening Shake',   desc:'Protein shake / Banana milkshake + Snacks', pct:15 },
-      { time:'08:00 PM', name:'🌙 ഡിന്നർ',          desc:'Rice/Chapathi + Egg/Fish curry + Vegetables + Milk', pct:15 }
-    ],
-    maintain: [
-      { time:'07:30 AM', name:'🌅 ബ്രേക്ക്ഫാസ്റ്റ്', desc:'Idli/Dosa + Sambar + Tea/Coffee', pct:25 },
-      { time:'11:00 AM', name:'🍊 Morning Snack',   desc:'Seasonal fruit / Roasted chana', pct:10 },
-      { time:'01:30 PM', name:'🍱 ഉച്ചഭക്ഷണം',     desc:'Rice + Dal + Sabzi + Curd + Salad', pct:35 },
-      { time:'05:00 PM', name:'☕ Evening Snack',   desc:'Tea + Light snack (murukku/fruits)', pct:10 },
-      { time:'08:30 PM', name:'🌙 ഡിന്നർ',          desc:'2 Chapathi + Dal / Light rice + Vegetables', pct:20 }
-    ]
-  };
-  return plans[goal].map(m => ({
-    ...m,
-    cal: Math.round(totalCal * m.pct / 100)
-  }));
-}
-
-// ─── EXERCISES ───
-function getExercises(goal, bmi) {
-  const common = ['🚶 30min Walking', '💧 Hydration Walks', '🧘 Yoga (15min)'];
-  if (goal === 'loss') return [
-    ...common, '🏃 Jogging/Running', '🚴 Cycling', '🏊 Swimming',
-    '⚡ HIIT (20min)', '🏋️ Cardio (30min)', '🤸 Jump Rope'
-  ];
-  if (goal === 'gain') return [
-    '🏋️ Weight Training', '💪 Push-ups', '🦵 Squats & Lunges',
-    '🔱 Deadlifts', '🤜 Bench Press', '🦾 Pull-ups',
-    ...common.slice(0,1), '😴 Rest & Recovery'
-  ];
-  return [
-    ...common, '🏃 Jogging (20min)', '🚴 Cycling (30min)',
-    '💪 Light Strength', '🤸 Stretching', '🏊 Swimming'
-  ];
-}
-
-// ─── TIPS ───
-function getTips(goal) {
-  const shared = [
-    { icon:'😴', text:'ദിവസം 7–8 മണിക്കൂർ ഉറക്കം ഉറപ്പുവരുത്തൂ. ഉറക്കക്കുറവ് hormones ൽ impact ചെയ്യും.' },
-    { icon:'💧', text:'ദിവസം 2.5–3 ലിറ്റർ വെള്ളം കുടിക്കൂ. ഭക്ഷണത്തിന് 20 മിനിറ്റ് മുൻപ് 1 ഗ്ലാസ്.' },
-    { icon:'📱', text:'Food diary app ഉപയോഗിക്കൂ (MyFitnessPal etc.). Tracking ചെയ്യുന്നത് progress കൂട്ടും.' },
-  ];
-  if (goal === 'loss') return [
-    { icon:'🍽️', text:'ഭക്ഷണം ചെറിയ plates-ൽ കഴിക്കൂ. Slowly ചവക്കൂ, 20 മിനിറ്റ് ആകുമ്പോൾ brain fullness signal അയക്കും.' },
-    { icon:'🚫', text:'Sugar, fried food, white rice excess ഒഴിവാക്കൂ. High-fiber vegetables കൂടുതൽ കഴിക്കൂ.' },
-    ...shared,
-    { icon:'⏱️', text:'Intermittent fasting (16:8) try ചെയ്യൂ — breakfast 9am ൽ, dinner 7pm-ൽ കഴിക്കൂ.' },
-    { icon:'🥗', text:'High-protein breakfast കഴിക്കൂ. Eggs, curd, sprouts ദൈനംദിന ഭക്ഷണത്തിൽ ഉൾപ്പെടുത്തൂ.' }
-  ];
-  if (goal === 'gain') return [
-    { icon:'⏰', text:'3 വലിയ meals + 2-3 snacks ദൈനംദിന schedule ഉണ്ടാക്കൂ. Meal skip ചെയ്യരുത്.' },
-    { icon:'🥛', text:'Milk, curd, paneer, eggs ദൈനംദിനം കഴിക്കൂ. Protein intake weight ൻ്റെ 1.6–2.2x g/kg ആക്കൂ.' },
-    ...shared,
-    { icon:'🏋️', text:'Cardio excess ചെയ്യരുത്. Strength training ൽ focus ചെയ്ത് muscle gain ഉറപ്പ് വരുത്തൂ.' },
-    { icon:'🍌', text:'Calorie-dense foods: nuts, banana, avocado, ghee (moderate), sweet potato ഭക്ഷണത്തിൽ ചേർക്കൂ.' }
-  ];
-  return [
-    { icon:'⚖️', text:'Weekly ഒരു തവണ weight check ചെയ്യൂ. ഒരേ സമയത്ത്, ഒരേ condition-ൽ.' },
-    { icon:'🎯', text:'Balanced macros maintain ചെയ്യൂ. Crash diet ഒഴിവാക്കൂ.' },
-    ...shared,
-    { icon:'🥙', text:'Processed food, packaged snacks minimise ചെയ്യൂ. Home-cooked meals prefer ചെയ്യൂ.' },
-    { icon:'🧘', text:'Stress management: yoga, meditation, deep breathing — cortisol weight ബാധിക്കും.' }
-  ];
-}
-
-// ─── INDIAN FOOD NOTES ───
-function getIndianFoodNotes(goal) {
-  if (goal === 'loss') return `
-    <b style="color:var(--text)">✅ കഴിക്കാൻ പ്രോൽസാഹിപ്പിക്കുന്ന ഭക്ഷണങ്ങൾ:</b><br>
-    Idli (steamed), Oats upma, Moong dal, Rajma, Brown rice, Ragi, Sprouts, Vegetables (all types), Curd (low fat), Egg whites, Fish (grilled), Chicken breast (grilled), Amla, Green tea<br><br>
-    <b style="color:var(--loss)">❌ കഴിവതും ഒഴിവാക്കേണ്ടത്:</b><br>
-    White rice (excess), Maida products, Fried snacks (bonda, vada, samosa), Sugary chai/coffee, Soft drinks, Ghee (excess), Full-fat milk (large quantity), Pickles (excess), Alcohol
+  document.getElementById('calcResult').innerHTML = `
+    <div style="margin-bottom:16px">
+      <div class="result-label">BMR (അടിസ്ഥാന ഉപാപചയ നിരക്ക്)</div>
+      <div style="font-size:1.6rem; font-weight:800; color:var(--blue)">${Math.round(bmr)} <span style="font-size:0.85rem; color:var(--text-muted)">kcal</span></div>
+    </div>
+    <div class="result-row">
+      <span>⚡ TDEE (ആകെ ഊർജ്ജ ആവശ്യം)</span>
+      <span class="val" style="color:var(--yellow)">${tdee} kcal</span>
+    </div>
+    ${currentGoal !== 'maintain' ? `<div class="result-row">
+      <span>${currentGoal === 'loss' ? '📉 കലോറി കമ്മി' : '📈 കലോറി അധികം'}</span>
+      <span class="val" style="color:${color}">${deficit > 0 ? (currentGoal === 'loss' ? '-' : '+') : ''}${deficit} kcal</span>
+    </div>` : ''}
+    <div class="result-row" style="border:1.5px solid ${color}; border-radius:8px; padding:12px; margin-top:8px; background:${color}22">
+      <span style="font-weight:700">${emoji} ലക്ഷ്യ കലോറി / ദിവസം</span>
+      <span class="val" style="color:${color}; font-size:1.4rem">${goalCal} kcal</span>
+    </div>
+    ${weeklyChange !== 0 ? `<div style="text-align:center; margin-top:12px; font-size:0.82rem; color:var(--text-muted)">
+      ≈ ആഴ്ചയിൽ <strong style="color:${color}">${Math.abs(weeklyChange).toFixed(2)} kg</strong> ${currentGoal === 'loss' ? 'കുറയും' : 'കൂടും'}
+    </div>` : ''}
   `;
-  if (goal === 'gain') return `
-    <b style="color:var(--text)">✅ Calorie-rich ആരോഗ്യകരമായ ഭക്ഷണങ്ങൾ:</b><br>
-    Rice (more servings), Chapathi with ghee, Dal + rice, Chicken curry, Egg curry, Rajma, Chole, Full-fat milk, Paneer, Banana, Mango, Nuts (almonds, cashews), Peanut butter, Sweet potato, Avocado<br><br>
-    <b style="color:var(--maintain)">💡 Tips:</b><br>
-    ഭക്ഷണത്തിൽ ghee (2 tsp/day) ചേർക്കൂ. Banana milkshake, mango lassi healthy calorie boosters ആണ്. Post-workout protein (eggs/curd/milk) ഉറക്കം ഉണ്ടാകും.
-  `;
-  return `
-    <b style="color:var(--text)">✅ Balanced Indian Diet:</b><br>
-    Idli/Dosa + sambar (breakfast), Rice + dal + sabzi + curd (lunch), Chapathi + vegetables (dinner), Seasonal fruits (snacks), Nimbu paani / coconut water (hydration)<br><br>
-    <b style="color:var(--maintain)">⚖️ Balance Key:</b><br>
-    50% carbs (rice, roti), 25% protein (dal, egg, fish), 25% fat (healthy oils, nuts). Refined oil കുറവ്, coconut/groundnut oil moderate ആയി ഉപയോഗിക്കൂ.
-  `;
+
+  generateMealPlan(goalCal);
+  document.getElementById('mealPlanCard').style.display = 'block';
+  document.getElementById('mealPlanCalBadge').textContent = goalCal + ' kcal';
 }
 
-// Animate on load
-window.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('input').forEach((el,i) => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(10px)';
-    el.style.transition = `opacity .3s ${i*0.05}s, transform .3s ${i*0.05}s`;
-    setTimeout(() => { el.style.opacity='1'; el.style.transform='translateY(0)'; }, 50);
+function generateMealPlan(cal) {
+  const lossPlans = [
+    { time: "7:30 AM", label: "ബ്രേക്ക്ഫാസ്റ്റ്", percent: 0.25, items: "ഓട്‌സ്, വേവിച്ച മുട്ട, പഴം" },
+    { time: "10:30 AM", label: "മോർണിംഗ് സ്നാക്ക്", percent: 0.10, items: "ഒരു ആപ്പിൾ, ഒരു മുഷ്ടി നട്‌സ്" },
+    { time: "1:30 PM", label: "ഉച്ചഭക്ഷണം", percent: 0.35, items: "ചോറ്, ദാൽ, പച്ചക്കറി, ചിക്കൻ" },
+    { time: "4:30 PM", label: "ഈവനിംഗ് സ്നാക്ക്", percent: 0.10, items: "ഗ്രീൻ ടീ, ഒരു ഫ്രൂട്ട്" },
+    { time: "8:00 PM", label: "ഡിന്നർ", percent: 0.20, items: "ചപ്പാത്തി, സബ്ജി, സൂപ്പ്" }
+  ];
+  const gainPlans = [
+    { time: "7:30 AM", label: "ബ്രേക്ക്ഫാസ്റ്റ്", percent: 0.25, items: "4 മുട്ട ഓംലെറ്റ്, 2 ടോസ്റ്റ്, ബനാന ഷേക്ക്" },
+    { time: "10:30 AM", label: "മോർണിംഗ് സ്നാക്ക്", percent: 0.15, items: "പ്രോട്ടീൻ ഷേക്ക്, ഓട്‌സ്, നട്‌സ്" },
+    { time: "1:30 PM", label: "ഉച്ചഭക്ഷണം", percent: 0.30, items: "2 കപ്പ് ചോറ്, ചിക്കൻ/മീൻ, ദാൽ" },
+    { time: "5:00 PM", label: "പ്രീ-വർക്കൗട്ട്", percent: 0.10, items: "ബനാന, ഗ്രൗണ്ട്നട്ട് ബട്ടർ, ഓട്‌സ്" },
+    { time: "8:30 PM", label: "ഡിന്നർ & പോസ്റ്റ്-വർക്കൗട്ട്", percent: 0.20, items: "ചിക്കൻ, ബ്രൗൺ റൈസ്, മിൽക്ക്" }
+  ];
+
+  const plan = currentGoal === 'gain' ? gainPlans : lossPlans;
+  const c = document.getElementById('mealsContainer');
+  c.innerHTML = '';
+  plan.forEach(item => {
+    const cal2 = Math.round(cal * item.percent);
+    c.innerHTML += `
+      <div class="meal-item">
+        <div class="meal-time">${item.time}</div>
+        <div><div class="meal-name">${item.label}</div><div class="meal-desc">${item.items}</div></div>
+        <div class="meal-cal">${cal2} cal</div>
+      </div>`;
   });
-});
+}
+
+// ===== BMI =====
+function calculateBMI() {
+  const w = parseFloat(document.getElementById('bmi-weight').value);
+  const h = parseFloat(document.getElementById('bmi-height').value) / 100;
+  const gender = document.getElementById('bmi-gender').value;
+  if(!w||!h){ alert("ഭാരവും ഉയരവും നൽകൂ!"); return; }
+
+  const bmi = (w / (h * h)).toFixed(1);
+  document.getElementById('dash-bmi').textContent = bmi;
+
+  let cat, color, emoji, range;
+  if(bmi < 18.5) { cat = 'ഭാരക്കുറവ്'; color = '#58a6ff'; emoji = '📉'; range='< 18.5'; }
+  else if(bmi < 25) { cat = 'ആദർശ ഭാരം'; color = '#3fb950'; emoji = '✅'; range='18.5 – 24.9'; }
+  else if(bmi < 30) { cat = 'അധിക ഭാരം'; color = '#e3b341'; emoji = '⚠️'; range='25 – 29.9'; }
+  else { cat = 'പൊണ്ണത്തടി'; color = '#f85149'; emoji = '🚨'; range='≥ 30'; }
+
+  document.getElementById('dash-bmi-cat').textContent = cat;
+
+  const needlePos = Math.min(95, Math.max(5, ((bmi - 10) / 30) * 100));
+
+  document.getElementById('bmiResult').innerHTML = `
+    <div class="card-title"><div class="icon">📊</div> BMI ഫലം</div>
+    <div class="bmi-gauge-wrap">
+      <div class="result-label">നിങ്ങളുടെ BMI</div>
+      <div class="bmi-value" style="color:${color}">${bmi}</div>
+      <div class="bmi-category" style="background:${color}22; color:${color}; border:1px solid ${color}44">${emoji} ${cat}</div>
+      <div style="font-size:0.78rem; color:var(--text-muted); margin-top:8px">ശ്രേണി: ${range}</div>
+      <div class="bmi-scale" style="margin-top:20px">
+        <div class="bmi-seg" style="background:#58a6ff"></div>
+        <div class="bmi-seg" style="background:#3fb950; flex:2"></div>
+        <div class="bmi-seg" style="background:#e3b341"></div>
+        <div class="bmi-seg" style="background:#f85149"></div>
+        <div class="bmi-needle" style="left:${needlePos}%"></div>
+      </div>
+      <div style="display:flex; justify-content:space-between; font-size:0.68rem; color:var(--text-muted); margin-top:6px">
+        <span>10</span><span>18.5</span><span>25</span><span>30</span><span>40+</span>
+      </div>
+    </div>
+  `;
+
+  // Ideal weight
+  const hCm = parseFloat(document.getElementById('bmi-height').value);
+  const hM = hCm / 100;
+  const robinson = gender === 'male' ? (52 + 1.9 * ((hCm - 152.4) / 2.54)).toFixed(1) : (49 + 1.7 * ((hCm - 152.4) / 2.54)).toFixed(1);
+  const miller = gender === 'male' ? (56.2 + 1.41 * ((hCm - 152.4) / 2.54)).toFixed(1) : (53.1 + 1.36 * ((hCm - 152.4) / 2.54)).toFixed(1);
+  const devine = gender === 'male' ? (50 + 2.3 * ((hCm - 152.4) / 2.54)).toFixed(1) : (45.5 + 2.3 * ((hCm - 152.4) / 2.54)).toFixed(1);
+  const bmiIdeal = (22 * hM * hM).toFixed(1);
+
+  const ig = document.getElementById('idealWeightGrid');
+  ig.innerHTML = `
+    <div class="ideal-card"><div class="ideal-formula">Robinson (1983)</div><div class="ideal-val" style="color:var(--green)">${robinson} kg</div></div>
+    <div class="ideal-card"><div class="ideal-formula">Miller (1983)</div><div class="ideal-val" style="color:var(--blue)">${miller} kg</div></div>
+    <div class="ideal-card"><div class="ideal-formula">Devine (1974)</div><div class="ideal-val" style="color:var(--purple)">${devine} kg</div></div>
+    <div class="ideal-card"><div class="ideal-formula">BMI-24 (ആദർശ)</div><div class="ideal-val" style="color:var(--orange)">${bmiIdeal} kg</div></div>
+  `;
+  document.getElementById('idealWeightCard').style.display = 'block';
+}
+
+// ===== MACROS =====
+function calculateMacros() {
+  const w = parseFloat(document.getElementById('macro-weight').value);
+  const h = parseFloat(document.getElementById('macro-height').value);
+  const age = parseFloat(document.getElementById('macro-age').value);
+  const gender = document.getElementById('macro-gender').value;
+  const goal = document.getElementById('macro-goal').value;
+  const activity = parseFloat(document.getElementById('macro-activity').value);
+  if(!w||!h||!age){ alert("എല്ലാ കോളങ്ങളും പൂരിപ്പിക്കൂ!"); return; }
+
+  let bmr = gender === 'male' ? (10*w)+(6.25*h)-(5*age)+5 : (10*w)+(6.25*h)-(5*age)-161;
+  let tdee = Math.round(bmr * activity);
+  let cal = goal === 'loss' ? tdee - 500 : goal === 'gain' ? tdee + 500 : tdee;
+  cal = Math.max(cal, 1200);
+
+  let proteinPct, carbPct, fatPct;
+  if(goal === 'loss') { proteinPct = 0.35; carbPct = 0.35; fatPct = 0.30; }
+  else if(goal === 'gain') { proteinPct = 0.30; carbPct = 0.45; fatPct = 0.25; }
+  else { proteinPct = 0.30; carbPct = 0.40; fatPct = 0.30; }
+
+  const protein = Math.round((cal * proteinPct) / 4);
+  const carbs = Math.round((cal * carbPct) / 4);
+  const fat = Math.round((cal * fatPct) / 9);
+
+  document.getElementById('macroResult').innerHTML = `
+    <div style="text-align:center; margin-bottom:20px">
+      <div class="result-label">ദൈനിക കലോറി</div>
+      <div class="result-main">${cal} <span style="font-size:1rem; color:var(--text-muted)">kcal</span></div>
+    </div>
+    <div class="macro-bars">
+      <div class="macro-row">
+        <div class="macro-label">
+          <span>🥩 പ്രോട്ടീൻ</span>
+          <span style="color:var(--red); font-weight:700">${protein}g <span style="font-weight:400; color:var(--text-muted)">(${Math.round(proteinPct*100)}%)</span></span>
+        </div>
+        <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:${proteinPct*100}%; background:var(--red)"></div></div>
+      </div>
+      <div class="macro-row">
+        <div class="macro-label">
+          <span>🍚 കാർബ്</span>
+          <span style="color:var(--yellow); font-weight:700">${carbs}g <span style="font-weight:400; color:var(--text-muted)">(${Math.round(carbPct*100)}%)</span></span>
+        </div>
+        <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:${carbPct*100}%; background:var(--yellow)"></div></div>
+      </div>
+      <div class="macro-row">
+        <div class="macro-label">
+          <span>🥑 ഫാറ്റ്</span>
+          <span style="color:var(--blue); font-weight:700">${fat}g <span style="font-weight:400; color:var(--text-muted)">(${Math.round(fatPct*100)}%)</span></span>
+        </div>
+        <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:${fatPct*100}%; background:var(--blue)"></div></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:4px">
+      <div style="text-align:center; background:var(--bg); padding:12px; border-radius:8px; border:1px solid var(--border)">
+        <div style="font-size:1.4rem; font-weight:800; color:var(--red)">${protein}g</div>
+        <div style="font-size:0.72rem; color:var(--text-muted)">Protein</div>
+      </div>
+      <div style="text-align:center; background:var(--bg); padding:12px; border-radius:8px; border:1px solid var(--border)">
+        <div style="font-size:1.4rem; font-weight:800; color:var(--yellow)">${carbs}g</div>
+        <div style="font-size:0.72rem; color:var(--text-muted)">Carbs</div>
+      </div>
+      <div style="text-align:center; background:var(--bg); padding:12px; border-radius:8px; border:1px solid var(--border)">
+        <div style="font-size:1.4rem; font-weight:800; color:var(--blue)">${fat}g</div>
+        <div style="font-size:0.72rem; color:var(--text-muted)">Fat</div>
+      </div>
+    </div>
+  `;
+}
+
+// ===== WATER =====
+function calcWaterGoal() {
+  const w = parseFloat(document.getElementById('water-weight').value) || 70;
+  const act = parseFloat(document.getElementById('water-activity').value) || 0;
+  const goal = ((w * 0.033) + act).toFixed(1);
+  document.getElementById('waterGoalVal').textContent = goal;
+}
+
+function renderWaterCups() {
+  const c = document.getElementById('waterCups');
+  c.innerHTML = '';
+  for(let i=0;i<8;i++){
+    const div = document.createElement('div');
+    div.className = 'water-cup' + (i < waterCount ? ' filled' : '');
+    div.innerHTML = i < waterCount ? '💧' : '🫙';
+    div.onclick = () => { waterCount = i+1; renderWaterCups(); updateWaterDash(); };
+    c.appendChild(div);
+  }
+  document.getElementById('waterCountBadge').textContent = `${waterCount} / 8 ഗ്ലാസ്`;
+  const pct = Math.min(100, Math.round((waterCount/8)*100));
+  document.getElementById('waterProgress').style.width = pct + '%';
+  document.getElementById('waterPct').textContent = pct + '%';
+}
+function addWater() { if(waterCount<8){waterCount++;renderWaterCups();updateWaterDash();} }
+function resetWater() { waterCount=0; renderWaterCups(); updateWaterDash(); }
+function updateWaterDash() { document.getElementById('dash-water').textContent = waterCount; }
+
+// ===== EXERCISE =====
+const exercises = [
+  { name: "🚶 ഇടത്തരം നടത്തം", met: 3.5, desc: "3.5 mph" },
+  { name: "🏃 ജോഗിംഗ്", met: 7.0, desc: "5 mph" },
+  { name: "🏃‍♂️ ഓട്ടം (വേഗം)", met: 11.5, desc: "8 mph" },
+  { name: "🚴 സൈക്ക്ളിംഗ് (ഇടത്തരം)", met: 8.0, desc: "Moderate" },
+  { name: "🏊 നീന്തൽ", met: 8.3, desc: "Freestyle" },
+  { name: "💃 ഡാൻസ്", met: 4.5, desc: "General" },
+  { name: "🧘 യോഗ", met: 3.0, desc: "Hatha" },
+  { name: "🏋️ ഭാരോദ്വഹനം", met: 6.0, desc: "Moderate" },
+  { name: "⚽ ഫുട്ബോൾ", met: 7.0, desc: "General" },
+  { name: "🏸 ബാഡ്മിന്റൺ", met: 5.5, desc: "General" },
+  { name: "🧗 സ്കിപ്പിംഗ്", met: 12.3, desc: "Jump Rope" },
+  { name: "🏠 ഗൃഹജോലി", met: 3.0, desc: "General housework" },
+];
+
+function renderExercises() {
+  const el = document.getElementById('exerciseList');
+  el.innerHTML = exercises.map((e,i) => `
+    <div class="ex-item" id="ex-${i}" onclick="selectExercise(${i})">
+      <div class="ex-icon">${e.name.split(' ')[0]}</div>
+      <div><div class="ex-name">${e.name.slice(e.name.indexOf(' ')+1)}</div><div class="ex-rate">MET: ${e.met} • ${e.desc}</div></div>
+      <div class="ex-cal" id="ex-cal-${i}">— cal</div>
+    </div>
+  `).join('');
+}
+
+function selectExercise(i) {
+  document.querySelectorAll('.ex-item').forEach(el => el.classList.remove('selected'));
+  document.getElementById(`ex-${i}`).classList.add('selected');
+  selectedExercise = i;
+  updateExerciseCals();
+}
+
+function updateExerciseCals() {
+  const w = parseFloat(document.getElementById('ex-weight').value) || 70;
+  const dur = parseFloat(document.getElementById('ex-duration').value) || 30;
+  exercises.forEach((e,i) => {
+    const cal = Math.round((e.met * w * 3.5 / 200) * dur);
+    const el = document.getElementById(`ex-cal-${i}`);
+    if(el) el.textContent = cal + ' cal';
+  });
+
+  if(selectedExercise !== null) {
+    const e = exercises[selectedExercise];
+    const cal = Math.round((e.met * w * 3.5 / 200) * dur);
+    document.getElementById('exResult').innerHTML = `
+      <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em">${e.name}</div>
+      <div style="font-size:3rem; font-weight:800; color:var(--orange); line-height:1">${cal}</div>
+      <div style="font-size:0.9rem; color:var(--text-muted); margin-top:4px">Calories Burned</div>
+      <div class="divider"></div>
+      <div class="result-row"><span>⏱️ ദൈർഘ്യം</span><span class="val">${dur} മിനിറ്റ്</span></div>
+      <div class="result-row"><span>⚖️ ഭാരം</span><span class="val">${w} kg</span></div>
+      <div class="result-row"><span>💪 MET</span><span class="val">${e.met}</span></div>
+      <div class="result-row"><span>⏳ 1 കൊഴുപ്പ് കത്തിക്കാൻ</span><span class="val" style="color:var(--orange)">${Math.round(7700/((e.met*w*3.5/200)*60))} മണിക്കൂർ</span></div>
+    `;
+  }
+}
+
+function syncDuration(val) {
+  document.getElementById('ex-duration').value = val;
+  document.getElementById('durationLabel').textContent = val + ' min';
+  updateExerciseCals();
+}
+
+// ===== WEIGHT LOG =====
+function addWeightLog() {
+  const w = parseFloat(document.getElementById('prog-weight').value);
+  const d = document.getElementById('prog-date').value;
+  if(!w || !d) { alert("ഭാരവും തീയതിയും നൽകൂ!"); return; }
+  weightLogs.push({ weight: w, date: d });
+  weightLogs.sort((a,b) => new Date(a.date) - new Date(b.date));
+  localStorage.setItem('weightLogs', JSON.stringify(weightLogs));
+  document.getElementById('prog-weight').value = '';
+  renderWeightLog();
+}
+
+function deleteLog(i) {
+  weightLogs.splice(i, 1);
+  localStorage.setItem('weightLogs', JSON.stringify(weightLogs));
+  renderWeightLog();
+}
+
+function renderWeightLog() {
+  const list = document.getElementById('weightLogList');
+  if(weightLogs.length === 0) {
+    list.innerHTML = `<div style="color:var(--text-muted); font-size:0.85rem; padding:20px 0; text-align:center"><div style="font-size:32px; margin-bottom:8px">📋</div><p>ഇതുവരെ ഒന്നും ചേർത്തിട്ടില്ല</p></div>`;
+    document.getElementById('stat-first').textContent = '—';
+    document.getElementById('stat-current').textContent = '—';
+    document.getElementById('stat-change').textContent = '—';
+    document.getElementById('stat-days').textContent = '0';
+    renderChart([]);
+    return;
+  }
+  list.innerHTML = '<div class="log-list">' + weightLogs.map((l,i) => {
+    const prev = i > 0 ? weightLogs[i-1].weight : null;
+    const change = prev ? (l.weight - prev).toFixed(1) : null;
+    const changeHtml = change ? `<span class="log-change" style="color:${change > 0 ? 'var(--green)' : 'var(--red)'}">${change > 0 ? '+' : ''}${change} kg</span>` : '';
+    return `<div class="log-item">
+      <div><div class="log-date">${formatDate(l.date)}</div></div>
+      <div class="log-weight">${l.weight} kg</div>
+      ${changeHtml}
+      <button class="del-btn" onclick="deleteLog(${i})">🗑️</button>
+    </div>`;
+  }).reverse().join('') + '</div>';
+
+  const first = weightLogs[0].weight;
+  const last = weightLogs[weightLogs.length-1].weight;
+  const change = (last - first).toFixed(1);
+  document.getElementById('stat-first').textContent = first;
+  document.getElementById('stat-current').textContent = last;
+  document.getElementById('stat-change').textContent = (change > 0 ? '+' : '') + change;
+  document.getElementById('stat-days').textContent = weightLogs.length;
+  renderChart(weightLogs);
+}
+
+function formatDate(d) {
+  const date = new Date(d);
+  return date.toLocaleDateString('ml-IN', { day:'numeric', month:'short', year:'numeric' });
+}
+
+function renderChart(logs) {
+  const canvas = document.getElementById('weightChart');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.parentElement.offsetWidth;
+  const H = 160;
+  canvas.width = W; canvas.height = H;
+  ctx.clearRect(0, 0, W, H);
+
+  if(logs.length < 2) {
+    ctx.fillStyle = '#8b949e'; ctx.font = '14px Outfit';
+    ctx.textAlign = 'center';
+    ctx.fillText('ഡാറ്റ ചേർക്കൂ', W/2, H/2);
+    return;
+  }
+
+  const weights = logs.map(l => l.weight);
+  const minW = Math.min(...weights) - 1;
+  const maxW = Math.max(...weights) + 1;
+  const pad = { t:20, r:20, b:30, l:45 };
+  const cW = W - pad.l - pad.r;
+  const cH = H - pad.t - pad.b;
+
+  const toX = i => pad.l + (i / (logs.length-1)) * cW;
+  const toY = v => pad.t + cH - ((v - minW) / (maxW - minW)) * cH;
+
+  // Grid
+  ctx.strokeStyle = '#2a3441'; ctx.lineWidth = 1;
+  for(let i=0;i<4;i++) {
+    const y = pad.t + (i/3)*cH;
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l+cW, y); ctx.stroke();
+    const val = (maxW - (i/3)*(maxW-minW)).toFixed(1);
+    ctx.fillStyle = '#8b949e'; ctx.font = '11px Outfit'; ctx.textAlign = 'right';
+    ctx.fillText(val, pad.l - 6, y + 4);
+  }
+
+  // Area fill
+  const grad = ctx.createLinearGradient(0, pad.t, 0, pad.t+cH);
+  grad.addColorStop(0, 'rgba(63,185,80,0.25)');
+  grad.addColorStop(1, 'rgba(63,185,80,0.02)');
+  ctx.beginPath();
+  ctx.moveTo(toX(0), toY(weights[0]));
+  weights.forEach((w,i) => { if(i>0) ctx.lineTo(toX(i), toY(w)); });
+  ctx.lineTo(toX(weights.length-1), pad.t+cH);
+  ctx.lineTo(toX(0), pad.t+cH);
+  ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+
+  // Line
+  ctx.beginPath(); ctx.strokeStyle = '#3fb950'; ctx.lineWidth = 2.5;
+  ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  weights.forEach((w,i) => { i===0 ? ctx.moveTo(toX(i), toY(w)) : ctx.lineTo(toX(i), toY(w)); });
+  ctx.stroke();
+
+  // Dots
+  weights.forEach((w,i) => {
+    ctx.beginPath(); ctx.arc(toX(i), toY(w), 4, 0, Math.PI*2);
+    ctx.fillStyle = '#3fb950'; ctx.fill();
+    ctx.strokeStyle = '#0d1117'; ctx.lineWidth = 2; ctx.stroke();
+  });
+}
+
+// ===== TIPS =====
+const allTips = [
+  { icon:'🥗', title:'പ്രോട്ടീൻ കൂടുതൽ കഴിക്കൂ', text:'ഓരോ ഭക്ഷണത്തിലും പ്രോട്ടീൻ ഉൾപ്പെടുത്തൂ — ഇത് വിശപ്പ് കുറയ്ക്കുകയും മസിൽ നിലനിർത്തുകയും ചെയ്യും.', color:'var(--green)' },
+  { icon:'💧', title:'ആവശ്യത്തിന് വെള്ളം കുടിക്കൂ', text:'ദിനേന 2-3 ലിറ്റർ വെള്ളം കുടിക്കൂ. ഭക്ഷണത്തിനു 30 മിനിറ്റ് മുൻപ് ഒരു ഗ്ലാസ് വെള്ളം കുടിക്കൂ.', color:'var(--teal)' },
+  { icon:'😴', title:'6-8 മണിക്കൂർ ഉറക്കം', text:'ഉറക്കക്കുറവ് ഭക്ഷണ ആഗ്രഹം വർദ്ധിപ്പിക്കും. ഗുണമേന്മയുള്ള ഉറക്കം ഭാരം നിയന്ത്രണത്തിന് അത്യാവശ്യം.', color:'var(--purple)' },
+  { icon:'🏃', title:'ദിനേന 30 മിനിറ്റ് നടത്തം', text:'ഓരോ ദിവസവും കുറഞ്ഞത് 30 മിനിറ്റ് നടക്കൂ. 10,000 ചുവടുകൾ ആദർശം.', color:'var(--orange)' },
+  { icon:'🍽️', title:'ചെറിയ ഭാഗങ്ങൾ ഇടക്കിടക്ക്', text:'3 വലിയ ഭക്ഷണത്തേക്കാൾ 5-6 ചെറിയ ഭക്ഷണം ഉപാപചയം (Metabolism) ത്വരിതപ്പെടുത്തും.', color:'var(--yellow)' },
+  { icon:'🧘', title:'സ്ട്രെസ് നിയന്ത്രിക്കൂ', text:'ഉയർന്ന Cortisol ഭാരം കൂടാൻ ഇടയാക്കും. ദിനേന 10 മിനിറ്റ് മെഡിറ്റേഷൻ ശ്രമിക്കൂ.', color:'var(--red)' },
+];
+
+const dailyTips = [
+  "ഭക്ഷണം പതുക്കെ ചവക്കൂ — ഇത് ദഹനം മെച്ചപ്പെടുത്തുകയും കൂടുതൽ കഴിക്കുന്നത് തടയുകയും ചെയ്യും.",
+  "ഭക്ഷണ പദ്ധതി മുൻകൂട്ടി തയ്യാറാക്കൂ — ഇത് ആരോഗ്യകരമല്ലാത്ത ഭക്ഷണം ഒഴിവാക്കാൻ സഹായിക്കും.",
+  "ടി.വി കണ്ടുകൊണ്ട് ഭക്ഷണം കഴിക്കരുത് — ശ്രദ്ധ കൂടി കഴിക്കൂ.",
+  "ഉണ്ണും മുൻപ് ഒരു ഗ്ലാസ് വെള്ളം — വിശപ്പ് 20% കുറയ്ക്കും.",
+  "ഉണ്ണുന്നത് ഒരു ചെറിയ പ്ലേറ്റിൽ — കുറഞ്ഞ ഭക്ഷണം ധാരാളമെന്ന് തോന്നും.",
+  "നടക്കൂ, ഓടൂ, ആനന്ദിക്കൂ — ശരീരം നൽകുന്ന ഉഷ്ണം ഹൃദ്യം!",
+  "ഇന്ന് ഒരു ഭക്ഷണം ഗ്രീൻ ലീഫ് ഉൾപ്പെടുത്തൂ — ഇരുമ്പ് ലഭ്യം."
+];
+
+// ===== INIT =====
+function init() {
+  renderWaterCups();
+  renderExercises();
+  setTodayDate();
+  renderTips();
+  setDailyTip();
+  calcWaterGoal();
+  renderWeightLog();
+  document.getElementById('intensityGroup').style.display = 'block';
+}
+
+function setTodayDate() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('prog-date').value = today;
+}
+
+function renderTips() {
+  const grid = document.getElementById('tipsGrid');
+  grid.innerHTML = allTips.map(t => `
+    <div class="tip-card" style="--accent:${t.color}">
+      <div class="tip-icon">${t.icon}</div>
+      <div class="tip-title">${t.title}</div>
+      <div class="tip-text">${t.text}</div>
+    </div>
+  `).join('');
+}
+
+function setDailyTip() {
+  const tip = dailyTips[new Date().getDay() % dailyTips.length];
+  document.getElementById('dailyTip').innerHTML = `<div style="font-size:28px; margin-bottom:10px">💡</div><p style="line-height:1.7; font-size:0.88rem">${tip}</p>`;
+}
+
+window.addEventListener('resize', () => { if(weightLogs.length >= 2) renderWeightLog(); });
+
+init();
 </script>
 </body>
 </html>
