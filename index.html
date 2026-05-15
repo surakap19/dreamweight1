@@ -1,115 +1,859 @@
 <!DOCTYPE html>
 <html lang="ml">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weight Loss Calorie Calculator</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; padding: 20px; display: flex; justify-content: center; }
-        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 500px; width: 100%; }
-        h2 { color: #2c3e50; text-align: center; }
-        label { display: block; margin: 10px 0 5px; font-weight: bold; }
-        input, select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background-color: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; }
-        button:hover { background-color: #219150; }
-        #result { margin-top: 25px; padding: 15px; background: #e8f5e9; border-radius: 8px; display: none; }
-        .meal-plan { margin-top: 20px; border-top: 1px solid #ccc; padding-top: 15px; }
-        .meal-item { margin-bottom: 10px; font-size: 14px; }
-        .time { font-weight: bold; color: #e67e22; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health & Fitness Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+Malayalam:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2333;
+    --border: #30363d;
+    --loss: #ef4444;
+    --loss-soft: rgba(239,68,68,0.12);
+    --gain: #22c55e;
+    --gain-soft: rgba(34,197,94,0.12);
+    --maintain: #f59e0b;
+    --maintain-soft: rgba(245,158,11,0.12);
+    --accent: #58a6ff;
+    --accent-soft: rgba(88,166,255,0.12);
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --protein: #a78bfa;
+    --carbs: #fb923c;
+    --fat: #facc15;
+    --water: #38bdf8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Outfit', 'Noto Sans Malayalam', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+  .header-icon {
+    width: 42px; height: 42px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 0 20px rgba(34,197,94,0.3);
+  }
+  header h1 { font-size: 1.35rem; font-weight: 700; color: var(--text); }
+  header p { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+
+  /* ─── MAIN LAYOUT ─── */
+  .page { max-width: 1000px; margin: 0 auto; padding: 28px 20px; }
+
+  /* ─── GOAL TABS ─── */
+  .goal-tabs {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .goal-tab {
+    padding: 16px 10px;
+    border-radius: 14px;
+    border: 2px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    text-align: center;
+    transition: all .2s;
+  }
+  .goal-tab .emoji { font-size: 1.8rem; display: block; margin-bottom: 6px; }
+  .goal-tab .label { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); }
+  .goal-tab .sublabel { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
+
+  .goal-tab.loss.active  { border-color: var(--loss); background: var(--loss-soft); }
+  .goal-tab.gain.active  { border-color: var(--gain); background: var(--gain-soft); }
+  .goal-tab.maintain.active { border-color: var(--maintain); background: var(--maintain-soft); }
+  .goal-tab.loss.active .label  { color: var(--loss); }
+  .goal-tab.gain.active .label  { color: var(--gain); }
+  .goal-tab.maintain.active .label { color: var(--maintain); }
+  .goal-tab:hover:not(.active) { border-color: #444; background: var(--surface2); }
+
+  /* ─── FORM CARD ─── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 18px;
+  }
+  .card-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title span { font-size: 1rem; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1/-1; }
+  label { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); }
+
+  input, select {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 11px 14px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color .2s;
+  }
+  input:focus, select:focus { border-color: var(--accent); }
+  input::placeholder { color: #555; }
+  select option { background: #1c2333; }
+
+  /* ─── BUTTON ─── */
+  .calc-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: all .2s;
+    letter-spacing: .02em;
+  }
+  .calc-btn.loss     { background: linear-gradient(135deg,#ef4444,#dc2626); color:#fff; box-shadow: 0 4px 20px rgba(239,68,68,.3); }
+  .calc-btn.gain     { background: linear-gradient(135deg,#22c55e,#16a34a); color:#fff; box-shadow: 0 4px 20px rgba(34,197,94,.3); }
+  .calc-btn.maintain { background: linear-gradient(135deg,#f59e0b,#d97706); color:#fff; box-shadow: 0 4px 20px rgba(245,158,11,.3); }
+  .calc-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+  .calc-btn:active { transform: translateY(0); }
+
+  /* ─── DASHBOARD ─── */
+  #dashboard { display: none; }
+  #dashboard.visible { display: block; animation: fadeUp .4s ease; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ─── STAT CARDS ─── */
+  .stats-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 18px; }
+  @media(min-width:600px) { .stats-grid { grid-template-columns: repeat(4,1fr); } }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content:'';
+    position:absolute;
+    top:-20px; right:-20px;
+    width:70px; height:70px;
+    border-radius:50%;
+    opacity:.15;
+  }
+  .stat-card.s-tdee::before    { background: var(--accent); }
+  .stat-card.s-target::before  { background: var(--loss); }
+  .stat-card.s-bmi::before     { background: var(--protein); }
+  .stat-card.s-water::before   { background: var(--water); }
+  .stat-card.s-target.gain::before { background: var(--gain); }
+
+  .stat-icon { font-size: 1.4rem; margin-bottom: 8px; }
+  .stat-value { font-size: 1.6rem; font-weight: 800; line-height: 1; }
+  .stat-unit { font-size: 0.72rem; font-weight: 500; color: var(--text-muted); }
+  .stat-label { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; }
+  .s-tdee .stat-value    { color: var(--accent); }
+  .s-target .stat-value  { color: var(--loss); }
+  .s-target.gain .stat-value { color: var(--gain); }
+  .s-bmi .stat-value     { color: var(--protein); }
+  .s-water .stat-value   { color: var(--water); }
+
+  /* ─── BMI BAR ─── */
+  .bmi-bar-track {
+    position: relative;
+    height: 10px;
+    border-radius: 99px;
+    background: linear-gradient(to right,#38bdf8 0%,#22c55e 25%,#f59e0b 55%,#ef4444 80%,#7c3aed 100%);
+    margin: 14px 0 6px;
+    overflow: visible;
+  }
+  .bmi-pointer {
+    position: absolute;
+    top: 50%; transform: translate(-50%,-50%);
+    width: 16px; height: 16px;
+    background: white;
+    border: 3px solid var(--bg);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px white;
+    transition: left .6s cubic-bezier(.34,1.56,.64,1);
+  }
+  .bmi-labels { display: flex; justify-content: space-between; font-size: 0.62rem; color: var(--text-muted); }
+
+  /* ─── MACRO RING ─── */
+  .macro-section { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+  @media(min-width:600px) { .macro-section { grid-template-columns: 1fr 1fr 1fr; } }
+
+  .macro-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+  }
+  .macro-circle {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; font-weight: 800;
+    position: relative;
+  }
+  .macro-protein { background: rgba(167,139,250,.15); color: var(--protein); border: 3px solid var(--protein); }
+  .macro-carbs   { background: rgba(251,146,60,.15);  color: var(--carbs);   border: 3px solid var(--carbs); }
+  .macro-fat     { background: rgba(250,204,21,.15);  color: var(--fat);     border: 3px solid var(--fat); }
+  .macro-label   { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); }
+  .macro-sub     { font-size: 0.68rem; color: #555; margin-top: 2px; }
+
+  /* ─── MEAL PLAN ─── */
+  .meal-timeline { position: relative; padding-left: 30px; }
+  .meal-timeline::before {
+    content:'';
+    position: absolute; left: 10px; top: 8px; bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gain), var(--accent), var(--loss));
+    border-radius: 2px;
+  }
+  .meal-row {
+    position: relative;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color .2s;
+  }
+  .meal-row:hover { border-color: #444; }
+  .meal-row::before {
+    content:'';
+    position: absolute;
+    left: -23px; top: 50%; transform: translateY(-50%);
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 2px solid var(--bg);
+  }
+  .meal-time { font-size: 0.72rem; color: var(--maintain); font-weight: 700; }
+  .meal-name { font-size: 0.88rem; font-weight: 600; margin-top: 2px; }
+  .meal-cal  { font-size: 1rem; font-weight: 800; color: var(--accent); }
+  .meal-cal span { font-size: 0.65rem; font-weight: 400; color: var(--text-muted); }
+
+  /* ─── TIPS ─── */
+  .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tip-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+  .tip-item .tip-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* ─── PROGRESS ─── */
+  .progress-bar-wrap { margin-bottom: 12px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 5px; }
+  .progress-bar { height: 8px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 99px; transition: width .8s ease; }
+
+  /* ─── EXERCISE CARD ─── */
+  .exercise-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .exercise-tag {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* ─── SECTION HEADER ─── */
+  .section-sep {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--text-muted);
+    margin: 22px 0 14px;
+  }
+  .section-sep::after {
+    content:''; flex:1; height:1px; background: var(--border);
+  }
+
+  /* ─── WEIGHT GOAL BADGE ─── */
+  .goal-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .goal-badge.loss     { background: var(--loss-soft); color: var(--loss); }
+  .goal-badge.gain     { background: var(--gain-soft); color: var(--gain); }
+  .goal-badge.maintain { background: var(--maintain-soft); color: var(--maintain); }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media(max-width:480px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .tips-grid { grid-template-columns: 1fr; }
+    .macro-section { grid-template-columns: repeat(3,1fr); gap:10px; }
+    .macro-circle { width:64px; height:64px; font-size:1rem; }
+  }
+</style>
 </head>
 <body>
 
-<div class="container">
-    <h2>ഭാരം കുറയ്ക്കാനുള്ള കലോറി കാൽക്കുലേറ്റർ</h2>
-    
-    <label>ലിംഗം (Gender)</label>
-    <select id="gender">
-        <option value="male">പുരുഷൻ</option>
-        <option value="female">സ്ത്രീ</option>
-    </select>
+<header>
+  <div class="header-icon">🏋️</div>
+  <div>
+    <h1>Health & Fitness Dashboard</h1>
+    <p>നിങ്ങളുടെ ആരോഗ്യ ലക്ഷ്യം കണ്ടെത്തൂ</p>
+  </div>
+</header>
 
-    <label>പ്രായം (Age)</label>
-    <input type="number" id="age" placeholder="ഉദാ: 25">
+<div class="page">
 
-    <label>ഭാരം (Weight in kg)</label>
-    <input type="number" id="weight" placeholder="ഉദാ: 75">
-
-    <label>ഉയരം (Height in cm)</label>
-    <input type="number" id="height" placeholder="ഉദാ: 170">
-
-    <label>ദിവസേനയുള്ള വ്യായാമം (Activity Level)</label>
-    <select id="activity">
-        <option value="1.2">വ്യായാമം ഇല്ലാത്തവർ (Sedentary)</option>
-        <option value="1.375">ചെറിയ വ്യായാമം (1-3 days/week)</option>
-        <option value="1.55">മിതമായ വ്യായാമം (3-5 days/week)</option>
-        <option value="1.725">കഠിനമായ വ്യായാമം (6-7 days/week)</option>
-    </select>
-
-    <button onclick="calculateCalories()">കണക്കുകൂട്ടുക</button>
-
-    <div id="result">
-        <h3 style="margin-top:0;">നിങ്ങളുടെ ഫലം:</h3>
-        <p id="tdeeText"></p>
-        <p id="lossGoalText" style="font-weight:bold; color:#c0392b;"></p>
-        
-        <div class="meal-plan" id="mealPlan">
-            <h4>നിങ്ങളുടെ ഭക്ഷണക്രമം (Sample Meal Plan):</h4>
-            <div id="mealsContainer"></div>
-        </div>
+  <!-- GOAL SELECTION -->
+  <div class="goal-tabs">
+    <div class="goal-tab loss active" onclick="selectGoal('loss',this)">
+      <span class="emoji">🔥</span>
+      <div class="label">Weight Loss</div>
+      <div class="sublabel">ഭാരം കുറയ്ക്കാം</div>
     </div>
-</div>
+    <div class="goal-tab gain" onclick="selectGoal('gain',this)">
+      <span class="emoji">💪</span>
+      <div class="label">Weight Gain</div>
+      <div class="sublabel">ഭാരം കൂട്ടാം</div>
+    </div>
+    <div class="goal-tab maintain" onclick="selectGoal('maintain',this)">
+      <span class="emoji">⚖️</span>
+      <div class="label">Maintain</div>
+      <div class="sublabel">ഭാരം നിലനിർത്താം</div>
+    </div>
+  </div>
+
+  <!-- INPUT FORM -->
+  <div class="card">
+    <div class="card-title"><span>📋</span> നിങ്ങളുടെ വിവരങ്ങൾ നൽകൂ</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>ലിംഗം (Gender)</label>
+        <select id="gender">
+          <option value="male">👨 പുരുഷൻ</option>
+          <option value="female">👩 സ്ത്രീ</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>പ്രായം (Age)</label>
+        <input type="number" id="age" placeholder="25" min="10" max="100">
+      </div>
+      <div class="form-group">
+        <label>ഭാരം (Weight in kg)</label>
+        <input type="number" id="weight" placeholder="70" min="20" max="300">
+      </div>
+      <div class="form-group">
+        <label>ഉയരം (Height in cm)</label>
+        <input type="number" id="height" placeholder="170" min="100" max="250">
+      </div>
+      <div class="form-group full">
+        <label>വ്യായാമ നിലവാരം (Activity Level)</label>
+        <select id="activity">
+          <option value="1.2">🛋️ Sedentary — വ്യായാമം ഇല്ല</option>
+          <option value="1.375">🚶 Light — ആഴ്ചയിൽ 1–3 ദിവസം</option>
+          <option value="1.55" selected>🏃 Moderate — ആഴ്ചയിൽ 3–5 ദിവസം</option>
+          <option value="1.725">🏋️ Active — ആഴ്ചയിൽ 6–7 ദിവസം</option>
+          <option value="1.9">⚡ Very Active — ഭാരമേറിയ ജോലി + വ്യായാമം</option>
+        </select>
+      </div>
+      <div class="form-group" id="targetWeightGroup">
+        <label id="targetLabel">ടാർഗറ്റ് ഭാരം (Target kg)</label>
+        <input type="number" id="targetWeight" placeholder="65" min="20" max="300">
+      </div>
+      <div class="form-group">
+        <label>ആഴ്ചയിൽ ലക്ഷ്യം (kg/week)</label>
+        <select id="weeklyGoal">
+          <option value="0.25">0.25 kg/week (സൌമ്യം)</option>
+          <option value="0.5" selected>0.5 kg/week (ഇടത്തരം)</option>
+          <option value="0.75">0.75 kg/week (വേഗത്തിൽ)</option>
+          <option value="1">1 kg/week (ഏറ്റവും വേഗം)</option>
+        </select>
+      </div>
+    </div>
+    <button class="calc-btn loss" id="calcBtn" onclick="calculate()">🔥 കണക്കാക്കൂ</button>
+  </div>
+
+  <!-- DASHBOARD OUTPUT -->
+  <div id="dashboard">
+
+    <!-- SUMMARY STATS -->
+    <div class="section-sep">📊 നിങ്ങളുടെ ഫലങ്ങൾ</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <span id="goalBadge" class="goal-badge loss">🔥 Weight Loss Goal</span>
+      <span style="font-size:0.78rem;color:var(--text-muted)" id="summaryName"></span>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card s-tdee">
+        <div class="stat-icon">⚡</div>
+        <div class="stat-value" id="statTDEE">—</div>
+        <div class="stat-unit">kcal / day</div>
+        <div class="stat-label">നിങ്ങളുടെ TDEE</div>
+      </div>
+      <div class="stat-card s-target" id="targetCard">
+        <div class="stat-icon" id="targetIcon">🎯</div>
+        <div class="stat-value" id="statTarget">—</div>
+        <div class="stat-unit">kcal / day</div>
+        <div class="stat-label" id="targetCardLabel">ദൈനംദിന ലക്ഷ്യം</div>
+      </div>
+      <div class="stat-card s-bmi">
+        <div class="stat-icon">📏</div>
+        <div class="stat-value" id="statBMI">—</div>
+        <div class="stat-unit">BMI</div>
+        <div class="stat-label" id="bmiCategory">—</div>
+      </div>
+      <div class="stat-card s-water">
+        <div class="stat-icon">💧</div>
+        <div class="stat-value" id="statWater">—</div>
+        <div class="stat-unit">L / day</div>
+        <div class="stat-label">വെള്ളം കുടിക്കണം</div>
+      </div>
+    </div>
+
+    <!-- BMI CHART -->
+    <div class="card">
+      <div class="card-title"><span>📏</span> BMI ചാർട്ട്</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:1.8rem;font-weight:800;" id="bmiDisplay">—</span>
+        <span id="bmiStatusBadge" style="padding:4px 14px;border-radius:99px;font-size:0.8rem;font-weight:700;"></span>
+      </div>
+      <div class="bmi-bar-track">
+        <div class="bmi-pointer" id="bmiPointer" style="left:0%"></div>
+      </div>
+      <div class="bmi-labels">
+        <span>Underweight<br>&lt;18.5</span>
+        <span style="text-align:center;">Normal<br>18.5–24.9</span>
+        <span style="text-align:center;">Overweight<br>25–29.9</span>
+        <span style="text-align:right;">Obese<br>30+</span>
+      </div>
+      <div id="bmiAdvice" style="margin-top:14px;padding:12px;background:var(--surface2);border-radius:10px;font-size:0.82rem;line-height:1.6;"></div>
+    </div>
+
+    <!-- MACROS -->
+    <div class="section-sep">🥗 Macro Breakdown</div>
+    <div class="macro-section">
+      <div class="macro-card">
+        <div class="macro-circle macro-protein" id="proteinCircle">—</div>
+        <div class="macro-label">🥩 Protein</div>
+        <div class="macro-sub" id="proteinSub">— g/day</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-circle macro-carbs" id="carbsCircle">—</div>
+        <div class="macro-label">🍚 Carbs</div>
+        <div class="macro-sub" id="carbsSub">— g/day</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-circle macro-fat" id="fatCircle">—</div>
+        <div class="macro-label">🥑 Fat</div>
+        <div class="macro-sub" id="fatSub">— g/day</div>
+      </div>
+    </div>
+
+    <!-- CALORIE SPLIT BARS -->
+    <div class="card">
+      <div class="card-title"><span>📊</span> Calorie Distribution</div>
+      <div id="macroBars"></div>
+    </div>
+
+    <!-- MEAL PLAN -->
+    <div class="section-sep">🍽️ ഭക്ഷണ പ്ലാൻ</div>
+    <div class="card" style="padding-bottom:18px;">
+      <div class="card-title"><span>⏰</span> Sample Meal Plan</div>
+      <div class="meal-timeline" id="mealTimeline"></div>
+    </div>
+
+    <!-- TIMELINE TO GOAL -->
+    <div class="card" id="timelineCard">
+      <div class="card-title"><span>📅</span> ലക്ഷ്യം നേടാൻ എത്ര സമയം?</div>
+      <div id="timelineContent"></div>
+    </div>
+
+    <!-- EXERCISE -->
+    <div class="section-sep">🏃 Exercise Recommendations</div>
+    <div class="card">
+      <div class="card-title"><span>💪</span> ശുപാർശ ചെയ്യുന്ന വ്യായാമങ്ങൾ</div>
+      <div class="exercise-list" id="exerciseList"></div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="section-sep" id="tipsHeader">💡 Tips</div>
+    <div class="tips-grid" id="tipsGrid"></div>
+
+    <!-- NUTRITION NOTES -->
+    <div class="card" style="margin-top:18px;">
+      <div class="card-title"><span>🌿</span> ഇന്ത്യൻ ഭക്ഷണ നിർദ്ദേശങ്ങൾ</div>
+      <div id="indianFoodNotes" style="font-size:0.82rem;line-height:1.8;color:var(--text-muted);"></div>
+    </div>
+
+  </div><!-- /dashboard -->
+
+</div><!-- /page -->
 
 <script>
-function calculateCalories() {
-    const gender = document.getElementById('gender').value;
-    const age = parseFloat(document.getElementById('age').value);
-    const weight = parseFloat(document.getElementById('weight').value);
-    const height = parseFloat(document.getElementById('height').value);
-    const activity = parseFloat(document.getElementById('activity').value);
+let currentGoal = 'loss';
 
-    if (!age || !weight || !height) {
-        alert("ദയവായി എല്ലാ കോളങ്ങളും പൂരിപ്പിക്കുക!");
-        return;
-    }
-
-    // Mifflin-St Jeor Formula
-    let bmr;
-    if (gender === 'male') {
-        bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
-    } else {
-        bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
-    }
-
-    const tdee = Math.round(bmr * activity);
-    const weightLossCalories = tdee - 500;
-
-    document.getElementById('tdeeText').innerText = `ശരീരഭാരം നിലനിർത്താൻ ആവശ്യമുള്ള കലോറി: ${tdee} kcal`;
-    document.getElementById('lossGoalText').innerText = `ഭാരം കുറയ്ക്കാൻ നിങ്ങൾ കഴിക്കേണ്ടത്: ${weightLossCalories} kcal/day`;
-
-    // Generate Meal Plan
-    const mealsContainer = document.getElementById('mealsContainer');
-    mealsContainer.innerHTML = '';
-
-    const plan = [
-        { time: "07:30 AM (രാവിലെ)", label: "ബ്രേക്ക്ഫാസ്റ്റ്", percent: 0.25 },
-        { time: "11:00 AM (ഉച്ചയ്ക്ക് മുമ്പ്)", label: "ലഘുഭക്ഷണം (Snack)", percent: 0.10 },
-        { time: "01:30 PM (ഉച്ചഭക്ഷണം)", label: "ലഞ്ച്", percent: 0.35 },
-        { time: "05:00 PM (വൈകുന്നേരം)", label: "ചായ/ലഘുഭക്ഷണം", percent: 0.10 },
-        { time: "08:30 PM (രാത്രി ഭക്ഷണം)", label: "ഡിന്നർ", percent: 0.20 }
-    ];
-
-    plan.forEach(item => {
-        const cal = Math.round(weightLossCalories * item.percent);
-        const div = document.createElement('div');
-        div.className = 'meal-item';
-        div.innerHTML = `<span class="time">${item.time}:</span> ${item.label} - <b>${cal} Calories</b>`;
-        mealsContainer.appendChild(div);
-    });
-
-    document.getElementById('result').style.display = 'block';
+function selectGoal(goal, el) {
+  currentGoal = goal;
+  document.querySelectorAll('.goal-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const btn = document.getElementById('calcBtn');
+  const tl = document.getElementById('targetLabel');
+  btn.className = 'calc-btn ' + goal;
+  if (goal === 'loss') {
+    btn.textContent = '🔥 കണക്കാക്കൂ';
+    tl.textContent = 'ടാർഗറ്റ് ഭാരം (Target kg)';
+  } else if (goal === 'gain') {
+    btn.textContent = '💪 കണക്കാക്കൂ';
+    tl.textContent = 'ടാർഗറ്റ് ഭാരം (Target kg)';
+  } else {
+    btn.textContent = '⚖️ കണക്കാക്കൂ';
+    tl.textContent = 'ടാർഗറ്റ് ഭാരം (Target kg)';
+  }
 }
-</script>
 
+function calculate() {
+  const gender   = document.getElementById('gender').value;
+  const age      = parseFloat(document.getElementById('age').value);
+  const weight   = parseFloat(document.getElementById('weight').value);
+  const height   = parseFloat(document.getElementById('height').value);
+  const activity = parseFloat(document.getElementById('activity').value);
+  const twVal    = document.getElementById('targetWeight').value;
+  const weekly   = parseFloat(document.getElementById('weeklyGoal').value);
+  const targetW  = twVal ? parseFloat(twVal) : null;
+
+  if (!age || !weight || !height) {
+    alert('⚠️ ദയവായി എല്ലാ കോളങ്ങളും പൂരിപ്പിക്കുക!'); return;
+  }
+
+  // BMR (Mifflin-St Jeor)
+  let bmr = gender === 'male'
+    ? 10*weight + 6.25*height - 5*age + 5
+    : 10*weight + 6.25*height - 5*age - 161;
+
+  const tdee = Math.round(bmr * activity);
+
+  // Calorie target
+  let targetCal, deficit, direction;
+  const weeklyCalChange = weekly * 7700; // 1kg ≈ 7700kcal
+  const dailyChange = Math.round(weeklyCalChange / 7);
+
+  if (currentGoal === 'loss')     { targetCal = tdee - dailyChange; direction = -dailyChange; }
+  else if (currentGoal === 'gain') { targetCal = tdee + dailyChange; direction = +dailyChange; }
+  else                             { targetCal = tdee; direction = 0; }
+
+  targetCal = Math.max(targetCal, 1200);
+
+  // BMI
+  const bmi = weight / ((height/100) ** 2);
+  let bmiCat, bmiColor, bmiAdvice;
+  if      (bmi < 18.5) { bmiCat='Underweight'; bmiColor='#38bdf8'; bmiAdvice='നിങ്ങളുടെ BMI വളരെ കുറവാണ്. ആരോഗ്യകരമായ ഭക്ഷണക്രമവും പ്രോടീൻ അടങ്ങിയ ഭക്ഷണവും ശ്രദ്ധിക്കണം. ഒരു ഡോക്ടറോ dietitian നേ കാണൂ.'; }
+  else if (bmi < 25)   { bmiCat='Normal Weight'; bmiColor='#22c55e'; bmiAdvice='നിങ്ങളുടെ BMI ആരോഗ്യകരമായ ശ്രേണിയിലാണ്! ❤️ ഇത് നിലനിർത്തുന്നതിന് balanced diet ഉം regular exercise ഉം തുടരൂ.'; }
+  else if (bmi < 30)   { bmiCat='Overweight'; bmiColor='#f59e0b'; bmiAdvice='BMI overweight ശ്രേണിയിലാണ്. ⚠️ ദൈനംദിന 30–45 മിനിറ്റ് നടത്തം, processed food കുറയ്ക്കൽ, water intake വർദ്ധിപ്പിക്കൽ എന്നിവ ഉടൻ ആരംഭിക്കൂ.'; }
+  else                  { bmiCat='Obese'; bmiColor='#ef4444'; bmiAdvice='BMI obese ശ്രേണിയിലാണ്. 🚨 ഒരു ഡോക്ടറുടെ നിർദ്ദേശം വളരെ പ്രധാനമാണ്. ഭക്ഷണ നിയന്ത്രണവും supervised exercise ഉം ആരംഭിക്കൂ.'; }
+
+  // Water (ml)
+  const water = (weight * 0.035).toFixed(1);
+
+  // Macros
+  let pPct, cPct, fPct;
+  if (currentGoal === 'loss')     { pPct=0.35; cPct=0.40; fPct=0.25; }
+  else if (currentGoal === 'gain') { pPct=0.30; cPct=0.45; fPct=0.25; }
+  else                             { pPct=0.25; cPct=0.50; fPct=0.25; }
+
+  const proteinCal = Math.round(targetCal * pPct);
+  const carbsCal   = Math.round(targetCal * cPct);
+  const fatCal     = Math.round(targetCal * fPct);
+  const proteinG   = Math.round(proteinCal / 4);
+  const carbsG     = Math.round(carbsCal / 4);
+  const fatG       = Math.round(fatCal / 9);
+
+  // Weeks to goal
+  let weeksToGoal = null;
+  if (targetW !== null && currentGoal !== 'maintain') {
+    const diff = Math.abs(weight - targetW);
+    weeksToGoal = Math.round(diff / weekly);
+  }
+
+  // ─── RENDER ───
+
+  // Stats
+  document.getElementById('statTDEE').textContent   = tdee.toLocaleString();
+  document.getElementById('statTarget').textContent  = targetCal.toLocaleString();
+  document.getElementById('statBMI').textContent     = bmi.toFixed(1);
+  document.getElementById('bmiCategory').textContent = bmiCat;
+  document.getElementById('statWater').textContent   = water;
+
+  // Target card color
+  const tc = document.getElementById('targetCard');
+  tc.className = 's-target stat-card ' + (currentGoal==='gain'?'gain':'');
+
+  // Goal badge
+  const gb = document.getElementById('goalBadge');
+  gb.className = 'goal-badge ' + currentGoal;
+  gb.textContent = currentGoal==='loss'?'🔥 Weight Loss Goal':currentGoal==='gain'?'💪 Weight Gain Goal':'⚖️ Maintenance Goal';
+
+  // BMI bar (0-40 scale mapped to 0-100%)
+  const bmiPct = Math.min(Math.max((bmi-10)/30*100, 0), 100);
+  document.getElementById('bmiPointer').style.left = bmiPct + '%';
+  document.getElementById('bmiDisplay').textContent = bmi.toFixed(1);
+  const bsb = document.getElementById('bmiStatusBadge');
+  bsb.textContent = bmiCat;
+  bsb.style.background = bmiColor + '22';
+  bsb.style.color = bmiColor;
+  document.getElementById('bmiAdvice').textContent = bmiAdvice;
+
+  // Macros
+  document.getElementById('proteinCircle').textContent = proteinG + 'g';
+  document.getElementById('carbsCircle').textContent   = carbsG + 'g';
+  document.getElementById('fatCircle').textContent     = fatG + 'g';
+  document.getElementById('proteinSub').textContent    = proteinG + ' g/day (' + Math.round(pPct*100) + '%)';
+  document.getElementById('carbsSub').textContent      = carbsG + ' g/day (' + Math.round(cPct*100) + '%)';
+  document.getElementById('fatSub').textContent        = fatG + ' g/day (' + Math.round(fPct*100) + '%)';
+
+  // Macro bars
+  const mb = document.getElementById('macroBars');
+  mb.innerHTML = [
+    { label:'🥩 Protein', g:proteinG, cal:proteinCal, color:'var(--protein)', pct:Math.round(pPct*100) },
+    { label:'🍚 Carbs',   g:carbsG,   cal:carbsCal,   color:'var(--carbs)',   pct:Math.round(cPct*100) },
+    { label:'🥑 Fat',     g:fatG,     cal:fatCal,     color:'var(--fat)',     pct:Math.round(fPct*100) }
+  ].map(m => `
+    <div class="progress-bar-wrap">
+      <div class="progress-label">
+        <span>${m.label} — ${m.g}g</span>
+        <span style="color:var(--text-muted)">${m.cal} kcal (${m.pct}%)</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:${m.pct*2}%;background:${m.color}"></div>
+      </div>
+    </div>`).join('');
+
+  // Meal plan
+  const meals = getMealPlan(targetCal, currentGoal);
+  const mt = document.getElementById('mealTimeline');
+  mt.innerHTML = meals.map(m => `
+    <div class="meal-row">
+      <div>
+        <div class="meal-time">${m.time}</div>
+        <div class="meal-name">${m.name}</div>
+        <div style="font-size:0.7rem;color:var(--text-muted);margin-top:3px">${m.desc}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="meal-cal">${m.cal}<span> kcal</span></div>
+        <div style="font-size:0.68rem;color:var(--text-muted)">${m.pct}%</div>
+      </div>
+    </div>`).join('');
+
+  // Timeline to goal
+  const tlc = document.getElementById('timelineContent');
+  if (weeksToGoal !== null && weeksToGoal > 0) {
+    const months = (weeksToGoal / 4.33).toFixed(1);
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + weeksToGoal * 7);
+    const dateStr = endDate.toLocaleDateString('ml-IN', {year:'numeric',month:'long',day:'numeric'});
+    tlc.innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center;">
+        <div style="background:var(--surface2);border-radius:12px;padding:14px;">
+          <div style="font-size:1.8rem;font-weight:800;color:var(--accent)">${weeksToGoal}</div>
+          <div style="font-size:0.72rem;color:var(--text-muted)">ആഴ്ചകൾ</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:12px;padding:14px;">
+          <div style="font-size:1.8rem;font-weight:800;color:var(--maintain)">${months}</div>
+          <div style="font-size:0.72rem;color:var(--text-muted)">മാസങ്ങൾ</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:12px;padding:14px;grid-column:1/-1;">
+          <div style="font-size:0.82rem;color:var(--gain);font-weight:600">🎯 ലക്ഷ്യം നേടുന്ന തീയതി</div>
+          <div style="font-size:0.9rem;margin-top:4px;">${dateStr}</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;font-size:0.78rem;color:var(--text-muted);text-align:center;">* ഇത് ഒരു ഏകദേശ കണക്കാണ്. ഒരു doctor / nutritionist-നെ കാണൂ.</div>`;
+  } else if (currentGoal === 'maintain') {
+    tlc.innerHTML = `<p style="color:var(--maintain);font-size:0.9rem;">⚖️ നിങ്ങൾ ഇപ്പോഴത്തെ ഭാരം നിലനിർത്തുന്നതാണ് ലക്ഷ്യം. ${tdee} kcal/day കഴിക്കൂ!</p>`;
+  } else {
+    tlc.innerHTML = `<p style="font-size:0.82rem;color:var(--text-muted)">ടാർഗറ്റ് ഭാരം നൽകിയാൽ timeline കാണിക്കും.</p>`;
+  }
+
+  // Exercise
+  const exercises = getExercises(currentGoal, bmi);
+  document.getElementById('exerciseList').innerHTML = exercises.map(e =>
+    `<div class="exercise-tag">${e}</div>`).join('');
+
+  // Tips
+  const tips = getTips(currentGoal);
+  document.getElementById('tipsGrid').innerHTML = tips.map(t =>
+    `<div class="tip-item"><span class="tip-icon">${t.icon}</span><span>${t.text}</span></div>`).join('');
+
+  // Indian food notes
+  document.getElementById('indianFoodNotes').innerHTML = getIndianFoodNotes(currentGoal);
+
+  // Show
+  const dash = document.getElementById('dashboard');
+  dash.classList.add('visible');
+  setTimeout(() => dash.scrollIntoView({behavior:'smooth', block:'start'}), 100);
+}
+
+// ─── MEAL PLAN GENERATOR ───
+function getMealPlan(totalCal, goal) {
+  const plans = {
+    loss: [
+      { time:'07:00 AM', name:'🌅 ബ്രേക്ക്ഫാസ്റ്റ്', desc:'Oats/Idli + Egg white + Green tea', pct:25 },
+      { time:'10:30 AM', name:'🍎 Morning Snack',   desc:'Banana / Apple / Nuts (10g)', pct:10 },
+      { time:'01:00 PM', name:'🍱 ഉച്ചഭക്ഷണം',     desc:'2 Chapathi + Dal + Salad + Curd', pct:30 },
+      { time:'04:30 PM', name:'☕ Evening Snack',   desc:'Black coffee / Green tea + Fruit', pct:10 },
+      { time:'08:00 PM', name:'🌙 ഡിന്നർ',          desc:'Vegetable soup + Grilled chicken/fish + Vegetables', pct:25 }
+    ],
+    gain: [
+      { time:'07:00 AM', name:'🌅 ബ്രേക്ക്ഫാസ്റ്റ്', desc:'Egg omelette (3) + Milk + Banana + Oats', pct:25 },
+      { time:'10:30 AM', name:'🥜 Morning Snack',   desc:'Peanut butter toast + Nuts + Fruit juice', pct:15 },
+      { time:'01:00 PM', name:'🍱 ഉച്ചഭക്ഷണം',     desc:'Rice (2 cups) + Dal + Chicken curry + Curd', pct:30 },
+      { time:'04:30 PM', name:'🥤 Evening Shake',   desc:'Protein shake / Banana milkshake + Snacks', pct:15 },
+      { time:'08:00 PM', name:'🌙 ഡിന്നർ',          desc:'Rice/Chapathi + Egg/Fish curry + Vegetables + Milk', pct:15 }
+    ],
+    maintain: [
+      { time:'07:30 AM', name:'🌅 ബ്രേക്ക്ഫാസ്റ്റ്', desc:'Idli/Dosa + Sambar + Tea/Coffee', pct:25 },
+      { time:'11:00 AM', name:'🍊 Morning Snack',   desc:'Seasonal fruit / Roasted chana', pct:10 },
+      { time:'01:30 PM', name:'🍱 ഉച്ചഭക്ഷണം',     desc:'Rice + Dal + Sabzi + Curd + Salad', pct:35 },
+      { time:'05:00 PM', name:'☕ Evening Snack',   desc:'Tea + Light snack (murukku/fruits)', pct:10 },
+      { time:'08:30 PM', name:'🌙 ഡിന്നർ',          desc:'2 Chapathi + Dal / Light rice + Vegetables', pct:20 }
+    ]
+  };
+  return plans[goal].map(m => ({
+    ...m,
+    cal: Math.round(totalCal * m.pct / 100)
+  }));
+}
+
+// ─── EXERCISES ───
+function getExercises(goal, bmi) {
+  const common = ['🚶 30min Walking', '💧 Hydration Walks', '🧘 Yoga (15min)'];
+  if (goal === 'loss') return [
+    ...common, '🏃 Jogging/Running', '🚴 Cycling', '🏊 Swimming',
+    '⚡ HIIT (20min)', '🏋️ Cardio (30min)', '🤸 Jump Rope'
+  ];
+  if (goal === 'gain') return [
+    '🏋️ Weight Training', '💪 Push-ups', '🦵 Squats & Lunges',
+    '🔱 Deadlifts', '🤜 Bench Press', '🦾 Pull-ups',
+    ...common.slice(0,1), '😴 Rest & Recovery'
+  ];
+  return [
+    ...common, '🏃 Jogging (20min)', '🚴 Cycling (30min)',
+    '💪 Light Strength', '🤸 Stretching', '🏊 Swimming'
+  ];
+}
+
+// ─── TIPS ───
+function getTips(goal) {
+  const shared = [
+    { icon:'😴', text:'ദിവസം 7–8 മണിക്കൂർ ഉറക്കം ഉറപ്പുവരുത്തൂ. ഉറക്കക്കുറവ് hormones ൽ impact ചെയ്യും.' },
+    { icon:'💧', text:'ദിവസം 2.5–3 ലിറ്റർ വെള്ളം കുടിക്കൂ. ഭക്ഷണത്തിന് 20 മിനിറ്റ് മുൻപ് 1 ഗ്ലാസ്.' },
+    { icon:'📱', text:'Food diary app ഉപയോഗിക്കൂ (MyFitnessPal etc.). Tracking ചെയ്യുന്നത് progress കൂട്ടും.' },
+  ];
+  if (goal === 'loss') return [
+    { icon:'🍽️', text:'ഭക്ഷണം ചെറിയ plates-ൽ കഴിക്കൂ. Slowly ചവക്കൂ, 20 മിനിറ്റ് ആകുമ്പോൾ brain fullness signal അയക്കും.' },
+    { icon:'🚫', text:'Sugar, fried food, white rice excess ഒഴിവാക്കൂ. High-fiber vegetables കൂടുതൽ കഴിക്കൂ.' },
+    ...shared,
+    { icon:'⏱️', text:'Intermittent fasting (16:8) try ചെയ്യൂ — breakfast 9am ൽ, dinner 7pm-ൽ കഴിക്കൂ.' },
+    { icon:'🥗', text:'High-protein breakfast കഴിക്കൂ. Eggs, curd, sprouts ദൈനംദിന ഭക്ഷണത്തിൽ ഉൾപ്പെടുത്തൂ.' }
+  ];
+  if (goal === 'gain') return [
+    { icon:'⏰', text:'3 വലിയ meals + 2-3 snacks ദൈനംദിന schedule ഉണ്ടാക്കൂ. Meal skip ചെയ്യരുത്.' },
+    { icon:'🥛', text:'Milk, curd, paneer, eggs ദൈനംദിനം കഴിക്കൂ. Protein intake weight ൻ്റെ 1.6–2.2x g/kg ആക്കൂ.' },
+    ...shared,
+    { icon:'🏋️', text:'Cardio excess ചെയ്യരുത്. Strength training ൽ focus ചെയ്ത് muscle gain ഉറപ്പ് വരുത്തൂ.' },
+    { icon:'🍌', text:'Calorie-dense foods: nuts, banana, avocado, ghee (moderate), sweet potato ഭക്ഷണത്തിൽ ചേർക്കൂ.' }
+  ];
+  return [
+    { icon:'⚖️', text:'Weekly ഒരു തവണ weight check ചെയ്യൂ. ഒരേ സമയത്ത്, ഒരേ condition-ൽ.' },
+    { icon:'🎯', text:'Balanced macros maintain ചെയ്യൂ. Crash diet ഒഴിവാക്കൂ.' },
+    ...shared,
+    { icon:'🥙', text:'Processed food, packaged snacks minimise ചെയ്യൂ. Home-cooked meals prefer ചെയ്യൂ.' },
+    { icon:'🧘', text:'Stress management: yoga, meditation, deep breathing — cortisol weight ബാധിക്കും.' }
+  ];
+}
+
+// ─── INDIAN FOOD NOTES ───
+function getIndianFoodNotes(goal) {
+  if (goal === 'loss') return `
+    <b style="color:var(--text)">✅ കഴിക്കാൻ പ്രോൽസാഹിപ്പിക്കുന്ന ഭക്ഷണങ്ങൾ:</b><br>
+    Idli (steamed), Oats upma, Moong dal, Rajma, Brown rice, Ragi, Sprouts, Vegetables (all types), Curd (low fat), Egg whites, Fish (grilled), Chicken breast (grilled), Amla, Green tea<br><br>
+    <b style="color:var(--loss)">❌ കഴിവതും ഒഴിവാക്കേണ്ടത്:</b><br>
+    White rice (excess), Maida products, Fried snacks (bonda, vada, samosa), Sugary chai/coffee, Soft drinks, Ghee (excess), Full-fat milk (large quantity), Pickles (excess), Alcohol
+  `;
+  if (goal === 'gain') return `
+    <b style="color:var(--text)">✅ Calorie-rich ആരോഗ്യകരമായ ഭക്ഷണങ്ങൾ:</b><br>
+    Rice (more servings), Chapathi with ghee, Dal + rice, Chicken curry, Egg curry, Rajma, Chole, Full-fat milk, Paneer, Banana, Mango, Nuts (almonds, cashews), Peanut butter, Sweet potato, Avocado<br><br>
+    <b style="color:var(--maintain)">💡 Tips:</b><br>
+    ഭക്ഷണത്തിൽ ghee (2 tsp/day) ചേർക്കൂ. Banana milkshake, mango lassi healthy calorie boosters ആണ്. Post-workout protein (eggs/curd/milk) ഉറക്കം ഉണ്ടാകും.
+  `;
+  return `
+    <b style="color:var(--text)">✅ Balanced Indian Diet:</b><br>
+    Idli/Dosa + sambar (breakfast), Rice + dal + sabzi + curd (lunch), Chapathi + vegetables (dinner), Seasonal fruits (snacks), Nimbu paani / coconut water (hydration)<br><br>
+    <b style="color:var(--maintain)">⚖️ Balance Key:</b><br>
+    50% carbs (rice, roti), 25% protein (dal, egg, fish), 25% fat (healthy oils, nuts). Refined oil കുറവ്, coconut/groundnut oil moderate ആയി ഉപയോഗിക്കൂ.
+  `;
+}
+
+// Animate on load
+window.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('input').forEach((el,i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(10px)';
+    el.style.transition = `opacity .3s ${i*0.05}s, transform .3s ${i*0.05}s`;
+    setTimeout(() => { el.style.opacity='1'; el.style.transform='translateY(0)'; }, 50);
+  });
+});
+</script>
 </body>
 </html>
