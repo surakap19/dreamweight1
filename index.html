@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Loss Calorie Calculator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; padding: 20px; display: flex; justify-content: center; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 500px; width: 100%; }
+        h2 { color: #2c3e50; text-align: center; }
+        label { display: block; margin: 10px 0 5px; font-weight: bold; }
+        input, select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background-color: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        button:hover { background-color: #219150; }
+        #result { margin-top: 25px; padding: 15px; background: #e8f5e9; border-radius: 8px; display: none; }
+        .meal-plan { margin-top: 20px; border-top: 1px solid #ccc; padding-top: 15px; }
+        .meal-item { margin-bottom: 10px; font-size: 14px; }
+        .time { font-weight: bold; color: #e67e22; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>ഭാരം കുറയ്ക്കാനുള്ള കലോറി കാൽക്കുലേറ്റർ</h2>
+    
+    <label>ലിംഗം (Gender)</label>
+    <select id="gender">
+        <option value="male">പുരുഷൻ</option>
+        <option value="female">സ്ത്രീ</option>
+    </select>
+
+    <label>പ്രായം (Age)</label>
+    <input type="number" id="age" placeholder="ഉദാ: 25">
+
+    <label>ഭാരം (Weight in kg)</label>
+    <input type="number" id="weight" placeholder="ഉദാ: 75">
+
+    <label>ഉയരം (Height in cm)</label>
+    <input type="number" id="height" placeholder="ഉദാ: 170">
+
+    <label>ദിവസേനയുള്ള വ്യായാമം (Activity Level)</label>
+    <select id="activity">
+        <option value="1.2">വ്യായാമം ഇല്ലാത്തവർ (Sedentary)</option>
+        <option value="1.375">ചെറിയ വ്യായാമം (1-3 days/week)</option>
+        <option value="1.55">മിതമായ വ്യായാമം (3-5 days/week)</option>
+        <option value="1.725">കഠിനമായ വ്യായാമം (6-7 days/week)</option>
+    </select>
+
+    <button onclick="calculateCalories()">കണക്കുകൂട്ടുക</button>
+
+    <div id="result">
+        <h3 style="margin-top:0;">നിങ്ങളുടെ ഫലം:</h3>
+        <p id="tdeeText"></p>
+        <p id="lossGoalText" style="font-weight:bold; color:#c0392b;"></p>
+        
+        <div class="meal-plan" id="mealPlan">
+            <h4>നിങ്ങളുടെ ഭക്ഷണക്രമം (Sample Meal Plan):</h4>
+            <div id="mealsContainer"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+function calculateCalories() {
+    const gender = document.getElementById('gender').value;
+    const age = parseFloat(document.getElementById('age').value);
+    const weight = parseFloat(document.getElementById('weight').value);
+    const height = parseFloat(document.getElementById('height').value);
+    const activity = parseFloat(document.getElementById('activity').value);
+
+    if (!age || !weight || !height) {
+        alert("ദയവായി എല്ലാ കോളങ്ങളും പൂരിപ്പിക്കുക!");
+        return;
+    }
+
+    // Mifflin-St Jeor Formula
+    let bmr;
+    if (gender === 'male') {
+        bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+    } else {
+        bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+    }
+
+    const tdee = Math.round(bmr * activity);
+    const weightLossCalories = tdee - 500;
+
+    document.getElementById('tdeeText').innerText = `ശരീരഭാരം നിലനിർത്താൻ ആവശ്യമുള്ള കലോറി: ${tdee} kcal`;
+    document.getElementById('lossGoalText').innerText = `ഭാരം കുറയ്ക്കാൻ നിങ്ങൾ കഴിക്കേണ്ടത്: ${weightLossCalories} kcal/day`;
+
+    // Generate Meal Plan
+    const mealsContainer = document.getElementById('mealsContainer');
+    mealsContainer.innerHTML = '';
+
+    const plan = [
+        { time: "07:30 AM (രാവിലെ)", label: "ബ്രേക്ക്ഫാസ്റ്റ്", percent: 0.25 },
+        { time: "11:00 AM (ഉച്ചയ്ക്ക് മുമ്പ്)", label: "ലഘുഭക്ഷണം (Snack)", percent: 0.10 },
+        { time: "01:30 PM (ഉച്ചഭക്ഷണം)", label: "ലഞ്ച്", percent: 0.35 },
+        { time: "05:00 PM (വൈകുന്നേരം)", label: "ചായ/ലഘുഭക്ഷണം", percent: 0.10 },
+        { time: "08:30 PM (രാത്രി ഭക്ഷണം)", label: "ഡിന്നർ", percent: 0.20 }
+    ];
+
+    plan.forEach(item => {
+        const cal = Math.round(weightLossCalories * item.percent);
+        const div = document.createElement('div');
+        div.className = 'meal-item';
+        div.innerHTML = `<span class="time">${item.time}:</span> ${item.label} - <b>${cal} Calories</b>`;
+        mealsContainer.appendChild(div);
+    });
+
+    document.getElementById('result').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
