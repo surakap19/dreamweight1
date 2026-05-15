@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ആരോഗ്യ ഡാഷ്‌ബോർഡ് | Health Dashboard</title>
+<title>ആരോഗ്യ പവർ | Pro Weight Manager</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -443,6 +443,95 @@
     border: 2px solid var(--bg); box-shadow: 0 0 6px rgba(63,185,80,0.4);
   }
   input[type=range]:focus { box-shadow: none; border-color: transparent; }
+
+  /* PRO: Progress ring */
+  .goal-progress-wrap { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .progress-ring { position: relative; width: 120px; height: 120px; flex-shrink: 0; }
+  .progress-ring svg { transform: rotate(-90deg); }
+  .progress-ring-text {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .progress-ring-text .pct { font-size: 1.6rem; font-weight: 800; color: var(--green); line-height: 1; }
+  .progress-ring-text .lbl { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
+
+  /* PRO: Food log */
+  .food-log-form { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+  .food-log-form input, .food-log-form select { flex: 1; min-width: 120px; }
+  .food-item {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 8px;
+  }
+  .food-meal-badge {
+    font-size: 0.68rem; font-weight: 700; padding: 4px 8px; border-radius: 4px;
+    background: var(--green-glow); color: var(--green); white-space: nowrap;
+  }
+  .cal-bar-wrap { margin: 16px 0; }
+  .cal-bar-label { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 8px; }
+  .cal-bar-bg { height: 12px; background: var(--border); border-radius: 6px; overflow: hidden; }
+  .cal-bar-fill { height: 100%; border-radius: 6px; transition: width 0.5s ease; max-width: 100%; }
+  .cal-bar-fill.over { background: var(--red) !important; }
+
+  /* PRO: Streak & chips */
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .chip {
+    padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+    background: var(--bg); border: 1px solid var(--border); color: var(--text-muted);
+  }
+  .chip.active { background: rgba(63,185,80,0.12); border-color: var(--green); color: var(--green); }
+
+  /* PRO: Toast */
+  .toast-container {
+    position: fixed; bottom: 80px; right: 20px; z-index: 200;
+    display: flex; flex-direction: column; gap: 8px; pointer-events: none;
+  }
+  @media (min-width: 681px) { .toast-container { bottom: 24px; } }
+  .toast {
+    background: var(--surface2); border: 1px solid var(--border);
+    padding: 12px 18px; border-radius: var(--radius-sm);
+    font-size: 0.85rem; box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    animation: toastIn 0.3s ease; border-left: 3px solid var(--green);
+  }
+  @keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+  /* PRO: Profile */
+  .profile-header {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
+    padding: 16px; background: var(--bg); border-radius: var(--radius-sm); border: 1px solid var(--border);
+  }
+  .profile-avatar {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--green-glow); border: 2px solid var(--green);
+    display: flex; align-items: center; justify-content: center; font-size: 24px;
+  }
+
+  /* PRO: Report */
+  .report-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .report-item {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 14px; text-align: center;
+  }
+  .report-item .val { font-size: 1.4rem; font-weight: 800; color: var(--green); }
+  .report-item .lbl { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; }
+
+  textarea {
+    width: 100%; background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); color: var(--text); padding: 11px 14px;
+    font-size: 0.95rem; font-family: inherit; resize: vertical; min-height: 80px;
+    outline: none;
+  }
+  textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-glow); }
+
+  footer.disclaimer {
+    text-align: center; padding: 24px 20px 100px;
+    font-size: 0.72rem; color: var(--text-muted); border-top: 1px solid var(--border);
+    margin-top: 32px; line-height: 1.6;
+  }
+  @media (min-width: 681px) { footer.disclaimer { padding-bottom: 32px; } }
+
+  .nav-tabs { overflow-x: auto; max-width: calc(100vw - 180px); }
+  .nav-tab-more { font-size: 0.75rem !important; padding: 7px 12px !important; }
 </style>
 </head>
 <body>
@@ -450,16 +539,18 @@
 <nav>
   <div class="logo">
     <div class="logo-icon">💪</div>
-    <span>ആരോഗ്യം</span>
+    <span>ആരോഗ്യ പവർ</span>
   </div>
   <div class="nav-tabs">
     <button class="nav-tab active" onclick="showSection('dashboard')">🏠 ഡാഷ്‌ബോർഡ്</button>
     <button class="nav-tab" onclick="showSection('calculator')">🔢 കലോറി</button>
     <button class="nav-tab" onclick="showSection('bmi')">⚖️ BMI</button>
     <button class="nav-tab" onclick="showSection('macro')">🥗 മാക്രോ</button>
+    <button class="nav-tab" onclick="showSection('foodlog')">🍽️ ഭക്ഷണം</button>
     <button class="nav-tab" onclick="showSection('water')">💧 വെള്ളം</button>
     <button class="nav-tab" onclick="showSection('exercise')">🏃 വ്യായാമം</button>
     <button class="nav-tab" onclick="showSection('progress')">📈 പ്രോഗ്രസ്</button>
+    <button class="nav-tab nav-tab-more" onclick="showSection('profile')">👤 പ്രൊഫൈൽ</button>
   </div>
 </nav>
 
@@ -468,8 +559,8 @@
   <!-- DASHBOARD -->
   <div id="dashboard" class="section active">
     <div class="section-header">
-      <h1>👋 സ്വാഗതം!</h1>
-      <p>നിങ്ങളുടെ ആരോഗ്യ ഡാഷ്‌ബോർഡ് — ഇന്നത്തെ ലക്ഷ്യങ്ങൾ ട്രാക്ക് ചെയ്യൂ</p>
+      <h1 id="dashWelcome">👋 സ്വാഗതം!</h1>
+      <p>പ്രൊഫഷണൽ weight management — ഇന്നത്തെ ലക്ഷ്യങ്ങളും പ്രോഗ്രസും ഒരിടത്ത്</p>
     </div>
 
     <div class="dashboard-grid" id="dashboardStats">
@@ -497,14 +588,57 @@
         <div class="stat-value" id="dash-goal-icon">—</div>
         <div class="stat-unit" id="dash-goal">കണക്കാക്കിയിട്ടില്ല</div>
       </div>
+      <div class="stat-card" style="--accent: var(--purple)">
+        <div class="stat-icon">🍽️</div>
+        <div class="stat-label">ഇന്ന് കഴിച്ചത്</div>
+        <div class="stat-value" id="dash-food">0</div>
+        <div class="stat-unit">kcal</div>
+      </div>
+      <div class="stat-card" style="--accent: var(--yellow)">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-label">സ്ട്രീക്ക്</div>
+        <div class="stat-value" id="dash-streak">0</div>
+        <div class="stat-unit">ദിവസം</div>
+      </div>
     </div>
 
+    <div class="card" id="goalProgressCard" style="display:none">
+      <div class="card-title"><div class="icon">🎯</div> ലക്ഷ്യ പ്രോഗ്രസ്</div>
+      <div class="goal-progress-wrap">
+        <div class="progress-ring">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="var(--border)" stroke-width="10"/>
+            <circle id="goalRing" cx="60" cy="60" r="52" fill="none" stroke="var(--green)" stroke-width="10" stroke-dasharray="326.7" stroke-dashoffset="326.7" stroke-linecap="round"/>
+          </svg>
+          <div class="progress-ring-text"><span class="pct" id="goalPct">0%</span><span class="lbl">ലക്ഷ്യം</span></div>
+        </div>
+        <div style="flex:1;min-width:200px">
+          <div class="result-row"><span>ആരംഭ ഭാരം</span><span class="val" id="dash-start-w">—</span></div>
+          <div class="result-row"><span>ലക്ഷ്യ ഭാരം</span><span class="val" id="dash-target-w" style="color:var(--green)">—</span></div>
+          <div class="result-row"><span>ഇപ്പോൾ</span><span class="val" id="dash-current-w">—</span></div>
+          <div class="result-row"><span>ബാക്കി</span><span class="val" id="dash-remaining-w">—</span></div>
+          <div class="result-row"><span>കണക്കാക്കിയ സമയം</span><span class="val" id="dash-eta" style="font-size:0.9rem">—</span></div>
+        </div>
+      </div>
+      <div class="chip-row" id="achievementChips"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="icon">📊</div> ഇന്നത്തെ കലോറി ബാലൻസ്</div>
+      <div class="cal-bar-wrap">
+        <div class="cal-bar-label"><span>കഴിച്ചത്: <strong id="dashCalEaten">0</strong> kcal</span><span>ലക്ഷ്യം: <strong id="dashCalTarget">—</strong> kcal</span></div>
+        <div class="cal-bar-bg"><div class="cal-bar-fill" id="dashCalBar" style="width:0%;background:linear-gradient(90deg,var(--green),var(--teal))"></div></div>
+        <div style="font-size:0.78rem;color:var(--text-muted);margin-top:6px" id="dashCalRemain">ഭക്ഷണം ലോഗ് ചെയ്താൽ ബാലൻസ് കാണാം</div>
+      </div>
+    </div>
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
       <div class="card">
         <div class="card-title"><div class="icon">📋</div> ദ്രുത ടൂളുകൾ</div>
         <div style="display:grid; gap:10px;">
           <button class="btn btn-primary" onclick="showSection('calculator')">🔢 കലോറി കണക്കാക്കുക</button>
+          <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('foodlog')">🍽️ ഭക്ഷണം ലോഗ് ചെയ്യുക</button>
           <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('bmi')">⚖️ BMI ചെക്ക് ചെയ്യുക</button>
+          <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('profile')">👤 പ്രൊഫൈൽ സെറ്റപ്പ്</button>
           <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('water')">💧 വെള്ളം ട്രാക്ക് ചെയ്യുക</button>
           <button class="btn btn-outline btn-sm" style="width:100%; padding:11px" onclick="showSection('progress')">📈 ഭാരം രേഖപ്പെടുത്തുക</button>
         </div>
@@ -864,6 +998,108 @@
         </div>
       </div>
     </div>
+
+  <!-- FOOD LOG -->
+  <div id="foodlog" class="section">
+    <div class="section-header">
+      <h1>🍽️ ഭക്ഷണ ഡയറി</h1>
+      <p>ഇന്ന് കഴിച്ച കലോറി ലോഗ് ചെയ്ത് ദൈനിക ലക്ഷ്യവുമായി താരതമ്യം ചെയ്യൂ</p>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
+      <div class="card">
+        <div class="card-title"><div class="icon">➕</div> ഭക്ഷണം ചേർക്കൂ</div>
+        <div class="food-log-form">
+          <input type="text" id="food-name" placeholder="ഭക്ഷണം">
+          <input type="number" id="food-cal" placeholder="കലോറി" min="1">
+          <select id="food-meal">
+            <option value="breakfast">🌅 പ്രഭാതം</option>
+            <option value="lunch">☀️ ഉച്ച</option>
+            <option value="snack">🍎 സ്നാക്ക്</option>
+            <option value="dinner">🌙 രാത്രി</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="addFoodEntry()">✅ ചേർക്കൂ</button>
+        <div class="alert alert-info" style="margin-top:14px">ദ്രുത ചേർക്കൽ:</div>
+        <div class="chip-row" id="quickFoodChips"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="icon">📊</div> ഇന്നത്തെ സംഗ്രഹം <span class="badge badge-green" id="foodDateBadge" style="margin-left:auto"></span></div>
+        <div class="cal-bar-wrap">
+          <div class="cal-bar-label"><span>കഴിച്ചത്: <strong id="foodTotal">0</strong> kcal</span><span>ലക്ഷ്യം: <strong id="foodTarget">—</strong></span></div>
+          <div class="cal-bar-bg"><div class="cal-bar-fill" id="foodBar" style="width:0%"></div></div>
+        </div>
+        <div class="result-row" style="margin-top:12px"><span>ബാക്കി</span><span class="val" id="foodRemaining">—</span></div>
+        <button class="btn btn-outline btn-sm" style="margin-top:12px;width:100%" onclick="clearTodayFood()">🔄 മായ്ക്കുക</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="icon">📋</div> ഇന്നത്തെ ഭക്ഷണം</div>
+      <div id="foodList"><p style="color:var(--text-muted);text-align:center;padding:20px">ഇതുവരെ ഒന്നും ചേർത്തിട്ടില്ല</p></div>
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <div id="profile" class="section">
+    <div class="section-header">
+      <h1>👤 പ്രൊഫൈൽ &amp; ഡാറ്റ</h1>
+      <p>വിവരങ്ങൾ സേവ് ചെയ്ത് എല്ലാ ടൂളുകളിലും ഉപയോഗിക്കൂ</p>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
+      <div class="card">
+        <div class="card-title"><div class="icon">👤</div> വ്യക്തിഗത വിവരങ്ങൾ</div>
+        <div class="profile-header">
+          <div class="profile-avatar" id="profileAvatar">💪</div>
+          <div class="form-group" style="margin-bottom:0;flex:1">
+            <label>പേര്</label>
+            <input type="text" id="profile-name" placeholder="നിങ്ങളുടെ പേര്">
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group"><label>ലിംഗം</label><select id="profile-gender"><option value="male">പുരുഷൻ</option><option value="female">സ്ത്രീ</option></select></div>
+          <div class="form-group"><label>പ്രായം</label><input type="number" id="profile-age"></div>
+          <div class="form-group"><label>ഭാരം kg</label><input type="number" id="profile-weight" step="0.1"></div>
+          <div class="form-group"><label>ഉയരം cm</label><input type="number" id="profile-height"></div>
+        </div>
+        <div class="form-group"><label>വ്യായാമം</label><select id="profile-activity"><option value="1.2">Sedentary</option><option value="1.375">Light</option><option value="1.55">Moderate</option><option value="1.725">Active</option><option value="1.9">Very Active</option></select></div>
+        <div class="form-group"><label>ലക്ഷ്യം</label><select id="profile-goal"><option value="loss">കുറയ്ക്കൽ</option><option value="maintain">നിലനിർത്തൽ</option><option value="gain">കൂട്ടൽ</option></select></div>
+        <button class="btn btn-primary" onclick="saveProfile()">💾 സേവ്</button>
+        <button class="btn btn-outline btn-sm" style="margin-top:10px;width:100%;padding:11px" onclick="syncProfileToForms()">🔄 സിങ്ക്</button>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="icon">🎯</div> ഭാര ലക്ഷ്യം</div>
+        <div class="form-grid">
+          <div class="form-group"><label>ആരംഭ ഭാരം</label><input type="number" id="profile-start-weight" step="0.1"></div>
+          <div class="form-group"><label>ലക്ഷ്യ ഭാരം</label><input type="number" id="profile-target-weight" step="0.1"></div>
+          <div class="form-group"><label>ആഴ്ചയിൽ kg</label><select id="profile-weekly-rate"><option value="0.25">0.25</option><option value="0.5" selected>0.5</option><option value="1">1.0</option></select></div>
+          <div class="form-group"><label>ലക്ഷ്യ തീയതി</label><input type="date" id="profile-target-date"></div>
+        </div>
+        <div class="form-group"><label>കുറിപ്പുകൾ</label><textarea id="profile-notes"></textarea></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="icon">📏</div> ശരീര അളവുകൾ</div>
+      <div class="weight-log-form">
+        <input type="number" id="meas-waist" placeholder="ഇടപ്പ്" step="0.1">
+        <input type="number" id="meas-chest" placeholder="നെഞ്ച്" step="0.1">
+        <input type="number" id="meas-hips" placeholder="ഇടுப்ப്" step="0.1">
+        <button class="btn btn-primary btn-sm" onclick="addMeasurement()">✅</button>
+      </div>
+      <div id="measList" style="max-height:180px;overflow-y:auto;margin-top:12px"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="icon">💾</div> ബാക്കപ്പ്</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <button class="btn btn-outline btn-sm" onclick="exportData()">📤 Export</button>
+        <button class="btn btn-outline btn-sm" onclick="document.getElementById('importFile').click()">📥 Import</button>
+        <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+        <button class="btn btn-outline btn-sm" style="color:var(--red)" onclick="resetAllData()">🗑️ Reset</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="icon">📑</div> ആഴ്ചത്തെ റിപ്പോർട്ട്</div>
+      <div class="report-grid" id="weeklyReport"></div>
+      <button class="btn btn-outline btn-sm" style="margin-top:14px;width:100%" onclick="generateWeeklyReport()">🔄 പുതുക്കുക</button>
+    </div>
   </div>
 
 </main>
@@ -872,11 +1108,15 @@
 <div class="mobile-nav">
   <button class="nav-tab active" onclick="showSection('dashboard')">🏠<br>ഹോം</button>
   <button class="nav-tab" onclick="showSection('calculator')">🔢<br>കലോറി</button>
+  <button class="nav-tab" onclick="showSection('foodlog')">🍽️<br>ഭക്ഷണം</button>
   <button class="nav-tab" onclick="showSection('bmi')">⚖️<br>BMI</button>
   <button class="nav-tab" onclick="showSection('water')">💧<br>വെള്ളം</button>
   <button class="nav-tab" onclick="showSection('exercise')">🏃<br>വ്യായാമം</button>
   <button class="nav-tab" onclick="showSection('progress')">📈<br>പ്രോഗ്രസ്</button>
 </div>
+
+<div class="toast-container" id="toastContainer"></div>
+<footer class="disclaimer">ഈ ടൂൾ വൈദ്യോപദേശത്തിന് പകരമല്ല. ഗുരുതരമായ ആരോഗ്യ പ്രശ്നങ്ങൾക്ക് വിദഗ്ധരുടെ മാർഗ്ഗനിർദ്ദേശം പാലിക്കുക. നിങ്ങളുടെ ഡാറ്റ ഈ ഉപകരണത്തിൽ മാത്രം (localStorage) സൂക്ഷിക്കുന്നു.</footer>
 
 <script>
 // ===== STATE =====
@@ -1393,5 +1633,6 @@ window.addEventListener('resize', () => { if(weightLogs.length >= 2) renderWeigh
 
 init();
 </script>
+<script src="pro.js"></script>
 </body>
 </html>
