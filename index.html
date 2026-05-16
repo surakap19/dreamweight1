@@ -432,6 +432,23 @@
     /* Goal progress fix */
     .goal-progress-wrap { flex-direction: column; }
     [style*="min-width:200px"] { min-width: unset !important; width: 100% !important; }
+    /* Weight log form — stack on mobile */
+    .weight-log-form { flex-wrap: wrap; }
+    .weight-log-form input { flex: 1 1 140px; }
+    .weight-log-form .btn { flex: 1 1 100%; }
+    /* Food log form */
+    .food-log-form { flex-direction: column; }
+    /* Meal item - prevent overflow */
+    .meal-item { flex-wrap: wrap; gap: 10px; }
+    .meal-cal { margin-left: 0; }
+    /* Section header font size */
+    .section-header h1 { font-size: 1.25rem; }
+    /* Stat card values */
+    .stat-value { font-size: 1.6rem; }
+    /* Reduce card padding on mobile */
+    .card { padding: 18px 16px; }
+    /* Reduce main top padding on mobile */
+    main { padding-top: 20px; }
   }
   @media (min-width: 681px) { .mobile-nav { display: none; } }
 
@@ -855,7 +872,7 @@
       <h1>💧 Water tracker</h1>
       <p>Stay hydrated with the right daily water intake</p>
     </div>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
+    <div class="mobile-single-col" style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
       <div class="card">
         <div class="card-title"><div class="icon">🎯</div> Find your goal</div>
         <div class="form-grid">
@@ -917,7 +934,7 @@
       <h1>🏃 Exercise calorie calculator</h1>
       <p>Estimate calories burned during exercise</p>
     </div>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
+    <div class="mobile-single-col" style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
       <div class="card">
         <div class="card-title"><div class="icon">📝</div> Your details</div>
         <div class="form-grid">
@@ -965,7 +982,7 @@
       </div>
     </div>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
+    <div class="mobile-single-col" style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
       <div class="card">
         <div class="card-title"><div class="icon">📊</div> Weight chart</div>
         <div class="chart-wrap">
@@ -1016,7 +1033,7 @@
       <h1>🍽️ Food diary</h1>
       <p>Log today's calories and compare them with your daily target</p>
     </div>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
+    <div class="mobile-single-col" style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
       <div class="card">
         <div class="card-title"><div class="icon">➕</div> Add food</div>
         <div class="food-log-form">
@@ -1055,7 +1072,7 @@
       <h1>👤 Profile & data</h1>
       <p>Save your details and use them across all tools</p>
     </div>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
+    <div class="mobile-single-col" style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
       <div class="card">
         <div class="card-title"><div class="icon">👤</div> Personal details</div>
         <div class="profile-header">
