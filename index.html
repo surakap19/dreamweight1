@@ -420,9 +420,18 @@
     .mobile-nav .nav-tab.active { background: none; color: var(--green); border-top: 2px solid var(--green); }
     main { padding-bottom: 80px; }
     .tips-grid { grid-template-columns: 1fr; }
-    .ideal-grid { grid-template-columns: 1fr 1fr; }
+    .ideal-grid { grid-template-columns: 1fr; }
     .water-grid { grid-template-columns: repeat(4, 1fr); }
     .dashboard-grid { grid-template-columns: 1fr 1fr; }
+    /* Fix all inline two-column grids on mobile */
+    .mobile-single-col {
+      grid-template-columns: 1fr !important;
+    }
+    /* Water page fix */
+    .water-section-grid { grid-template-columns: 1fr !important; }
+    /* Goal progress fix */
+    .goal-progress-wrap { flex-direction: column; }
+    [style*="min-width:200px"] { min-width: unset !important; width: 100% !important; }
   }
   @media (min-width: 681px) { .mobile-nav { display: none; } }
 
@@ -632,7 +641,7 @@
         <div style="font-size:0.78rem;color:var(--text-muted);margin-top:6px" id="dashCalRemain">Log meals to see your calorie balance</div>
       </div>
     </div>
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+    <div class="mobile-single-col" style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
       <div class="card">
         <div class="card-title"><div class="icon">📋</div> Quick tools</div>
         <div style="display:grid; gap:10px;">
@@ -665,7 +674,7 @@
       <p>Find the calories you need to lose, gain, or maintain weight</p>
     </div>
 
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+    <div class="mobile-single-col" style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
       <div class="card">
         <div class="card-title"><div class="icon">📝</div> Enter your details</div>
 
@@ -742,7 +751,7 @@
       <p>Calculate your Body Mass Index (BMI)</p>
     </div>
 
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+    <div class="mobile-single-col" style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
       <div class="card">
         <div class="card-title"><div class="icon">📝</div> Your details</div>
         <div class="form-grid">
@@ -786,7 +795,7 @@
       <h1>🥗 Macro Nutrient Calculator</h1>
       <p>Calculate your protein, carb, and fat needs</p>
     </div>
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+    <div class="mobile-single-col" style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
       <div class="card">
         <div class="card-title"><div class="icon">📝</div> Your details</div>
         <div class="form-grid">
